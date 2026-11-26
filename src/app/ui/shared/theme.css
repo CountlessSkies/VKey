@@ -2,11 +2,18 @@
 
 :root {
     /* Primary Brand Colors (stronger blue for contrast) */
-    --color-primary: #3B82F6;
-    --color-primary-hover: #2563EB;
-    --color-primary-light: rgba(59, 130, 246, 0.15);
-    --color-primary-light-hover: rgba(59, 130, 246, 0.20);
-    --color-primary-medium: rgba(59, 130, 246, 0.25);
+    --color-primary: #2F6FED;
+    --color-primary-hover: #2559C9;
+    --color-primary-light: rgba(47, 111, 237, 0.12);
+    --color-primary-light-hover: rgba(47, 111, 237, 0.18);
+    --color-primary-medium: rgba(47, 111, 237, 0.35);
+
+    /* Settings redesign: keycaps, chips, group titles */
+    --keycap-bg: #FFFFFF;
+    --keycap-edge: rgba(15, 23, 42, 0.16);
+    --chip-active-bg: #0F172A;
+    --chip-active-text: #FFFFFF;
+    --group-title: #5B6474;
 
     /* Danger/Error Colors (soft warm red) */
     --color-danger: #F28C8C;
@@ -17,11 +24,9 @@
     --color-warning: #F2C76E;
 
     /* Toggle Switch Colors */
-    --toggle-off-bg: #9CA3AF;
+    --toggle-off-bg: #B3B9C4;
     /* Darker gray for better visibility */
-    /* --toggle-on-bg: #F2A8A3; */
-    /* warm pastel for default toggles (pink — disabled, synced to blue) */
-    --toggle-on-bg: rgba(59, 130, 246, 0.85);
+    --toggle-on-bg: #2F6FED;
     /* blue — synced with dark mode */
     --toggle-thumb-bg: white;
     --toggle-label-off: #4A4A4A;
@@ -112,11 +117,17 @@ html.no-alpha body.dark #main-container {
    ============================================ */
 body.dark {
     /* Primary Brand Colors (brighter for dark bg) */
-    --color-primary: #60A5FA;
-    --color-primary-hover: #3B82F6;
-    --color-primary-light: rgba(96, 165, 250, 0.25);
-    --color-primary-light-hover: rgba(96, 165, 250, 0.30);
-    --color-primary-medium: rgba(96, 165, 250, 0.35);
+    --color-primary: #5B8CFF;
+    --color-primary-hover: #4A7BF0;
+    --color-primary-light: rgba(91, 140, 255, 0.18);
+    --color-primary-light-hover: rgba(91, 140, 255, 0.26);
+    --color-primary-medium: rgba(91, 140, 255, 0.45);
+
+    --keycap-bg: rgba(255, 255, 255, 0.07);
+    --keycap-edge: rgba(255, 255, 255, 0.16);
+    --chip-active-bg: #E9ECF2;
+    --chip-active-text: #16181E;
+    --group-title: #9AA3B5;
 
     /* Danger/Error Colors (softer coral for dark theme) */
     --color-danger: #F99;
@@ -124,8 +135,8 @@ body.dark {
     --color-danger-light: rgba(248, 113, 113, 0.2);
 
     /* Toggle Switch Colors (softer for glass effect) */
-    --toggle-off-bg: rgba(100, 110, 130, 0.6);
-    --toggle-on-bg: rgba(96, 165, 250, 0.85);
+    --toggle-off-bg: rgba(255, 255, 255, 0.22);
+    --toggle-on-bg: #5B8CFF;
     /* Match primary blue for consistency */
     --toggle-label-off: #D1D5DB;
 

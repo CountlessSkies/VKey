@@ -1,4 +1,4 @@
-/* VKey Settings - Glassmorphism UI for Sciter */
+/* VKey Settings - "Nổi bật" design for Sciter */
 /* base.css + toggle.css loaded via <link> in HTML */
 
 /* Main Container with glass effect */
@@ -7,7 +7,6 @@
     height: auto;
     padding: 0;
     background: var(--bg-glass);
-    /* background: rgba(255, 255, 255, 0.05); */
     border-radius: 0px;
     /* Let Windows 11 DWM handle the rounded corners to avoid sub-pixel clash */
     box-shadow: var(--shadow-card);
@@ -17,47 +16,60 @@
     /* Eliminate inline-block whitespace */
 }
 
-/* Title Bar - spans full width, larger drag zone */
+/* ============================================
+   TITLE BAR
+   ============================================ */
 .title-bar {
     display: block;
     position: relative;
     width: 100%;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 12px;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 14px;
     box-sizing: border-box;
-    font-size: 14px;
-    background: var(--bg-title-bar);
-    border-bottom: 1px solid var(--border-light);
+    font-size: 13px;
+    background: transparent;
     cursor: default;
     z-index: 100;
-    /* Stay above floated sections */
+}
+
+.app-logo {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 8px;
+    border-radius: 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 55%, #B4235A 100%);
 }
 
 .title-text {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: 0.5px;
-    line-height: 36px;
+    line-height: 40px;
+    vertical-align: middle;
 }
 
-/* Admin Badge - shown when the app is running elevated.
-   Sits to the left of the pin button; hidden by default. */
+/* Admin Badge - shown when the app is running elevated. Hidden by default. */
 .admin-badge {
     display: none;
     position: absolute;
-    right: 68px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
+    right: 76px;
+    top: 7px;
+    width: 30px;
+    height: 26px;
     border: none;
     background: none;
     cursor: help;
     padding: 0;
     outline: none;
-    border-radius: 50%;
-    transition: background 0.2s ease, transform 0.2s ease;
+    border-radius: 7px;
     pointer-events: auto;
 }
 
@@ -69,354 +81,336 @@
 
 .admin-badge svg {
     display: block;
-    fill: #fcb745;
+    fill: #F0A020;
 }
 
 .admin-badge:hover {
-    background: rgba(252, 183, 69, 0.15);
+    background: rgba(240, 160, 32, 0.15);
 }
 
-/* Pin Button in Title Bar - absolute positioned before close button */
-.btn-pin {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 40px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    outline: none;
-    border-radius: 50%;
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
-}
-
-.btn-pin:hover {
-    background: rgba(62, 197, 75, 0.15);
-    transform: scale(1.1);
-}
-
-.btn-pin:focus {
-    outline: none;
-    border: none;
-}
-
-/* Pin button icons - unpinned state (default) */
-.btn-pin .icon-unpin {
-    display: block;
-    fill: #3ec54b;
-}
-
-.btn-pin .icon-pin {
-    display: none;
-    fill: #fcb745;
-}
-
-/* Pin button icons - pinned state */
-.btn-pin.pinned .icon-unpin {
-    display: none;
-}
-
-.btn-pin.pinned .icon-pin {
-    display: block;
-}
-
-.btn-pin.pinned:hover {
-    background: rgba(252, 183, 69, 0.15);
-}
-
-/* Close Button in Title Bar - absolute positioned at right */
+/* Pin + close: quiet icon buttons, only the hover state carries colour */
+.btn-pin,
 .btn-close {
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: 12px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
+    top: 7px;
+    width: 30px;
+    height: 26px;
     border: none;
     background: none;
     cursor: pointer;
     padding: 0;
     outline: none;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-    font-size: 20px;
-    font-weight: 300;
-    color: var(--color-danger);
+    border-radius: 7px;
+}
+
+.btn-pin { right: 42px; }
+.btn-close { right: 8px; }
+
+.btn-pin svg,
+.btn-close svg {
+    fill: var(--text-muted);
+}
+
+.btn-pin:hover,
+.btn-close:hover {
+    background: var(--bg-hover);
+}
+
+.btn-pin:hover svg {
+    fill: var(--text-primary);
 }
 
 .btn-close:hover {
-    background: var(--color-danger-light);
+    background: #E5484D;
 }
 
+.btn-close:hover svg {
+    fill: #FFFFFF;
+}
+
+.btn-pin:focus,
 .btn-close:focus {
     outline: none;
     border: none;
 }
 
-.btn-close svg {
-    width: 24px;
-    height: 24px;
-}
+.btn-pin .icon-unpin { display: block; }
+.btn-pin .icon-pin { display: none; fill: var(--color-primary); }
+.btn-pin.pinned .icon-unpin { display: none; }
+.btn-pin.pinned .icon-pin { display: block; }
 
-/* Compact Section (Left Panel - always visible) */
+/* ============================================
+   LAYOUT: compact (left) + advanced (right)
+   ============================================ */
 .compact-section {
     display: block;
     width: 350px;
-    padding: 16px;
+    padding: 4px 12px 14px 12px;
     box-sizing: border-box;
-    font-size: 14px;
-    /* Reset font-size from container */
+    font-size: 13px;
 }
 
-/* Force GPU repaint without visible change */
 .compact-section.repainting {
     transform: translateZ(0);
 }
 
-/* Advanced Section (Right Panel - hidden by default) */
 .advanced-section {
     display: none;
     width: 400px;
-    padding: 16px 8px;
-    border-left: none;
-    font-size: 14px;
+    padding: 4px 12px 14px 6px;
+    font-size: 13px;
     box-sizing: border-box;
 }
 
-/* Content Wrapper for flex layout */
 .content-wrapper {
     flow: horizontal;
     width: *;
     height: *;
 }
 
-/* Expanded state - use flow layout */
 .container.expanded {
     width: 750px;
     height: auto;
     overflow: hidden;
 }
 
-/* Override compact section for expanded mode */
 .container.expanded .compact-section {
     width: 338px;
-    padding: 16px 4px 16px 16px;
+    padding: 4px 6px 14px 12px;
 }
 
 .container.expanded .advanced-section {
     display: block;
-    /* Override display: none from base style */
     width: 412px;
-    padding: 16px 8px 16px 4px;
-    /* 4px left to keep 8px inner gap, 8px right to fix outer excess margin */
-    /* Reduced bottom padding */
+    padding: 4px 12px 14px 6px;
     box-sizing: border-box;
     /* No CSS animation — any animation with 'forwards' fill breaks Sciter
        hit-testing when section goes from display:none to display:block */
 }
 
-/* (Removed: Arrow icon styles - now using toggle switch) */
-
-/* (Removed: .header — replaced by .settings-card wrapper in HTML) */
-
-/* =============================================
-   V/E Language Toggle - Labels Inside Pill
-   ============================================= */
-
-/* Toggle Switch - Pink pill style for V/E */
-.toggle-switch {
-    display: inline-block;
-    width: 90px;
-    height: 38px;
-    border-radius: 19px;
-    background: var(--toggle-ve-bg);
-    position: relative;
-    cursor: pointer;
-    vertical-align: middle;
-    flex-shrink: 0;
-    transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* English mode - blue background */
-.toggle-switch.checked {
-    background: var(--toggle-ve-bg-english);
-}
-
-/* Labels INSIDE the white thumb */
-.toggle-label {
+/* ============================================
+   HERO: V/E mode card (the whole card is the toggle; checked = English)
+   ============================================ */
+.toggle-switch.hero {
     display: block;
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
+    flow: horizontal;
+    vertical-align: middle;
+    position: relative;
+    width: *;
+    height: auto;
+    padding: 14px;
+    border-radius: 14px;
+    cursor: pointer;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 50%, #B4235A 100%);
+    box-shadow: 0 10px 24px -12px rgba(229, 72, 77, 0.8);
+}
+
+.toggle-switch.hero.checked {
+    background: linear-gradient(135deg, #6AA1FF 0%, #2F6FED 50%, #4338CA 100%);
+    box-shadow: 0 10px 24px -12px rgba(47, 111, 237, 0.8);
+}
+
+.hero-badge {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    margin-right: 12px;
+    border-radius: 13px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 24px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.20);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.30);
+}
+
+.hero-text {
+    flow: vertical;
+    vertical-align: middle;
+}
+
+.hero-title {
     font-size: 16px;
     font-weight: 700;
-    text-align: center;
-    z-index: 3;
-    transition:
-        left 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #FFFFFF;
 }
 
-/* V - visible when unchecked (thumb on left) */
-.toggle-v {
-    color: #f36267;
-    opacity: 1;
+.hero-sub {
+    margin-top: 2px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.85);
 }
 
-/* E - hidden when unchecked, follows thumb position */
-.toggle-e {
-    color: #2fafda;
-    opacity: 0;
+/* Show the V/E-specific spans according to the checked state */
+.hero .hero-e { display: none; }
+.hero.checked .hero-v { display: none; }
+.hero.checked .hero-e { display: inline; }
+
+/* Mini switch on the right: ON (knob right, red) = Vietnamese */
+.hero-switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    border-radius: 11px;
+    vertical-align: middle;
+    background: rgba(255, 255, 255, 0.95);
 }
 
-/* White thumb */
-.toggle-switch .toggle-thumb {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--toggle-thumb-bg);
+.hero-knob {
     position: absolute;
-    top: 4px;
-    left: 4px;
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2;
+    top: 2px;
+    left: 20px;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    background: #E5484D;
 }
 
-/* Checked state (English mode) - thumb and labels move right */
-.toggle-switch.checked .toggle-thumb {
-    left: 56px;
+.hero.checked .hero-switch {
+    background: rgba(255, 255, 255, 0.30);
 }
 
-.toggle-switch.checked .toggle-label {
-    left: 56px;
+.hero.checked .hero-knob {
+    left: 2px;
+    background: #FFFFFF;
 }
 
-/* When checked: V hides, E shows */
-.toggle-switch.checked .toggle-v {
-    opacity: 0;
+/* ============================================
+   INPUT METHOD CHIPS (mirror of hidden #input-type select)
+   ============================================ */
+#input-type {
+    display: none;
 }
 
-.toggle-switch.checked .toggle-e {
-    opacity: 1;
-}
-
-/* Input Type Dropdown in Header - premium style */
-.input-type-dropdown {
-    display: inline-block;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 400;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 8px;
-    background-color: var(--bg-card-solid);
-    color: var(--text-primary);
-    cursor: pointer;
-    outline: none;
-    flex-shrink: 0;
-    height: 34px;
+.method-row {
+    flow: horizontal;
     vertical-align: middle;
-    appearance: none;
-    -webkit-appearance: none;
-
-    /* Fixed width to ensure "Simple Telex" is never truncated */
-    width: 130px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-
-    transition: all 0.2s ease;
+    margin-top: 10px;
 }
 
-.input-type-dropdown:hover {
-    background-color: var(--bg-hover);
-    border-color: var(--text-secondary);
+.method-chips {
+    flow: horizontal-flow;
+    border-spacing: 6px;
+    width: *;
 }
 
-.input-type-dropdown:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(62, 197, 75, 0.15);
-}
-
-/* Settings Button (gear icon) */
-.btn-settings {
+.method-chip {
     display: inline-block;
-    text-align: center;
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 2px;
-    flex-shrink: 0;
-    margin-left: auto;
-    outline: none;
-    border-radius: 4px;
-}
-
-.btn-settings:hover {
-    background: var(--bg-hover);
-}
-
-.btn-settings:focus {
-    outline: none;
-    border: none;
-}
-
-.btn-settings svg {
-    width: 20px;
-    height: 20px;
-    vertical-align: middle;
-    color: var(--text-secondary);
-}
-
-.btn-settings:hover svg {
-    color: var(--color-primary);
-}
-
-/* Settings Card */
-.settings-card {
-    margin-top: 8px;
+    padding: 5px 11px;
+    border-radius: 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
     background: var(--bg-card);
-    border-radius: 12px;
-    padding: 16px;
+    box-shadow: inset 0 0 0 1px var(--border-card);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.method-chip:hover {
+    color: var(--text-primary);
+    background: var(--bg-card-solid);
+}
+
+.method-chip.active,
+.method-chip.active:hover {
+    color: var(--chip-active-text);
+    background: var(--chip-active-bg);
+    box-shadow: none;
+}
+
+#btn-userdefined {
+    vertical-align: middle;
+    margin-left: 6px;
+    margin-right: 0;
+}
+
+/* ============================================
+   GROUP CARDS + ROWS
+   ============================================ */
+.group-card {
+    margin-top: 10px;
+    padding: 2px 12px;
+    background: var(--bg-card);
+    border-radius: 14px;
     box-shadow: inset 0 0 0 1px var(--border-card);
     height: auto;
     box-sizing: border-box;
 }
 
-/* Setting Row */
+.group-title {
+    margin: 12px 4px 0 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--group-title);
+}
+
+/* First group title in a tab sits directly under the tab pills */
+.tab-body > .group-title:first-child {
+    margin-top: 2px;
+}
+
+.group-title + .group-card {
+    margin-top: 6px;
+}
+
 .setting-row {
     flow: horizontal;
     vertical-align: middle;
-    padding: 5px 0;
-    border-bottom: none;
+    min-height: 40px;
+    padding: 7px 0;
+    box-sizing: border-box;
 }
 
-/* Group divider - add to last row of each group */
-.setting-row.group-last {
-    border-bottom: 1px solid var(--border-row-light);
-    margin-bottom: 4px;
-    padding-bottom: 8px;
+/* Hairline between rows inside a card */
+.group-card > .setting-row + .setting-row {
+    border-top: 1px solid var(--border-row-light);
 }
 
-/* Child setting row - indented sub-option of a parent setting */
+/* Coloured icon chip at the start of top-level rows */
+.row-icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin-right: 10px;
+    padding: 5.5px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    vertical-align: middle;
+}
+
+.row-icon svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+}
+
+.ic-blue   { background: #2F6FED; }
+.ic-red    { background: #E5484D; }
+.ic-orange { background: #F08C00; }
+.ic-green  { background: #12A150; }
+.ic-purple { background: #7C4DFF; }
+.ic-teal   { background: #0EA5B7; }
+.ic-gray   { background: #667085; }
+.ic-pink   { background: #D6409F; }
+
+/* Child row: indented to line up under the parent's label */
 .child-setting-row {
-    padding-left: 16dip;
+    padding-left: 36px;
 }
 
-/* Disabled setting row (parent toggle is off) */
+.child-setting-row .setting-label {
+    color: var(--text-secondary);
+}
+
+/* Disabled setting row (parent option is off) */
 .setting-row.disabled {
     opacity: 0.4;
 }
@@ -425,74 +419,93 @@
     cursor: not-allowed;
 }
 
-/* Vertical setting row (for Phím Chuyển with 2 rows) */
-.setting-row-vertical {
-    flow: vertical;
-    border-spacing: 8px;
-}
-
 .setting-label {
     display: block;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 400;
     color: var(--text-primary);
     width: max-content;
     vertical-align: middle;
-    /* Replaces flex: 1 */
 }
 
-/* Switch Key Container (2 rows layout) */
-.switch-key-container {
+/* Buttons sitting before a toggle get a gap */
+.setting-row .btn-action + .toggle-switch-small {
+    margin-left: 8px;
+}
+
+/* ============================================
+   SWITCH KEY: keycaps
+   ============================================ */
+.setting-row-vertical {
     flow: vertical;
+    padding: 8px 0 10px 0;
+}
+
+.setting-row-top {
+    flow: horizontal;
+    vertical-align: middle;
+}
+
+.keycaps {
+    flow: horizontal;
     border-spacing: 6px;
+    margin-top: 8px;
+    margin-left: 36px;
 }
 
-.switch-key-row {
-    flow: horizontal;
-    vertical-align: middle;
-    border-spacing: 16px;
-}
-
-.switch-key-item {
-    flow: horizontal;
-    vertical-align: middle;
-    border-spacing: 4px;
-    cursor: pointer;
-}
-
-.switch-key-label {
+/* Keycaps reuse .toggle-switch-small (JS click handler + C++ "checked" class);
+   these rules override the pill shape. */
+.toggle-switch-small.keycap {
+    width: auto;
+    min-width: 44px;
+    height: 28px;
+    min-height: 28px;
+    line-height: 26px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    text-align: center;
     font-size: 12px;
-    font-weight: 400;
-    color: var(--text-secondary);
-    min-width: 28px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background-color: var(--keycap-bg);
+    box-shadow: inset 0 0 0 1px var(--keycap-edge), 0 1.5px 0 var(--keycap-edge);
 }
 
-/* Switch Key Custom Input */
-.switch-key-input {
-    width: 55px;
-    height: 24px;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 4px;
-    background: var(--bg-card-solid);
+.toggle-switch-small.keycap.checked {
+    color: var(--color-primary);
+    background-color: var(--color-primary-light);
+    box-shadow: inset 0 0 0 1px var(--color-primary-medium), 0 1.5px 0 var(--color-primary-medium);
+}
+
+/* Optional character key */
+.switch-key-input.keycap-char {
+    width: 52px;
+    height: 28px;
+    border: none;
+    border-radius: 7px;
+    background: var(--keycap-bg);
     color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 500;
+    box-shadow: inset 0 0 0 1px var(--keycap-edge), 0 1.5px 0 var(--keycap-edge);
+    font-size: 12px;
+    font-weight: 600;
     text-align: center;
     outline: none;
     padding: 0;
 }
 
-.switch-key-input:focus {
-    border-color: var(--color-primary);
-    box-shadow: var(--focus-ring);
+.switch-key-input.keycap-char:focus {
+    box-shadow: inset 0 0 0 1px var(--color-primary), var(--focus-ring);
 }
 
-/* Setting Dropdown inside card - flat modern style */
+/* ============================================
+   DROPDOWNS + BUTTONS
+   ============================================ */
 .setting-dropdown {
     display: inline-block;
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 400;
+    padding: 5px 10px;
+    font-size: 12.5px;
+    font-weight: 500;
     box-shadow: inset 0 0 0 1px var(--border-input);
     border-radius: 8px;
     background: var(--bg-card-solid);
@@ -500,7 +513,6 @@
     cursor: pointer;
     outline: none;
     width: 130px;
-    /* Match width of input-type-dropdown */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -508,14 +520,13 @@
     -webkit-appearance: none;
 }
 
-/* Small dropdown - same size as input-type-dropdown */
 .setting-dropdown-small {
     display: block;
-    padding: 2px 10px 2px 6px;
+    padding: 2px 10px 2px 8px;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 500;
     box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 6px;
+    border-radius: 7px;
     background: var(--bg-card-solid);
     color: var(--text-primary);
     cursor: pointer;
@@ -525,19 +536,19 @@
     -webkit-appearance: none;
 }
 
-/* Action button style */
+/* Soft filled action button */
 .btn-action {
-    padding: 3px 10px;
+    padding: 4px 11px;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 600;
     color: var(--color-primary);
-    background: var(--bg-card-solid);
-    border: 1px solid var(--color-primary);
-    border-radius: 6px;
+    background: var(--color-primary-light);
+    border: none;
+    border-radius: 7px;
     cursor: pointer;
-    transition: all 0.2s ease;
     position: relative;
     z-index: 10;
+    white-space: nowrap;
 }
 
 .btn-action:hover {
@@ -545,27 +556,19 @@
     color: white;
 }
 
-/* Danger button style (for reset, delete actions) */
 .btn-action.btn-danger {
-    color: var(--color-danger);
-    border-color: var(--color-danger);
+    color: #E5484D;
+    background: rgba(229, 72, 77, 0.12);
 }
 
 .btn-action.btn-danger:hover {
-    background: var(--color-danger);
+    background: #E5484D;
     color: white;
 }
 
-/* Fix Check Update button layout */
 #btn-check-update {
-    padding: 0px 8px;
-    font-size: 11px;
     white-space: nowrap;
-    margin-right: 6px;
-    min-width: auto;
-    height: 20px;
-    line-height: 20px;
-    box-sizing: border-box;
+    margin-right: 8px;
     vertical-align: middle;
 }
 
@@ -575,69 +578,54 @@
 }
 
 /* ============================================
-   ADVANCED SECTION - HORIZONTAL TABS LAYOUT
+   ADVANCED SECTION - PILL TABS
    ============================================ */
-
-/* Tab Header (Sliding Pill Segmented Control) */
 .tab-header {
     position: relative;
     flow: horizontal;
-    justify-content: center;
+    border-spacing: 6px;
     width: max-content;
-    padding: 5px;
-    margin: 0 * 9px *;
-    /* 9px margin (was 14px) pulls card 2 UP to natively align with card 1 */
-    background: var(--bg-card-solid);
-    border-radius: 14px;
-    box-shadow:
-        inset 0 0 0 1px var(--border-input),
-        0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 0;
+    margin: 0 0 2px 0;
+    background: transparent;
 }
 
+/* Sliding indicator from the old segmented control: kept for JS, not shown */
 .tab-indicator {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    height: 28px;
-    background: var(--color-primary);
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(62, 197, 75, 0.3);
-    transition:
-        left 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
-        width 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
-    z-index: 1;
+    display: none;
 }
 
 .tab-item {
     position: relative;
-    z-index: 2;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 500;
+    padding: 6px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
     color: var(--text-secondary);
     text-align: center;
     cursor: pointer;
-    transition: color 0.15s ease;
     border: none;
-    background: transparent;
-    border-radius: 10px;
+    border-radius: 14px;
+    background: var(--bg-card);
+    box-shadow: inset 0 0 0 1px var(--border-card);
     white-space: nowrap;
 }
 
 .tab-item:hover {
     color: var(--text-primary);
+    background: var(--bg-card-solid);
 }
 
-.tab-item.active {
+.tab-item.active,
+.tab-item.active:hover {
     color: white;
+    background: var(--color-primary);
+    box-shadow: 0 6px 14px -8px var(--color-primary);
 }
 
-/* Tab Content Area (below tabs) */
 .tab-content {
-    padding: 0 8px 0 8px;
+    padding: 0;
     margin-top: 8px;
     height: *;
-    /* Replaces flex: 1 */
 }
 
 /* Tab Panels - instant switch (#226: fade/slide transition felt sluggish) */
@@ -649,132 +637,112 @@
     visibility: visible;
 }
 
-.tab-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border-light);
-}
-
+/* Tab body is now a plain wrapper; cards inside carry the background */
 .tab-body {
     height: auto;
     box-sizing: border-box;
-    /* overflow-y removed to allow natural content growth and accurate height measurement */
-    padding: 16px;
-    /* Card styling - matches .settings-card */
-    background: var(--bg-card);
-    border-radius: 12px;
-    box-shadow: inset 0 0 0 1px var(--border-card);
+    padding: 0;
+    background: transparent;
 }
 
-/* Reuse setting-row styles in advanced section - Inherit 5px padding from left panel! */
+.tab-body > .group-card:first-child {
+    margin-top: 0;
+}
 
-/* About content styles */
+/* ============================================
+   ABOUT
+   ============================================ */
 .about-content {
     text-align: center;
-    padding: 20px 16px;
+    padding: 20px 16px 16px 16px;
     position: relative;
     z-index: 1;
 }
 
-.app-name {
+.about-logo {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin: 0 auto 10px auto;
+    border-radius: 17px;
+    text-align: center;
     font-size: 28px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 55%, #B4235A 100%);
+    box-shadow: 0 10px 22px -10px rgba(229, 72, 77, 0.7);
+}
+
+.app-name {
+    font-size: 22px;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .app-tagline {
-    font-size: 14px;
-    color: var(--text-primary);
-    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
 }
 
 .app-version {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-light);
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .app-sciter-version {
-    font-size: 13px;
-    color: var(--text-light);
-    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
 }
 
 .app-author {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-dark);
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .app-license {
     font-size: 12px;
-    color: var(--text-light);
-    margin-top: 12px;
-    font-style: italic;
-}
-
-/* Update Card in About tab - Separate card */
-.update-card {
+    color: var(--text-muted);
     margin-top: 8px;
-    padding: 12px 16px;
-    background: var(--bg-card);
-    border-radius: 12px;
-    box-shadow: inset 0 0 0 1px var(--border-card);
-    position: relative;
-    z-index: 2;
 }
 
-.update-card .setting-row {
-    padding: 0;
-    gap: 12px;
-    /* Space between label, button, and toggle */
-}
-
-.update-card .setting-label {
-    font-size: 13px;
-}
-
-/* === UPDATE-CARD TOGGLE STYLING === */
-/* Using completely different approach - no position absolute */
+/* Update toggle uses an inline thumb (Sciter CSS quirk workaround) */
 .update-thumb-white {
     display: inline-block;
-    width: 22px;
+    width: 16px;
     height: 16px;
     border-radius: 8px;
     background: white;
     margin: 2px;
     margin-left: 2px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Move thumb right when toggle is checked */
 #check-update.checked .update-thumb-white {
-    margin-left: 16px;
+    margin-left: 18px;
 }
 
-/* Override default toggle behavior for update-card */
 #check-update {
     flow: horizontal;
     vertical-align: middle;
 }
 
 /* ============================================
-   CUSTOM OPACITY SLIDER - Pink Theme
+   CUSTOM OPACITY SLIDER
    ============================================ */
 .slider-container {
     flow: horizontal;
     vertical-align: middle;
-    border-spacing: 12px;
+    border-spacing: 10px;
 }
 
 .custom-slider {
     position: relative;
-    width: 140px;
+    width: 120px;
     height: 24px;
     display: block;
     cursor: pointer;
@@ -787,9 +755,9 @@
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
-    height: 8px;
-    background: rgba(180, 180, 180, 0.4);
-    border-radius: 4px;
+    height: 6px;
+    background: var(--toggle-off-bg);
+    border-radius: 3px;
     overflow: hidden;
 }
 
@@ -797,43 +765,39 @@
     height: 100%;
     width: 80%;
     background: var(--toggle-on-bg);
-    border-radius: 4px;
-    transition: width 0.05s ease;
+    border-radius: 3px;
 }
 
 .slider-thumb {
     position: absolute;
     left: 80%;
     top: 50%;
-    width: 20px;
-    height: 20px;
-    background: var(--toggle-on-bg);
-    border: 3px solid white;
+    width: 18px;
+    height: 18px;
+    background: white;
+    border: 2px solid var(--toggle-on-bg);
     border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
     transform: translate(-50%, -50%);
     margin-top: 4px;
     cursor: grab;
 }
 
-.slider-thumb:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
 .slider-thumb:active {
     cursor: grabbing;
-    transform: translate(-50%, -50%) scale(1.05);
 }
 
 .slider-value {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--text-secondary);
-    min-width: 40px;
+    min-width: 36px;
     text-align: right;
 }
 
-/* Help icons share their layout with the actionable keymap button. */
+/* ============================================
+   HELP ICONS
+   ============================================ */
 .btn-info,
 .info-icon {
     display: block;
@@ -843,8 +807,8 @@
     margin-right: 6px;
     background: transparent;
     border: none;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     position: static !important;
 }
@@ -861,61 +825,30 @@
     foreground-image: icon(0 0 256 256; M128,20A108,108,0,1,0,236,128,108.12,108.12,0,0,0,128,20Zm0,192a84,84,0,1,1,84-84A84.09,84.09,0,0,1,128,212Zm20-36a12,12,0,0,1-12,12,20,20,0,0,1-20-20V128a12,12,0,0,1,0-24,20,20,0,0,1,20,20v40A12,12,0,0,1,148,176ZM112,84a16,16,0,1,1,16,16A16,16,0,0,1,112,84Z);
     foreground-repeat: no-repeat;
     foreground-size: contain;
-    fill: var(--text-primary);
-    transition: fill 0.2s ease;
+    fill: var(--text-muted);
 }
 
 .info-icon:hover {
     fill: var(--color-primary);
 }
 
-#btn-userdefined {
-    vertical-align: middle;
-}
-
 .btn-info>svg {
     width: 16px;
     height: 16px;
-    fill: var(--text-primary);
-    /* Default bright color */
-    transition:
-        fill 0.2s ease,
-        transform 0.2s ease;
+    fill: var(--text-secondary);
 }
 
 .btn-info:hover>svg {
     fill: var(--color-primary);
-    /* Highlight color on hover */
-    transform: scale(1.1);
-    /* Slight zoom effect */
 }
 
-/* Report Issue button in About tab */
-.btn-report-issue {
-    display: block;
-    margin: 8px auto 0;
-    padding: 6px 20px;
-    background: transparent;
-    color: var(--color-danger);
-    box-shadow: inset 0 0 0 1px var(--color-danger);
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.15s ease;
-}
-
-.btn-report-issue:hover {
-    background: var(--color-danger);
-    color: white;
-}
-
-/* Restart banner — shown when a reboot is needed after a TSF DLL update. */
+/* ============================================
+   RESTART BANNER
+   ============================================ */
 .update-banner {
     flow: horizontal;
     padding: 8px 12px;
     background: rgba(242, 199, 110, 0.28);
-    /* --color-warning at 28% */
     border-bottom: 1px solid var(--color-warning);
     color: #5e4a00;
     font-size: 12px;
@@ -939,7 +872,6 @@
     flow: block;
     padding-right: 12px;
     size: * *;
-    /* take remaining horizontal space */
 }
 
 .update-banner__btn-primary,
@@ -977,7 +909,6 @@
     display: inline-block;
     padding: 2px 6px;
     border-radius: 6px;
-    transition: background 0.2s ease;
 }
 
 .clickable-version:hover {
@@ -989,10 +920,8 @@
     margin-left: 6px;
     vertical-align: middle;
     opacity: 0.5;
-    transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .clickable-version:hover .copy-badge {
     opacity: 1;
-    transform: scale(1.15);
 }

@@ -76,6 +76,24 @@ var STRINGS = {
         "s.quick_end": "Quick end consonant",
         "s.quick_end_tooltip": "g\u2192ng, h\u2192nh, k\u2192ch",
         "s.macro_table_btn": "Macro table...",
+        "s.macro_table_label": "Macro table",
+        "s.macro_table_open": "Open",
+
+        // Settings redesign: hero card, group titles, hotkey row
+        "s.mode_vi": "Vietnamese",
+        "s.mode_en": "English",
+        "s.hero_hint": "Click to switch mode",
+        "s.hotkeys": "Manage hotkeys",
+        "s.hotkeys_tooltip": "Keys bound to: cancel current word, skip macro, temporarily disable, game mode.",
+        "s.hotkeys_btn": "Settings…",
+        "g.typing": "Typing",
+        "g.spelling": "Spelling",
+        "g.advanced": "Advanced",
+        "g.macro": "Macros",
+        "g.consonant": "Consonants",
+        "g.startup": "Startup",
+        "g.appearance": "Appearance",
+        "g.diagnostics": "Diagnostics",
 
         // Tab 3: System
         "s.run_startup": "Run on Windows startup",

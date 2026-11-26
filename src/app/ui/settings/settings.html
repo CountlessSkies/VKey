@@ -18,12 +18,13 @@
 <body>
 
     <div class="container" id="main-container">
-        <!-- Title Bar - spans full width, close button at right corner -->
+        <!-- Title Bar - spans full width, buttons at right corner -->
         <div class="title-bar">
+            <span class="app-logo">V</span>
             <span class="title-text">VKey v2.0.0</span>
             <button class="admin-badge" id="admin-badge" title="Đang chạy với quyền Admin"
                 data-i18n-title="s.admin_running">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
                     <path transform="translate(0, -11)"
                         d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40ZM128,80a32,32,0,1,1-32,32A32,32,0,0,1,128,80Zm0,104a64.08,64.08,0,0,1-57.22-35.24,64,64,0,0,1,114.44,0A64.08,64.08,0,0,1,128,184Z">
                     </path>
@@ -31,24 +32,21 @@
             </button>
             <!-- Pin Button -->
             <button class="btn-pin" id="btn-pin" title="Ghim lên trên" data-i18n-title="s.pin">
-                <!-- Unpinned icon (shown by default) -->
-                <svg class="icon-unpin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256">
+                <svg class="icon-unpin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                    <path
+                        d="M235.32,81.37,174.63,20.69a16,16,0,0,0-22.63,0L98.37,74.49c-10.66-3.34-35-7.37-60.4,13.14a16,16,0,0,0-1.29,23.78L85,159.71,42.34,202.34a8,8,0,0,0,11.32,11.32L96.29,171l48.29,48.29A16,16,0,0,0,155.9,224c.38,0,.75,0,1.13,0a15.93,15.93,0,0,0,11.64-6.33c19.64-26.1,17.75-47.32,13.19-60L235.33,104A16,16,0,0,0,235.32,81.37ZM224,92.69h0l-57.27,57.46a8,8,0,0,0-1.49,9.22c9.46,18.93-1.8,38.59-9.34,48.62L48,100.08c12.08-9.74,23.64-12.31,32.48-12.31A40.13,40.13,0,0,1,96.81,91a8,8,0,0,0,9.25-1.51L163.32,32,224,92.68Z">
+                    </path>
+                </svg>
+                <svg class="icon-pin" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
                     <path
                         d="M235.33,104l-53.47,53.65c4.56,12.67,6.45,33.89-13.19,60A15.93,15.93,0,0,1,157,224c-.38,0-.75,0-1.13,0a16,16,0,0,1-11.32-4.69L96.29,171,53.66,213.66a8,8,0,0,1-11.32-11.32L85,159.71l-48.3-48.3A16,16,0,0,1,38,87.63c25.42-20.51,49.75-16.48,60.4-13.14L152,20.7a16,16,0,0,1,22.63,0l60.69,60.68A16,16,0,0,1,235.33,104Z">
                     </path>
                 </svg>
-                <!-- Pinned icon (shown when pinned) -->
-                <svg class="icon-pin" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256">
-                    <path
-                        d="M235.33,104l-47.62,47.78a4,4,0,0,1-5.79-.14L108,70.27a4,4,0,0,1,.13-5.51L152,20.7a16,16,0,0,1,22.63,0l60.69,60.68A16,16,0,0,1,235.33,104ZM53.92,34.62a8,8,0,0,0-12,.21,8.18,8.18,0,0,0,.37,10.75L67.32,73.15C58.26,75.09,48.2,79.37,38,87.63a16,16,0,0,0-1.29,23.78L85,159.71,42.55,202.14a8.17,8.17,0,0,0-.6,11.09,8,8,0,0,0,11.71.43L96.29,171l48.29,48.29A16,16,0,0,0,155.9,224c.38,0,.75,0,1.13,0a15.93,15.93,0,0,0,11.64-6.33,88.62,88.62,0,0,0,11.64-20.2l21.77,23.95a8,8,0,1,0,11.84-10.76Z">
-                    </path>
-                </svg>
             </button>
             <button class="btn-close" id="btn-close" title="Đóng" data-i18n-title="close">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
-                    fill="rgba(240,23,23,1)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256">
                     <path
-                        d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 10.5858L9.17157 7.75736L7.75736 9.17157L10.5858 12L7.75736 14.8284L9.17157 16.2426L12 13.4142L14.8284 16.2426L16.2426 14.8284L13.4142 12L16.2426 9.17157L14.8284 7.75736L12 10.5858Z">
+                        d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                     </path>
                 </svg>
             </button>
@@ -65,45 +63,42 @@
         <div class="content-wrapper">
             <!-- Compact Section (Left Panel) -->
             <div class="compact-section">
-                <!-- Top Card: V - toggle - E - dropdown -->
-                <div class="settings-card" style="margin-top: 0; padding: 12px 16px;">
-                    <div class="setting-row" style="padding: 0;">
-                        <!-- V/E toggle pill with labels inside -->
-                        <div class="toggle-switch" id="toggle-language">
-                            <span class="toggle-label toggle-v">V</span>
-                            <span class="toggle-label toggle-e">E</span>
-                            <div class="toggle-thumb"></div>
-                        </div>
-                        <!-- Hidden input to fire VALUE_CHANGED -->
-                        <input type="hidden" id="val-toggle-language" value="0">
-
-                        <!-- Tạm ẩn chữ Kiểu gõ theo yêu cầu của user -->
-                        <!-- <span class="setting-label" data-i18n="s.input_method" style="margin-left: 24px; position: relative; top: -2px;">Kiểu gõ</span> -->
-
-                        <div class="spacer" style="width: *"></div>
-                        <select class="input-type-dropdown" id="input-type">
-                            <option value="0">Telex</option>
-                            <option value="1">VNI</option>
-                            <option value="2">Simple Telex</option>
-                            <option value="3">Telex + VNI</option>
-                            <option value="4" data-i18n="s.user_defined">Tự định nghĩa</option>
-                        </select>
-                        <button class="btn-info" id="btn-userdefined" style="margin-left: 8px; display: none;"
-                            title="Cài đặt kiểu gõ">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
-                                <path
-                                    d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z">
-                                </path>
-                            </svg>
-                        </button>
+                <!-- Hero: V/E mode. The whole card is the toggle (checked = English). -->
+                <div class="toggle-switch hero" id="toggle-language">
+                    <div class="hero-badge"><span class="hero-v">V</span><span class="hero-e">E</span></div>
+                    <div class="hero-text">
+                        <div class="hero-title"><span class="hero-v" data-i18n="s.mode_vi">Tiếng Việt</span><span
+                                class="hero-e" data-i18n="s.mode_en">English</span></div>
+                        <div class="hero-sub" data-i18n="s.hero_hint">Bấm để chuyển chế độ</div>
                     </div>
+                    <div class="spacer" style="width: *"></div>
+                    <div class="hero-switch"><div class="hero-knob"></div></div>
                 </div>
+                <input type="hidden" id="val-toggle-language" value="0">
 
-                <!-- Settings Card wraps everything on the left -->
-                <div class="settings-card">
+                <!-- Input method: chips mirror the (hidden) select that C++ reads/writes -->
+                <div class="method-row">
+                    <div class="method-chips" id="method-chips"></div>
+                    <button class="btn-info" id="btn-userdefined" style="display: none;" title="Cài đặt kiểu gõ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256">
+                            <path
+                                d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.89-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.08,8.08,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.09,8.09,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.08,8.08,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.09,8.09,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <select class="input-type-dropdown" id="input-type">
+                    <option value="0">Telex</option>
+                    <option value="1">VNI</option>
+                    <option value="2">Simple Telex</option>
+                    <option value="3">Telex + VNI</option>
+                    <option value="4" data-i18n="s.user_defined">Tự định nghĩa</option>
+                </select>
 
-                    <!-- 1. Bảng mã (Code Table) -->
-                    <div class="setting-row group-last">
+                <!-- Card: code table + switch key -->
+                <div class="group-card">
+                    <div class="setting-row">
+                        <span class="row-icon ic-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M10 4v16"/></svg></span>
                         <span class="setting-label" data-i18n="s.code_table">Bảng mã</span>
                         <div class="spacer" style="width: *"></div>
                         <select class="setting-dropdown" id="bang-ma">
@@ -115,63 +110,31 @@
                         </select>
                     </div>
 
-                    <!-- 2. Phím Chuyển (Switch Key) - 2 rows layout -->
-                    <div class="setting-row setting-row-vertical group-last">
-                        <span class="setting-label" data-i18n="s.switch_key">Phím Chuyển</span>
-                        <div class="switch-key-container">
-                            <!-- Row 1: Ctrl Alt -->
-                            <div class="switch-key-row">
-                                <div class="switch-key-item">
-                                    <span class="switch-key-label">Ctrl</span>
-                                    <div class="spacer" style="width: *"></div>
-                                    <div class="toggle-switch-small" id="key-ctrl">
-                                        <span class="toggle-label-i">I</span>
-                                        <span class="toggle-label-o">O</span>
-                                        <div class="toggle-thumb-small"></div>
-                                    </div>
-                                    <input type="hidden" id="val-key-ctrl" value="0">
-                                </div>
-                                <div class="switch-key-item">
-                                    <span class="switch-key-label">Alt</span>
-                                    <div class="spacer" style="width: *"></div>
-                                    <div class="toggle-switch-small" id="key-alt">
-                                        <span class="toggle-label-i">I</span>
-                                        <span class="toggle-label-o">O</span>
-                                        <div class="toggle-thumb-small"></div>
-                                    </div>
-                                    <input type="hidden" id="val-key-alt" value="0">
-                                </div>
-                            </div>
-                            <!-- Row 2: Win Shift + textbox -->
-                            <div class="switch-key-row">
-                                <div class="switch-key-item">
-                                    <span class="switch-key-label">Win</span>
-                                    <div class="spacer" style="width: *"></div>
-                                    <div class="toggle-switch-small" id="key-win">
-                                        <span class="toggle-label-i">I</span>
-                                        <span class="toggle-label-o">O</span>
-                                        <div class="toggle-thumb-small"></div>
-                                    </div>
-                                    <input type="hidden" id="val-key-win" value="0">
-                                </div>
-                                <div class="switch-key-item">
-                                    <span class="switch-key-label">Shift</span>
-                                    <div class="spacer" style="width: *"></div>
-                                    <div class="toggle-switch-small" id="key-shift">
-                                        <span class="toggle-label-i">I</span>
-                                        <span class="toggle-label-o">O</span>
-                                        <div class="toggle-thumb-small"></div>
-                                    </div>
-                                    <input type="hidden" id="val-key-shift" value="0">
-                                </div>
-                                <input type="text" class="switch-key-input" id="switch-key-char" maxlength="7"
-                                    placeholder="~" title="Phím chuyển" data-i18n-title="s.switch_key_title">
-                            </div>
+                    <!-- Switch key: modifier keycaps (still .toggle-switch-small for JS/C++) + char -->
+                    <div class="setting-row setting-row-vertical">
+                        <div class="setting-row-top">
+                            <span class="row-icon ic-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg></span>
+                            <span class="setting-label" data-i18n="s.switch_key">Phím Chuyển</span>
+                        </div>
+                        <div class="keycaps">
+                            <div class="toggle-switch-small keycap" id="key-ctrl">Ctrl</div>
+                            <input type="hidden" id="val-key-ctrl" value="0">
+                            <div class="toggle-switch-small keycap" id="key-alt">Alt</div>
+                            <input type="hidden" id="val-key-alt" value="0">
+                            <div class="toggle-switch-small keycap" id="key-win">Win</div>
+                            <input type="hidden" id="val-key-win" value="0">
+                            <div class="toggle-switch-small keycap" id="key-shift">Shift</div>
+                            <input type="hidden" id="val-key-shift" value="0">
+                            <input type="text" class="switch-key-input keycap-char" id="switch-key-char" maxlength="7"
+                                placeholder="+" title="Phím chuyển" data-i18n-title="s.switch_key_title">
                         </div>
                     </div>
+                </div>
 
-                    <!-- 3. Kêu Beep -->
+                <!-- Card: per-app behaviour -->
+                <div class="group-card">
                     <div class="setting-row">
+                        <span class="row-icon ic-orange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
                         <span class="setting-label" data-i18n="s.beep">Kêu Beep</span>
                         <span class="info-icon" title="Phát âm báo khi chuyển đổi ngôn ngữ"
                             data-i18n-title="s.beep_tooltip"></span>
@@ -183,14 +146,14 @@
                         </div>
                         <input type="hidden" id="val-beep-sound" value="0">
                     </div>
-                    <!-- 4. Per-app encoding override -->
                     <div class="setting-row">
+                        <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></span>
                         <span class="setting-label" data-i18n="s.app_encoding">Cấu hình từng app/Clipboard</span>
                         <div class="spacer" style="width: *"></div>
                         <button class="btn-action" id="btn-app-overrides" data-i18n="s.config">Cấu hình</button>
                     </div>
-                    <!-- 5. Lưu chế độ gõ theo app -->
                     <div class="setting-row">
+                        <span class="row-icon ic-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg></span>
                         <span class="setting-label" data-i18n="s.smart_switch">Lưu chế độ gõ theo app</span>
                         <span class="info-icon" title="Tự động ghi nhớ chế độ gõ cho từng ứng dụng"
                             data-i18n-title="s.smart_switch_tooltip"></span>
@@ -202,18 +165,14 @@
                         </div>
                         <input type="hidden" id="val-smart-switch" value="0">
                     </div>
-
-                    <!-- 5b. Excluded Apps - Toggle + Button on same row -->
                     <div class="setting-row">
+                        <span class="row-icon ic-red"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
                         <span class="setting-label" data-i18n="s.enable_exclude">Khoá E/V theo app</span>
                         <span class="info-icon"
                             title="Khoá cứng chế độ gõ E hoặc V cho từng ứng dụng (vô hiệu hoá phím chuyển khi ở trong app)"
                             data-i18n-title="s.exclude_tooltip"></span>
                         <div class="spacer" style="width: *"></div>
-                        <button class="btn-action" id="btn-excluded-apps" style="margin-right: 8px;"
-                            data-i18n="s.list">Danh
-                            sách</button>
-                        <div class="spacer" style="width: *"></div>
+                        <button class="btn-action" id="btn-excluded-apps" data-i18n="s.list">Danh sách</button>
                         <div class="toggle-switch-small" id="exclude-apps">
                             <span class="toggle-label-i">I</span>
                             <span class="toggle-label-o">O</span>
@@ -221,9 +180,8 @@
                         </div>
                         <input type="hidden" id="val-exclude-apps" value="0">
                     </div>
-
-                    <!-- 5c. CJK auto-switch -->
                     <div class="setting-row">
+                        <span class="row-icon ic-pink"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"/></svg></span>
                         <span class="setting-label" data-i18n="s.cjk_auto_switch">Tự tắt khi bàn phím CJK</span>
                         <span class="info-icon" title="Tự sang E khi đang dùng bàn phím Trung/Nhật/Hàn"
                             data-i18n-title="s.cjk_auto_switch_tooltip"></span>
@@ -235,9 +193,12 @@
                         </div>
                         <input type="hidden" id="val-cjk-auto-switch" value="0">
                     </div>
+                </div>
 
-                    <!-- 6. Cài đặt nâng cao - toggle switch -->
+                <!-- Card: advanced panel switch -->
+                <div class="group-card">
                     <div class="setting-row" id="row-advanced">
+                        <span class="row-icon ic-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span>
                         <span class="setting-label" data-i18n="s.advanced">Cài đặt nâng cao</span>
                         <div class="spacer" style="width: *"></div>
                         <div class="toggle-switch-small" id="show-advanced">
@@ -252,7 +213,6 @@
 
             <!-- Advanced Section (Right Panel - hidden by default) -->
             <div class="advanced-section" id="advanced-section">
-                <!-- Tab Header (horizontal tabs at top) -->
                 <div class="tab-header" id="advanced-tabs">
                     <div class="tab-indicator" id="tab-indicator"></div>
                     <div class="tab-item active" data-tab="1" data-i18n="s.tab_input">Bộ gõ</div>
@@ -261,153 +221,150 @@
                     <div class="tab-item" data-tab="4" data-i18n="s.tab_about">Thông tin</div>
                 </div>
 
-                <!-- Tab Content Area (below tabs) -->
                 <div class="tab-content" id="tab-content">
                     <!-- Tab 1: Bộ gõ (Input Method) - Default active -->
                     <div class="tab-panel" id="tab-panel-1">
                         <div class="tab-body">
-                            <!-- NHẬP LIỆU CƠ BẢN -->
-                            <!-- 1. Modern diacritics (oà, uý) -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.modern_ortho">Đặt dấu kiểu mới (oà, uý)</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="modern-ortho">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                            <div class="group-title" data-i18n="g.typing">Nhập liệu</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14M12 6v13M8 19h8"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.modern_ortho">Đặt dấu kiểu mới (oà, uý)</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="modern-ortho">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-modern-ortho" value="0">
                                 </div>
-                                <input type="hidden" id="val-modern-ortho" value="0">
-                            </div>
-                            <!-- 2. Gõ tự do -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.allow_english_bypass">Gõ tự do</span>
-                                <span class="info-icon"
-                                    title="Cho phép đặt dấu tiếng Việt trên các từ tiếng Anh hoặc ngoại lệ"
-                                    data-i18n-title="s.allow_english_bypass_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="allow-english-bypass">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.allow_english_bypass">Gõ tự do</span>
+                                    <span class="info-icon"
+                                        title="Cho phép đặt dấu tiếng Việt trên các từ tiếng Anh hoặc ngoại lệ"
+                                        data-i18n-title="s.allow_english_bypass_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="allow-english-bypass">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-allow-english-bypass" value="0">
                                 </div>
-                                <input type="hidden" id="val-allow-english-bypass" value="0">
-                            </div>
-                            <!-- 3. Auto capitalize -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.auto_caps">Viết hoa chữ cái đầu câu</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="auto-caps">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18 9 6l4 12M6.5 14h5"/><path d="M15 10h5M17.5 7.5v5"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.auto_caps">Viết hoa chữ cái đầu câu</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="auto-caps">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-auto-caps" value="0">
                                 </div>
-                                <input type="hidden" id="val-auto-caps" value="0">
-                            </div>
-                            <!-- 3b. BS keeps chars when browser suggestion is showing -->
-                            <div class="setting-row group-last">
-                                <span class="setting-label" data-i18n="s.suggest_keep_chars">BS giữ chữ khi có gợi
-                                    ý</span>
-                                <span class="info-icon"
-                                    title="Tắt chèn ký tự mồi (U+202F) khi biến đổi dấu hoặc tự khôi phục phím trên trình duyệt. Bật tùy chọn này nếu bị mất ký tự khi gõ trong ô Email, OTP hoặc số điện thoại ở chế độ Hook."
-                                    data-i18n-title="s.suggest_keep_chars_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="suggest-keep-chars">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6H9l-5 6 5 6h11z"/><path d="m16 10-4 4M12 10l4 4"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.suggest_keep_chars">BS giữ chữ khi có gợi ý</span>
+                                    <span class="info-icon"
+                                        title="Tắt chèn ký tự mồi (U+202F) khi biến đổi dấu hoặc tự khôi phục phím trên trình duyệt. Bật tùy chọn này nếu bị mất ký tự khi gõ trong ô Email, OTP hoặc số điện thoại ở chế độ Hook."
+                                        data-i18n-title="s.suggest_keep_chars_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="suggest-keep-chars">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-suggest-keep-chars" value="0">
                                 </div>
-                                <input type="hidden" id="val-suggest-keep-chars" value="0">
-                            </div>
-                            <!-- KIỂM TRA CHÍNH TẢ -->
-                            <!-- 4. Spell check level: Off / Standard / Advanced (lexicon auto-correct) -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.spell_check">Kiểm tra chính tả</span>
-                                <div class="spacer" style="width: *"></div>
-                                <select class="setting-dropdown" id="spell-check-level">
-                                    <option value="0">Tắt</option>
-                                    <option value="1">Cơ bản</option>
-                                    <option value="2">Nâng cao</option>
-                                </select>
-                            </div>
-                            <!-- 5. Allow ZWJF consonants (sub-option of spell check) -->
-                            <div class="setting-row child-setting-row">
-                                <span class="setting-label" data-i18n="s.allow_zwjf">Cho
-                                    phép "z w j f" làm phụ âm
-                                    đầu</span>
-                                <span class="info-icon"
-                                    title="Mặc định đã cho phép. Chỉ cần bật khi kiểm tra chính tả được bật"
-                                    data-i18n-title="s.allow_zwjf_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="allow-zwjf">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-allow-zwjf" value="0">
-                            </div>
-                            <!-- 6. Restore key on wrong word -->
-                            <div class="setting-row child-setting-row">
-                                <span class="setting-label" data-i18n="s.restore_key">Tự khôi phục phím với từ
-                                    sai</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="restore-key">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-restore-key" value="0">
                             </div>
 
-                            <!-- 7. Spell check exclusion list -->
-                            <div class="setting-row child-setting-row group-last tooltip-up" id="row-spell-exclusions">
-                                <span class="setting-label" data-i18n="s.spell_exclusions">Loại trừ chính tả</span>
-                                <span class="info-icon"
-                                    title="Danh sách viết tắt bỏ qua kiểm tra chính tả (các từ đ mặc định đã có không cần thêm tránh xung đột). Khớp từ đầu, tối thiểu 2 ký tự."
-                                    data-i18n-title="s.spell_exclusions_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <button class="btn-action" id="btn-spell-exclusions" data-i18n="s.list">Danh
-                                    sách</button>
-                            </div>
-                            <!-- 8. Unified hotkey rebind dialog -->
-                            <div class="setting-row tooltip-up" id="row-hotkeys">
-                                <span class="setting-label">Quản lý phím tắt</span>
-                                <span class="info-icon"
-                                    title="Quản lý phím gắn với các chức năng: hủy từ đang gõ, bỏ qua gõ tắt, tạm tắt bộ gõ, chế độ game."></span>
-                                <div class="spacer" style="width: *"></div>
-                                <button class="btn-action" id="btn-hotkeys">Cài đặt…</button>
-                            </div>
-                            <!-- 9. TSF Apps - Button + Toggle on same row -->
-                            <div class="setting-row tooltip-up" id="row-tsf-apps">
-                                <span class="setting-label" data-i18n="s.enable_tsf">Dùng TSF cho ứng dụng</span>
-                                <span class="info-icon"
-                                    title="Sử dụng bộ gõ TSF thay vì Hook tiêu chuẩn cho các ứng dụng này"
-                                    data-i18n-title="s.tsf_tooltip"></span>
-                                <button class="btn-action" id="btn-tsf-apps" style="margin-right: 8px;"
-                                    data-i18n="s.list">Danh sách</button>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="tsf-apps">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                            <div class="group-title" data-i18n="g.spelling">Chính tả</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17 8 7l4 10M5.5 13.5h5M14 14l2.5 2.5L21 11"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.spell_check">Kiểm tra chính tả</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <select class="setting-dropdown" id="spell-check-level">
+                                        <option value="0">Tắt</option>
+                                        <option value="1">Cơ bản</option>
+                                        <option value="2">Nâng cao</option>
+                                    </select>
                                 </div>
-                                <input type="hidden" id="val-tsf-apps" value="0">
-                            </div>
-                            <!-- 10. TSF preedit styling -->
-                            <div class="setting-row child-setting-row group-last disabled tooltip-up"
-                                id="row-hide-preedit-underline">
-                                <span class="setting-label" data-i18n="s.hide_preedit_underline">Tắt gạch chân
-                                    preedit</span>
-                                <span class="info-icon"
-                                    title="Không đảm bảo hoạt động 100% trên mọi ứng dụng."
-                                    data-i18n-title="s.hide_preedit_underline_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small disabled" id="hide-preedit-underline"
-                                    aria-disabled="true">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row child-setting-row">
+                                    <span class="setting-label" data-i18n="s.allow_zwjf">Cho phép "z w j f" làm phụ âm đầu</span>
+                                    <span class="info-icon"
+                                        title="Mặc định đã cho phép. Chỉ cần bật khi kiểm tra chính tả được bật"
+                                        data-i18n-title="s.allow_zwjf_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="allow-zwjf">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-allow-zwjf" value="0">
                                 </div>
-                                <input type="hidden" id="val-hide-preedit-underline" value="0">
+                                <div class="setting-row child-setting-row">
+                                    <span class="setting-label" data-i18n="s.restore_key">Tự khôi phục phím với từ sai</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="restore-key">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-restore-key" value="0">
+                                </div>
+                                <div class="setting-row child-setting-row tooltip-up" id="row-spell-exclusions">
+                                    <span class="setting-label" data-i18n="s.spell_exclusions">Loại trừ chính tả</span>
+                                    <span class="info-icon"
+                                        title="Danh sách viết tắt bỏ qua kiểm tra chính tả (các từ đ mặc định đã có không cần thêm tránh xung đột). Khớp từ đầu, tối thiểu 2 ký tự."
+                                        data-i18n-title="s.spell_exclusions_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-spell-exclusions" data-i18n="s.list">Danh sách</button>
+                                </div>
+                            </div>
+
+                            <div class="group-title" data-i18n="g.advanced">Nâng cao</div>
+                            <div class="group-card">
+                                <div class="setting-row tooltip-up" id="row-hotkeys">
+                                    <span class="row-icon ic-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.hotkeys">Quản lý phím tắt</span>
+                                    <span class="info-icon"
+                                        title="Quản lý phím gắn với các chức năng: hủy từ đang gõ, bỏ qua gõ tắt, tạm tắt bộ gõ, chế độ game."
+                                        data-i18n-title="s.hotkeys_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-hotkeys" data-i18n="s.hotkeys_btn">Cài đặt…</button>
+                                </div>
+                                <div class="setting-row tooltip-up" id="row-tsf-apps">
+                                    <span class="row-icon ic-orange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.enable_tsf">Dùng TSF cho ứng dụng</span>
+                                    <span class="info-icon"
+                                        title="Sử dụng bộ gõ TSF thay vì Hook tiêu chuẩn cho các ứng dụng này"
+                                        data-i18n-title="s.tsf_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-tsf-apps" data-i18n="s.list">Danh sách</button>
+                                    <div class="toggle-switch-small" id="tsf-apps">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-tsf-apps" value="0">
+                                </div>
+                                <div class="setting-row child-setting-row disabled tooltip-up"
+                                    id="row-hide-preedit-underline">
+                                    <span class="setting-label" data-i18n="s.hide_preedit_underline">Tắt gạch chân preedit</span>
+                                    <span class="info-icon"
+                                        title="Không đảm bảo hoạt động 100% trên mọi ứng dụng."
+                                        data-i18n-title="s.hide_preedit_underline_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small disabled" id="hide-preedit-underline"
+                                        aria-disabled="true">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-hide-preedit-underline" value="0">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -415,111 +372,117 @@
                     <!-- Tab 2: Gõ tắt (Shortcuts/Macro) -->
                     <div class="tab-panel" id="tab-panel-2">
                         <div class="tab-body">
-                            <!-- 1. Enable Macro -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.enable_macro">Cho phép gõ tắt</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="use-macro">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                            <div class="group-title" data-i18n="g.macro">Gõ tắt</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-orange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 14h6l-1 7 8-11h-6z"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.enable_macro">Cho phép gõ tắt</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="use-macro">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-use-macro" value="0">
                                 </div>
-                                <input type="hidden" id="val-use-macro" value="0">
-                            </div>
-                            <!-- 2. Macro in English mode -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.macro_english">Gõ tắt cả khi tắt gõ tiếng
-                                    Việt</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="macro-english">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row child-setting-row">
+                                    <span class="setting-label" data-i18n="s.macro_undo_backspace">Khôi phục từ gõ tắt khi nhấn Backspace</span>
+                                    <span class="info-icon"
+                                        title="Sau khi bung nội dung gõ tắt, nhấn Backspace sẽ khôi phục lại từ gõ tắt ban đầu"
+                                        data-i18n-title="s.macro_undo_backspace_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="macro-undo-backspace">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-macro-undo-backspace" value="0">
                                 </div>
-                                <input type="hidden" id="val-macro-english" value="0">
-                            </div>
-                            <!-- 3. Auto caps macro -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.auto_caps_macro">Tự động viết hoa theo phím
-                                    tắt</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="auto-caps-macro">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.macro_english">Gõ tắt cả khi tắt gõ tiếng Việt</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="macro-english">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-macro-english" value="0">
                                 </div>
-                                <input type="hidden" id="val-auto-caps-macro" value="0">
-                            </div>
-                            <div class="setting-row child-setting-row disabled">
-                                <span class="setting-label" data-i18n="s.macro_title_case">Viết hoa đầu từng từ</span>
-                                <span class="info-icon"
-                                    title="Gõ Bbh → Bún Bò Huế. Khi tắt: Bbh → Bún bò Huế. Không áp dụng cho viết hoa đầu câu tự động."
-                                    data-i18n-title="s.macro_title_case_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small disabled" id="macro-title-case" aria-disabled="true">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 18 9 6l4 12M6.5 14h5"/><path d="M15 10h5M17.5 7.5v5"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.auto_caps_macro">Tự động viết hoa theo phím tắt</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="auto-caps-macro">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-auto-caps-macro" value="0">
                                 </div>
-                                <input type="hidden" id="val-macro-title-case" value="0">
-                            </div>
-                            <div class="setting-row group-last">
-                                <span class="setting-label" data-i18n="s.macro_undo_backspace">Khôi phục từ gõ tắt khi nhấn Backspace</span>
-                                <span class="info-icon"
-                                    title="Sau khi bung nội dung gõ tắt, nhấn Backspace sẽ khôi phục lại từ gõ tắt ban đầu"
-                                    data-i18n-title="s.macro_undo_backspace_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="macro-undo-backspace">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row child-setting-row disabled">
+                                    <span class="setting-label" data-i18n="s.macro_title_case">Viết hoa đầu từng từ</span>
+                                    <span class="info-icon"
+                                        title="Gõ Bbh → Bún Bò Huế. Khi tắt: Bbh → Bún bò Huế. Không áp dụng cho viết hoa đầu câu tự động."
+                                        data-i18n-title="s.macro_title_case_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small disabled" id="macro-title-case" aria-disabled="true">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-macro-title-case" value="0">
                                 </div>
-                                <input type="hidden" id="val-macro-undo-backspace" value="0">
-                            </div>
-                            <!-- 4. Quick Telex -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.quick_telex">Gõ nhanh phụ âm kép</span>
-                                <span class="info-icon"
-                                    title="Gõ phụ âm nhanh: cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, tt=th, uu=ươ"
-                                    data-i18n-title="s.quick_telex_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="quick-telex">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-red"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M10 4v16"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.macro_table_label">Bảng gõ tắt</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-macro-table" data-i18n="s.macro_table_open">Mở bảng</button>
                                 </div>
-                                <input type="hidden" id="val-quick-telex" value="0">
                             </div>
-                            <!-- 5. Quick start consonant -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.quick_start">Gõ tắt phụ âm đầu</span>
-                                <span class="info-icon" title="Gõ phụ âm đầu: f=ph, j=gi, w=qu"
-                                    data-i18n-title="s.quick_start_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="quick-start">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+
+                            <div class="group-title" data-i18n="g.consonant">Phụ âm</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.quick_telex">Gõ nhanh phụ âm kép</span>
+                                    <span class="info-icon"
+                                        title="Gõ phụ âm nhanh: cc=ch, gg=gi, kk=kh, nn=ng, qq=qu, pp=ph, tt=th, uu=ươ"
+                                        data-i18n-title="s.quick_telex_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="quick-telex">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-quick-telex" value="0">
                                 </div>
-                                <input type="hidden" id="val-quick-start" value="0">
-                            </div>
-                            <!-- 6. Quick end consonant -->
-                            <div class="setting-row group-last">
-                                <span class="setting-label" data-i18n="s.quick_end">Gõ tắt phụ âm cuối</span>
-                                <span class="info-icon" title="Gõ phụ âm cuối: g=ng, h=nh, k=ch"
-                                    data-i18n-title="s.quick_end_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="quick-end">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 3 12l6 6"/><path d="M14 6h7M14 12h5M14 18h7"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.quick_start">Gõ tắt phụ âm đầu</span>
+                                    <span class="info-icon" title="Gõ phụ âm đầu: f=ph, j=gi, w=qu"
+                                        data-i18n-title="s.quick_start_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="quick-start">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-quick-start" value="0">
                                 </div>
-                                <input type="hidden" id="val-quick-end" value="0">
-                            </div>
-                            <!-- Button to open Macro Table dialog -->
-                            <div class="setting-row" style="padding-top: 8px;">
-                                <button class="btn-action" id="btn-macro-table" data-i18n="s.macro_table_btn"
-                                    style="margin-left: 0;">Bảng gõ tắt...</button>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6 6 6-6 6"/><path d="M3 6h7M5 12h5M3 18h7"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.quick_end">Gõ tắt phụ âm cuối</span>
+                                    <span class="info-icon" title="Gõ phụ âm cuối: g=ng, h=nh, k=ch"
+                                        data-i18n-title="s.quick_end_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="quick-end">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-quick-end" value="0">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -527,229 +490,213 @@
                     <!-- Tab 3: Hệ thống (System) -->
                     <div class="tab-panel" id="tab-panel-3">
                         <div class="tab-body">
-                            <!-- KHỞI ĐỘNG & QUYỀN -->
-                            <!-- 1. Khởi động cùng Windows -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.run_startup">Khởi động cùng Windows</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="run-startup">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-run-startup" value="0">
-                            </div>
-                            <!-- 1b. Chế độ mặc định -->
-                            <div class="setting-row child-setting-row">
-                                <span class="setting-label" data-i18n="s.startup_mode">Chế độ mặc định</span>
-                                <div class="spacer" style="width: *"></div>
-                                <select class="setting-dropdown-small" id="startup-mode">
-                                    <option value="0" data-i18n="s.startup_mode_v">Tiếng Việt</option>
-                                    <option value="1" data-i18n="s.startup_mode_e">Tiếng Anh</option>
-                                    <option value="2" data-i18n="s.startup_mode_r">Ghi nhớ</option>
-                                </select>
-                            </div>
-                            <!-- 1c. Trì hoãn khởi động -->
-                            <div class="setting-row child-setting-row">
-                                <span class="setting-label" data-i18n="s.startup_delay">Trì hoãn khởi động</span>
-                                <div class="spacer" style="width: *"></div>
-                                <select class="setting-dropdown-small" id="startup-delay">
-                                    <option value="0" data-i18n="s.startup_delay_none">Không trễ (0s)</option>
-                                    <option value="3" data-i18n="s.startup_delay_3s">3 giây</option>
-                                    <option value="5" data-i18n="s.startup_delay_5s">5 giây</option>
-                                    <option value="10" data-i18n="s.startup_delay_10s">10 giây</option>
-                                    <option value="15" data-i18n="s.startup_delay_15s">15 giây</option>
-                                    <option value="30" data-i18n="s.startup_delay_30s">30 giây</option>
-                                    <option value="60" data-i18n="s.startup_delay_60s">60 giây</option>
-                                </select>
-                            </div>
-                            <!-- 2. Bật bảng này khi khởi động -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.show_startup">Bật bảng này khi khởi động</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="show-on-startup">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-show-on-startup" value="0">
-                            </div>
-                            <!-- 3. Chạy với quyền Admin -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.run_admin">Chạy với quyền Admin</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="run-admin">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-run-admin" value="0">
-                            </div>
-                            <!-- 4. Tạo biểu tượng trên Desktop -->
-                            <div class="setting-row group-last">
-                                <span class="setting-label" data-i18n="s.desktop_shortcut">Tạo biểu tượng trên
-                                    Desktop</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="desktop-shortcut">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-desktop-shortcut" value="0">
-                            </div>
-                            <!-- GIAO DIỆN -->
-                            <!-- 5. Giao diện tiếng Anh -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.english_ui">Giao diện tiếng Anh</span>
-                                <span class="info-icon"
-                                    title="Chuyển giao diện, thanh menu và thông báo sang tiếng Anh"
-                                    data-i18n-title="s.english_ui_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="english-ui">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-english-ui" value="0">
-                            </div>
-                            <!-- Force light theme -->
-                            <div class="setting-row" id="row-force-light-theme">
-                                <span class="setting-label" data-i18n="s.force_light_theme">Luôn dùng giao diện
-                                    sáng</span>
-                                <span class="info-icon"
-                                    title="Bỏ qua chế độ tối của Windows, luôn hiển thị giao diện sáng"
-                                    data-i18n-title="s.force_light_theme_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="force-light-theme">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
-                                </div>
-                                <input type="hidden" id="val-force-light-theme" value="0">
-                            </div>
-                            <!-- 6. Độ đục nền -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.bg_opacity">Độ đục nền</span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="slider-container">
-                                    <div class="custom-slider" id="bg-opacity-slider">
-                                        <div class="slider-track">
-                                            <div class="slider-fill" id="bg-opacity-fill"></div>
-                                        </div>
-                                        <div class="slider-thumb" id="bg-opacity-thumb"></div>
+                            <div class="group-title" data-i18n="g.startup">Khởi động</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v8M7 7a7 7 0 1 0 10 0"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.run_startup">Khởi động cùng Windows</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="run-startup">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
                                     </div>
-                                    <span class="slider-value" id="bg-opacity-value">80%</span>
+                                    <input type="hidden" id="val-run-startup" value="0">
                                 </div>
-                                <input type="hidden" id="val-bg-opacity" value="80">
-                            </div>
-                            <!-- Icon settings are grouped in a focused sub-dialog. -->
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.icon_style">Tuỳ chỉnh icon</span>
-                                <div class="spacer" style="width: *"></div>
-                                <button class="btn-action" id="btn-icon-settings" data-i18n="s.config">Cấu hình</button>
-                            </div>
-                            <!-- Toast notification toggle -->
-                            <div class="setting-row tooltip-up" id="row-enable-toast">
-                                <span class="setting-label" data-i18n="s.enable_toast">Hiển thị thông báo (toast)</span>
-                                <span class="info-icon"
-                                    title="Hiển thị thông báo nhỏ ở góc trên khi thay đổi cài đặt hoặc thêm/xóa dữ liệu."
-                                    data-i18n-title="s.enable_toast_tooltip"></span>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="enable-toast">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row child-setting-row">
+                                    <span class="setting-label" data-i18n="s.startup_mode">Chế độ mặc định</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <select class="setting-dropdown-small" id="startup-mode">
+                                        <option value="0" data-i18n="s.startup_mode_v">Tiếng Việt</option>
+                                        <option value="1" data-i18n="s.startup_mode_e">Tiếng Anh</option>
+                                        <option value="2" data-i18n="s.startup_mode_r">Ghi nhớ</option>
+                                    </select>
                                 </div>
-                                <input type="hidden" id="val-enable-toast" value="1">
-                            </div>
-                            <!-- 8. Debug log -->
-                            <div class="setting-row tooltip-up" id="row-debug-log">
-                                <span class="setting-label" data-i18n="s.debug_log">Bật debug log</span>
-                                <span class="info-icon"
-                                    title="Ghi log chi tiết vào file để gửi kèm khi báo lỗi. File log nằm cạnh VKey.exe (VKey_*.log)."
-                                    data-i18n-title="s.debug_log_tooltip"></span>
-                                <button class="btn-action" id="btn-open-log-folder" style="margin-right: 8px;"
-                                    data-i18n="s.open_log_folder">Mở thư mục log</button>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="debug-log">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="toggle-thumb-small"></div>
+                                <div class="setting-row child-setting-row">
+                                    <span class="setting-label" data-i18n="s.startup_delay">Trì hoãn khởi động</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <select class="setting-dropdown-small" id="startup-delay">
+                                        <option value="0" data-i18n="s.startup_delay_none">Không trễ (0s)</option>
+                                        <option value="3" data-i18n="s.startup_delay_3s">3 giây</option>
+                                        <option value="5" data-i18n="s.startup_delay_5s">5 giây</option>
+                                        <option value="10" data-i18n="s.startup_delay_10s">10 giây</option>
+                                        <option value="15" data-i18n="s.startup_delay_15s">15 giây</option>
+                                        <option value="30" data-i18n="s.startup_delay_30s">30 giây</option>
+                                        <option value="60" data-i18n="s.startup_delay_60s">60 giây</option>
+                                    </select>
                                 </div>
-                                <input type="hidden" id="val-debug-log" value="0">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 9h16"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.show_startup">Bật bảng này khi khởi động</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="show-on-startup">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-show-on-startup" value="0">
+                                </div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-red"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.run_admin">Chạy với quyền Admin</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="run-admin">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-run-admin" value="0">
+                                </div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.desktop_shortcut">Tạo biểu tượng trên Desktop</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="desktop-shortcut">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-desktop-shortcut" value="0">
+                                </div>
+                            </div>
+
+                            <div class="group-title" data-i18n="g.appearance">Giao diện</div>
+                            <div class="group-card">
+                                <div class="setting-row">
+                                    <span class="row-icon ic-blue"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.5 2.5 2.5 13.5 0 16M12 4c-2.5 2.5-2.5 13.5 0 16"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.english_ui">Giao diện tiếng Anh</span>
+                                    <span class="info-icon"
+                                        title="Chuyển giao diện, thanh menu và thông báo sang tiếng Anh"
+                                        data-i18n-title="s.english_ui_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="english-ui">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-english-ui" value="0">
+                                </div>
+                                <div class="setting-row" id="row-force-light-theme">
+                                    <span class="row-icon ic-orange"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.force_light_theme">Luôn dùng giao diện sáng</span>
+                                    <span class="info-icon"
+                                        title="Bỏ qua chế độ tối của Windows, luôn hiển thị giao diện sáng"
+                                        data-i18n-title="s.force_light_theme_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="force-light-theme">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-force-light-theme" value="0">
+                                </div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.bg_opacity">Độ đục nền</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="slider-container">
+                                        <div class="custom-slider" id="bg-opacity-slider">
+                                            <div class="slider-track">
+                                                <div class="slider-fill" id="bg-opacity-fill"></div>
+                                            </div>
+                                            <div class="slider-thumb" id="bg-opacity-thumb"></div>
+                                        </div>
+                                        <span class="slider-value" id="bg-opacity-value">80%</span>
+                                    </div>
+                                    <input type="hidden" id="val-bg-opacity" value="80">
+                                </div>
+                                <div class="setting-row">
+                                    <span class="row-icon ic-pink"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a8 8 0 1 0 0 16c1 0 1.5-.8 1.5-1.6 0-1.2-1-1.4-1-2.4 0-.8.6-1.5 1.5-1.5H17a3 3 0 0 0 3-3c0-4-3.6-7.5-8-7.5z"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.icon_style">Tuỳ chỉnh icon</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-icon-settings" data-i18n="s.config">Cấu hình</button>
+                                </div>
+                                <div class="setting-row tooltip-up" id="row-enable-toast">
+                                    <span class="row-icon ic-teal"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2 7 2 7H4s2-1 2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.enable_toast">Hiển thị thông báo (toast)</span>
+                                    <span class="info-icon"
+                                        title="Hiển thị thông báo nhỏ ở góc trên khi thay đổi cài đặt hoặc thêm/xóa dữ liệu."
+                                        data-i18n-title="s.enable_toast_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <div class="toggle-switch-small" id="enable-toast">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-enable-toast" value="1">
+                                </div>
+                            </div>
+
+                            <div class="group-title" data-i18n="g.diagnostics">Chẩn đoán</div>
+                            <div class="group-card">
+                                <div class="setting-row tooltip-up" id="row-debug-log">
+                                    <span class="row-icon ic-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="8" height="12" rx="4"/><path d="M12 7V4M5 10h3M16 10h3M5 16h3M16 16h3"/></svg></span>
+                                    <span class="setting-label" data-i18n="s.debug_log">Bật debug log</span>
+                                    <span class="info-icon"
+                                        title="Ghi log chi tiết vào file để gửi kèm khi báo lỗi. File log nằm cạnh VKey.exe (VKey_*.log)."
+                                        data-i18n-title="s.debug_log_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-open-log-folder"
+                                        data-i18n="s.open_log_folder">Mở thư mục log</button>
+                                    <div class="toggle-switch-small" id="debug-log">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-debug-log" value="0">
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Tab 4: Thông tin (About) -->
                     <div class="tab-panel" id="tab-panel-4">
-                        <div class="tab-body about-content">
-                            <p class="app-name">VKey</p>
-                            <p class="app-tagline" data-i18n="s.tagline">Bộ gõ Tiếng Việt giao diện hiện đại</p>
-                            <p class="app-version clickable-version" id="version-copy-container"
-                                title="Click để sao chép thông tin phiên bản" data-i18n-title="s.click_to_copy"><span
-                                    data-i18n="s.version_label">Phiên bản:</span> <span
-                                    id="app-version-number">X.X.X</span> (Sciter Edition)
-                                <span class="copy-badge">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256">
-                                        <path fill="currentColor"
-                                            d="M216 32H88a16 16 0 0 0-16 16v40H48a16 16 0 0 0-16 16v112a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-40h40a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-40 184H48V104h128Zm40-56h-24V96a16 16 0 0 0-16-16H88V48h128Z"/>
-                                    </svg>
-                                </span>
-                            </p>
-                            <p class="app-sciter-version"><span data-i18n="s.sciter_label">Phiên bản Sciter:</span> <span
-                                    id="sciter-version-number">-</span></p>
-                            <p class="app-author"><span data-i18n="s.dev_label">Author:</span>
-                                <strong>PhatMT97</strong>
-                            </p>
-                            <p class="app-license" data-i18n="s.license">VKey là phần mềm mã nguồn mở, miễn phí và
-                                phi
-                                lợi nhuận.</p>
-                        </div>
-                        <!-- Update Section - Separate Card -->
-                        <div class="update-card">
-                            <div class="setting-row tooltip-up" id="row-check-update">
-                                <span class="setting-label" data-i18n="s.auto_update">Tự động kiểm tra cập nhật</span>
-                                <span class="info-icon"
-                                    title="Tự động kiểm tra phiên bản mới khi khởi động ứng dụng"
-                                    data-i18n-title="s.update_tooltip"></span>
-                                <button class="btn-action" id="btn-check-update"><span class="btn-text"
-                                        data-i18n="s.check_now">Kiểm tra
-                                        ngay</span></button>
-                                <div class="spacer" style="width: *"></div>
-                                <div class="toggle-switch-small" id="check-update">
-                                    <span class="toggle-label-i">I</span>
-                                    <span class="toggle-label-o">O</span>
-                                    <div class="update-thumb-white" id="update-toggle-thumb"></div>
-                                </div>
-                                <input type="hidden" id="val-check-update" value="0">
+                        <div class="tab-body">
+                            <div class="group-card about-content">
+                                <div class="about-logo">V</div>
+                                <p class="app-name">VKey</p>
+                                <p class="app-tagline" data-i18n="s.tagline">Bộ gõ Tiếng Việt giao diện hiện đại</p>
+                                <p class="app-version clickable-version" id="version-copy-container"
+                                    title="Click để sao chép thông tin phiên bản" data-i18n-title="s.click_to_copy"><span
+                                        data-i18n="s.version_label">Phiên bản:</span> <span
+                                        id="app-version-number">X.X.X</span> (Sciter Edition)
+                                    <span class="copy-badge">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256">
+                                            <path fill="currentColor"
+                                                d="M216 32H88a16 16 0 0 0-16 16v40H48a16 16 0 0 0-16 16v112a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-40h40a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16m-40 184H48V104h128Zm40-56h-24V96a16 16 0 0 0-16-16H88V48h128Z"/>
+                                        </svg>
+                                    </span>
+                                </p>
+                                <p class="app-sciter-version"><span data-i18n="s.sciter_label">Phiên bản Sciter:</span> <span
+                                        id="sciter-version-number">-</span></p>
+                                <p class="app-author"><span data-i18n="s.dev_label">Author:</span>
+                                    <strong>PhatMT97</strong>
+                                </p>
+                                <p class="app-license" data-i18n="s.license">VKey là phần mềm mã nguồn mở, miễn phí và phi lợi nhuận.</p>
                             </div>
-                        </div>
-                        <!-- Sponsor Section - Separate Card (Commented out)
-                        <div class="update-card" style="margin-top: 8px;">
-                            <div class="setting-row"
-                                style="flow: horizontal; align-items: center; border-spacing: 8px; padding: 0;">
-                                <img src="../shared/signpath.png"
-                                    style="width: 18px; height: 18px; vertical-align: middle; cursor: pointer;"
-                                    data-url="https://signpath.org/" alt="SignPath" />
-                                <span
-                                    style="font-size: 11px; color: var(--text-light); vertical-align: middle; line-height: 1.35;">
-                                    <span data-i18n="s.sponsor_p1">Dịch vụ ký số trên Windows cho v4.0–v4.2 miễn phí bởi</span> <a
-                                        href="#" data-url="https://signpath.io/">SignPath.io</a>, <span
-                                        data-i18n="s.sponsor_p2">chứng chỉ bởi</span> <a href="#"
-                                        data-url="https://signpath.org/">SignPath Foundation</a>
-                                </span>
-                            </div>
-                        </div>
-                        -->
 
-                        <!-- Report Issue Section - Separate Card -->
-                        <div class="update-card" style="margin-top: 8px;">
-                            <div class="setting-row">
-                                <span class="setting-label" data-i18n="s.report_issue_label">Bạn gặp vấn đề?</span>
-                                <div class="spacer" style="width: *"></div>
-                                <button class="btn-action btn-danger" id="btn-report-issue" style="outline: none;"
-                                    data-i18n="s.report_issue">Báo cáo vấn đề</button>
+                            <div class="group-card">
+                                <div class="setting-row tooltip-up" id="row-check-update">
+                                    <span class="setting-label" data-i18n="s.auto_update">Tự động kiểm tra cập nhật</span>
+                                    <span class="info-icon"
+                                        title="Tự động kiểm tra phiên bản mới khi khởi động ứng dụng"
+                                        data-i18n-title="s.update_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-check-update"><span class="btn-text"
+                                            data-i18n="s.check_now">Kiểm tra ngay</span></button>
+                                    <div class="toggle-switch-small" id="check-update">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="update-thumb-white" id="update-toggle-thumb"></div>
+                                    </div>
+                                    <input type="hidden" id="val-check-update" value="0">
+                                </div>
+                                <div class="setting-row">
+                                    <span class="setting-label" data-i18n="s.report_issue_label">Bạn gặp vấn đề?</span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action btn-danger" id="btn-report-issue"
+                                        data-i18n="s.report_issue">Báo cáo vấn đề</button>
+                                </div>
                             </div>
                         </div>
                     </div>

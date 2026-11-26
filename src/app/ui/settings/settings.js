@@ -16,6 +16,7 @@ document.on("ready", function () {
     if (typeof applyTranslations === "function") applyTranslations();
 
     initializeToggles();
+    initializeMethodChips();
     initializeAdvancedPanel();
     initializeOpacitySlider();
     initializeScrollbarResize(".tab-body");
@@ -180,6 +181,7 @@ function initializeToggles() {
             if (id === "english-ui") {
                 document.documentElement.setAttribute("lang", newState ? "en" : "vi");
                 applyTranslations();
+                syncMethodChips();
             }
 
             // Show-advanced toggle: update container class
@@ -227,6 +229,11 @@ function initializeToggles() {
                     showToastI18n(
                         "Chế độ gõ: " + (newState ? "Tiếng Anh" : "Tiếng Việt"),
                         "Typing mode: " + (newState ? "English" : "Vietnamese"));
+                } else if (this.classList.contains("keycap")) {
+                    var keyName = this.textContent.trim();
+                    showToastI18n(
+                        (newState ? "Phím chuyển: thêm " : "Phím chuyển: bỏ ") + keyName,
+                        (newState ? "Switch key: added " : "Switch key: removed ") + keyName);
                 } else {
                     var row = this.closest(".setting-row");
                     var labelEl = row ? row.querySelector(".setting-label") : null;
@@ -294,6 +301,43 @@ function updateMacroChildren(enabled) {
 
 function updateMacroCapsChildren(enabled) {
     setToggleRowEnabled("macro-title-case", enabled);
+}
+
+// ============================================
+// INPUT METHOD CHIPS
+// The hidden <select id="input-type"> stays the source of truth: C++ writes it
+// with set_value() and listens for its VALUE_CHANGED. Chips only mirror it.
+// ============================================
+function initializeMethodChips() {
+    var box = document.getElementById("method-chips");
+    if (!box) return;
+    box.on("click", ".method-chip", function (evt, chip) {
+        var select = document.getElementById("input-type");
+        var value = chip.getAttribute("data-value");
+        if (!select || select.value == value) return true;
+        select.value = value;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+        syncMethodChips();
+        return true;
+    });
+    syncMethodChips();
+}
+
+// Rebuild chips from the select's options (labels follow i18n) and mark the
+// current value. Also called from C++ after it sets the select's value.
+function syncMethodChips() {
+    var box = document.getElementById("method-chips");
+    var select = document.getElementById("input-type");
+    if (!box || !select) return;
+    var current = String(select.value);
+    var html = "";
+    select.querySelectorAll("option").forEach(function (opt) {
+        var v = opt.getAttribute("value");
+        html += '<div class="method-chip' + (String(v) === current ? " active" : "") +
+            '" data-value="' + v + '">' + opt.textContent + "</div>";
+    });
+    box.innerHTML = html;
+    updateUserDefinedButton();
 }
 
 function updateUserDefinedButton() {
@@ -412,7 +456,7 @@ document.on("change", "select", function (evt, select) {
     if (selected) select.setAttribute("title", selected.textContent);
 
     if (id === "input-type") {
-        updateUserDefinedButton();
+        syncMethodChips();
     }
 
     if (id === "spell-check-level") {

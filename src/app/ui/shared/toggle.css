@@ -3,8 +3,8 @@
 
 .toggle-switch-small {
     display: inline-block !important;
-    width: 40px;
-    min-width: 40px;
+    width: 36px;
+    min-width: 36px;
     height: 20px;
     min-height: 20px;
     border-radius: 10px;
@@ -22,62 +22,28 @@
     background-color: var(--toggle-on-bg);
 }
 
-/* I label on left side (visible when checked/ON - thumb moves right) */
-.toggle-label-i {
-    display: block;
-    position: absolute;
-    left: 6px;
-    top: 0;
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--toggle-label-on);
-    opacity: 0;
-    /* transition removed — see toggle-switch-small comment */
-    z-index: 1;
-}
-
-/* O label on right side (visible when unchecked/OFF - thumb on left) */
+/* I/O labels are kept in the markup for compatibility but no longer shown:
+   the round thumb position + colour already carries the state. */
+.toggle-label-i,
 .toggle-label-o {
-    display: block;
-    position: absolute;
-    right: 5px;
-    top: 0;
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--toggle-label-off);
-    opacity: 1;
-    /* transition removed — see toggle-switch-small comment */
-    z-index: 1;
+    display: none;
 }
 
-/* When checked: show I, hide O */
-.toggle-switch-small.checked .toggle-label-i {
-    opacity: 1;
-}
-
-.toggle-switch-small.checked .toggle-label-o {
-    opacity: 0;
-}
-
-/* Oval thumb */
+/* Round thumb */
 .toggle-thumb-small {
-    width: 22px;
+    width: 16px;
     height: 16px;
     border-radius: 8px;
     background-color: var(--toggle-thumb-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
     position: absolute;
     top: 2px;
     left: 2px;
-    /* transition removed — see toggle-switch-small comment */
     z-index: 2;
 }
 
 .toggle-switch-small.checked .toggle-thumb-small {
-    left: 16px;
+    left: 18px;
 }
 
 /* Disabled state */

@@ -1315,6 +1315,8 @@ void SettingsDialog::initializeUI() {
 
     // Set input method dropdown
     setDropdownValue(L"input-type", static_cast<int>(config_.inputMethod));
+    // The select is hidden; JS mirrors its value as clickable chips.
+    call_function("syncMethodChips");
 
     // Set code table dropdown
     setDropdownValue(L"bang-ma", static_cast<int>(config_.codeTable));
