@@ -678,10 +678,6 @@ private:
     // RunTopGuards. Both acquire/release, hot path cost = one load each.
     std::atomic<bool> isChatGatedApp_{false};
     std::atomic<bool> gameTextFocus_{false};
-    // Focused window belongs to a remote-control client (RustDesk): all keys
-    // pass through so the remote machine's IME composes. Single writer = hook
-    // thread (ApplyFocusOnHookThread); read by RunTopGuards.
-    std::atomic<bool> isRemoteClientApp_{false};
     std::unique_ptr<GameTextFocusPoller> gameTextFocusPoller_;
     GamePassThroughCallback gamePassThroughCallback_;
     // (tsfAppSet_ removed — see Phase 3d note above)
