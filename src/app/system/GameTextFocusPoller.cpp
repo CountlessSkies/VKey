@@ -7,6 +7,7 @@
 #include <imm.h>
 
 #include <chrono>
+#include <cstdint>
 
 #include "core/GameChatGateDecision.h"
 #include "core/Logger.h"
@@ -20,16 +21,32 @@ namespace {
 // IMC_GETCONVERSIONMODE (imm.h, only defined with _IMM_SDK / immdev.h).
 constexpr WPARAM kImcGetConversionMode = 0x0001;
 
-bool ProbeForegroundTextFocus() {
-    HWND fg = GetForegroundWindow();
-    if (!fg) return DecodeGameTextFocus(false, 0);
-    HWND ime = ImmGetDefaultIMEWnd(fg);
-    if (!ime) return DecodeGameTextFocus(false, 0);
+struct ProbeResult {
+    HWND fg = nullptr;
+    HWND ime = nullptr;
+    bool ok = false;
+    std::int64_t conv = -1;
+    DWORD error = 0;
+};
+
+ProbeResult ProbeForeground() {
+    ProbeResult r;
+    r.fg = GetForegroundWindow();
+    if (!r.fg) return r;
+    r.ime = ImmGetDefaultIMEWnd(r.fg);
+    if (!r.ime) {
+        r.error = GetLastError();
+        return r;
+    }
     DWORD_PTR result = 0;
-    const LRESULT ok = SendMessageTimeoutW(ime, WM_IME_CONTROL, kImcGetConversionMode, 0,
-                                           SMTO_ABORTIFHUNG,
-                                           GameTextFocusPoller::kProbeTimeoutMs, &result);
-    return DecodeGameTextFocus(ok != 0, static_cast<std::int64_t>(result));
+    SetLastError(0);
+    const LRESULT sent = SendMessageTimeoutW(r.ime, WM_IME_CONTROL, kImcGetConversionMode, 0,
+                                             SMTO_ABORTIFHUNG,
+                                             GameTextFocusPoller::kProbeTimeoutMs, &result);
+    r.ok = sent != 0;
+    r.conv = r.ok ? static_cast<std::int64_t>(result) : -2;
+    if (!r.ok) r.error = GetLastError();
+    return r;
 }
 
 }  // namespace
@@ -62,14 +79,40 @@ void GameTextFocusPoller::Stop() {
 }
 
 void GameTextFocusPoller::Run() {
+    Logger::Log(L"[VKey] Game chat gate: poller thread started");
     bool last = false;
+    bool lastActive = false;
+    bool lastFailing = false;
+    GameTextFocusFilter filter;
     textFocus_.store(false, std::memory_order_release);
     for (;;) {
         const bool active = enabled_.load(std::memory_order_acquire);
-        const bool focused = active && ProbeForegroundTextFocus();
+        if (active != lastActive) {
+            Logger::Log(L"[VKey] Game chat gate: %ls", active ? L"chat-gated app focused, probing"
+                                                            : L"idle (no chat-gated app)");
+            lastActive = active;
+            filter.Reset();
+        }
+
+        bool focused = false;
+        if (active) {
+            const ProbeResult p = ProbeForeground();
+            focused = filter.Update(p.ok, p.conv, GetTickCount64());
+            // A failure streak long enough to close the gate is worth a line;
+            // single timeouts while the game renders are routine and are not.
+            const bool failingLong = filter.IsFailing() && !p.ok && !focused && last;
+            if (failingLong && !lastFailing) {
+                Logger::Log(L"[VKey] Game chat gate: probe failing (ime=%p conv=%lld err=%lu), "
+                            L"falling back to pass-through",
+                            static_cast<void*>(p.ime), static_cast<long long>(p.conv), p.error);
+            }
+            lastFailing = failingLong;
+        }
+
         if (focused != last) {
             textFocus_.store(focused, std::memory_order_release);
-            Logger::Log(L"[VKey] Game chat gate: text box %ls", focused ? L"focused (V)" : L"left (pass-through)");
+            Logger::Log(L"[VKey] Game chat gate: text box %ls",
+                        focused ? L"focused (V)" : L"left (pass-through)");
             last = focused;
         }
 

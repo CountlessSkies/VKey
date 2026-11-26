@@ -36,6 +36,56 @@ TEST(GameChatGateDecision, FailedQueryFailsSafeToPlaying) {
     EXPECT_FALSE(DecodeGameTextFocus(false, -2));
 }
 
+// --- GameTextFocusFilter -----------------------------------------------------
+
+using NextKey::GameTextFocusFilter;
+
+TEST(GameTextFocusFilter, FollowsSuccessfulProbes) {
+    GameTextFocusFilter f;
+    EXPECT_FALSE(f.Update(true, 0x0, 0));
+    EXPECT_TRUE(f.Update(true, 0x1, 15));
+    EXPECT_FALSE(f.Update(true, 0x0, 30));
+}
+
+TEST(GameTextFocusFilter, ShortTimeoutWhileChattingKeepsGateOpen) {
+    // Pattern from the log: ok=1 conv=1, then a single ERROR_TIMEOUT tick.
+    GameTextFocusFilter f;
+    EXPECT_TRUE(f.Update(true, 0x1, 0));
+    EXPECT_TRUE(f.Update(false, -2, 15));
+    EXPECT_TRUE(f.Update(false, -2, 30));
+    EXPECT_TRUE(f.Update(true, 0x1, 45));
+}
+
+TEST(GameTextFocusFilter, ShortTimeoutWhilePlayingStaysClosed) {
+    GameTextFocusFilter f;
+    EXPECT_FALSE(f.Update(true, 0x0, 0));
+    EXPECT_FALSE(f.Update(false, -2, 15));
+}
+
+TEST(GameTextFocusFilter, LongFailureFallsBackToClosed) {
+    GameTextFocusFilter f;
+    EXPECT_TRUE(f.Update(true, 0x1, 1000));
+    EXPECT_TRUE(f.Update(false, -2, 1015));
+    EXPECT_TRUE(f.Update(false, -2, 1000 + GameTextFocusFilter::kFailHoldMs - 1));
+    EXPECT_FALSE(f.Update(false, -2, 1000 + GameTextFocusFilter::kFailHoldMs + 15));
+}
+
+TEST(GameTextFocusFilter, FailureWindowRestartsAfterSuccess) {
+    GameTextFocusFilter f;
+    EXPECT_TRUE(f.Update(true, 0x1, 0));
+    EXPECT_TRUE(f.Update(false, -2, 150));   // failing since 150
+    EXPECT_TRUE(f.Update(true, 0x1, 300));   // recovered
+    EXPECT_TRUE(f.Update(false, -2, 450));   // new streak starts at 450
+    EXPECT_TRUE(f.Update(false, -2, 600));   // only 150 ms into it
+}
+
+TEST(GameTextFocusFilter, ResetForgetsOpenGate) {
+    GameTextFocusFilter f;
+    EXPECT_TRUE(f.Update(true, 0x1, 0));
+    f.Reset();
+    EXPECT_FALSE(f.Update(false, -2, 15));
+}
+
 // --- ShouldPassThroughForGameChat -------------------------------------------
 
 TEST(GameChatGateDecision, NormalAppNeverPassesThrough) {

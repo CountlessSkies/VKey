@@ -37,6 +37,46 @@ inline constexpr std::int64_t kImeConversionNative = 0x0001;
     return queryOk && (conversionMode & kImeConversionNative) != 0;
 }
 
+/// Smooths the probe stream. League of Legends regularly misses the 30 ms
+/// SendMessageTimeout while it renders (ERROR_TIMEOUT about once a second in
+/// the 2026-11-26 log), and treating each miss as "no text box" would close
+/// the gate for one tick in the middle of a chat message — dropping the word
+/// being typed. A failed probe therefore keeps the last answer, until probes
+/// have failed for kFailHoldMs in a row; then it falls back to "no text box".
+class GameTextFocusFilter {
+public:
+    static constexpr std::uint64_t kFailHoldMs = 200;
+
+    /// Feed one probe taken at `nowMs`; returns the filtered "text box focused".
+    bool Update(bool queryOk, std::int64_t conversionMode, std::uint64_t nowMs) noexcept {
+        if (queryOk) {
+            focused_ = DecodeGameTextFocus(true, conversionMode);
+            failing_ = false;
+            return focused_;
+        }
+        if (!failing_) {
+            failing_ = true;
+            failSinceMs_ = nowMs;
+        }
+        if (nowMs - failSinceMs_ >= kFailHoldMs) focused_ = false;
+        return focused_;
+    }
+
+    /// The app lost focus / stopped being chat-gated: forget everything.
+    void Reset() noexcept {
+        focused_ = false;
+        failing_ = false;
+        failSinceMs_ = 0;
+    }
+
+    [[nodiscard]] bool IsFailing() const noexcept { return failing_; }
+
+private:
+    bool focused_ = false;
+    bool failing_ = false;
+    std::uint64_t failSinceMs_ = 0;
+};
+
 /// True when the hook must pass the key straight to the app: the focused app
 /// is chat-gated and none of its text boxes currently has focus.
 [[nodiscard]] constexpr bool ShouldPassThroughForGameChat(bool isChatGatedApp,
