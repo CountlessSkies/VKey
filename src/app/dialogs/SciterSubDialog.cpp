@@ -14,6 +14,7 @@
 #include "sciter-x-host-callback.h"
 #include <dwmapi.h>
 #include <commctrl.h>
+#include <algorithm>
 #include <vector>
 
 using namespace sciter::dom;
@@ -28,6 +29,10 @@ namespace NextKey {
 #endif
 
 SciterSubDialog* SciterSubDialog::s_instance = nullptr;
+
+// Deferred fit-to-content (SubDialogConfig::fitContentHeight).
+static constexpr UINT WM_SUBDIALOG_FIT_CONTENT = WM_APP + 40;
+static constexpr UINT_PTR TIMER_SUBDIALOG_FIT_CONTENT = 1040;
 
 // Win10 CSS margin on .container must be compensated in HWND size (see Win10Frame).
 static int SubDialogWin10Pad() noexcept {
@@ -197,6 +202,55 @@ SciterSubDialog::SciterSubDialog(const SubDialogConfig& config)
     // Re-enable DWM transitions
     disableTransitions = FALSE;
     DwmSetWindowAttribute(get_hwnd(), 3, &disableTransitions, sizeof(disableTransitions));
+
+    if (config_.fitContentHeight) requestFitToContent();
+}
+
+void SciterSubDialog::requestFitToContent() {
+    if (HWND hwnd = get_hwnd()) PostMessageW(hwnd, WM_SUBDIALOG_FIT_CONTENT, 0, 0);
+}
+
+void SciterSubDialog::fitWindowToContent() {
+    HWND hwnd = get_hwnd();
+    if (!hwnd || IsIconic(hwnd)) return;
+
+    sciter::dom::element rootEl = get_root();
+    sciter::dom::element container = rootEl.find_first("#main-container");
+    sciter::dom::element content = rootEl.find_first(".content-section");
+    if (!container.is_valid()) return;  // .content-section is optional (About)
+
+    // Re-measure natural height each time: delta-based resizing drifts on mode
+    // changes and cannot account for translated text or a different monitor DPI.
+    if (content.is_valid()) content.set_style_attribute("height", L"auto");
+    container.set_style_attribute("height", L"auto");
+    rootEl.update(true);
+    const RECT bounds = container.get_location_ppx(MARGIN_BOX);
+    const int width = bounds.right - bounds.left;
+    const int naturalHeight = bounds.bottom - bounds.top;
+    if (width <= 0 || naturalHeight <= 0) return;
+
+    MONITORINFO monitor{sizeof(monitor)};
+    if (!GetMonitorInfoW(MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST), &monitor)) return;
+    const RECT& work = monitor.rcWork;
+    const int height = (std::min)(naturalHeight, static_cast<int>(work.bottom - work.top));
+    if (height < naturalHeight) {
+        // Keep the title visible and scroll the content on short work areas.
+        const RECT border = container.get_location_ppx(BORDER_BOX);
+        const int borderHeight = border.bottom - border.top - (naturalHeight - height);
+        wchar_t cssHeight[32];
+        swprintf_s(cssHeight, L"%.2fpx", borderHeight / ScaleHelper::getDpiScaleForWindow(hwnd));
+        container.set_style_attribute("height", cssHeight);
+        if (content.is_valid()) content.set_style_attribute("height", L"*");
+    }
+
+    RECT windowRect{};
+    if (!GetWindowRect(hwnd, &windowRect)) return;
+    const int x = (std::max)(static_cast<int>(work.left),
+        (std::min)(static_cast<int>(windowRect.left), static_cast<int>(work.right) - width));
+    const int y = (std::max)(static_cast<int>(work.top),
+        (std::min)(static_cast<int>(windowRect.top), static_cast<int>(work.bottom) - height));
+    SetWindowPos(hwnd, nullptr, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE);
+    rootEl.update(true);
 }
 
 SciterSubDialog::~SciterSubDialog() {
@@ -287,6 +341,21 @@ LRESULT CALLBACK SciterSubDialog::SubclassProc(
     if (s_instance
         && SciterHelper::ConsumeRestoreFromMinimized(msg, wParam, s_instance->wasMinimized_)) {
         SciterHelper::RepaintAfterRestore(hwnd);
+    }
+
+    // Deferred fit-to-content: coalesce requests into one measurement after
+    // Sciter has committed the next frame.
+    if (s_instance && msg == WM_SUBDIALOG_FIT_CONTENT) {
+        if (!SetTimer(hwnd, TIMER_SUBDIALOG_FIT_CONTENT, 30, nullptr)) s_instance->fitWindowToContent();
+        return 0;
+    }
+    if (s_instance && msg == WM_TIMER && wParam == TIMER_SUBDIALOG_FIT_CONTENT) {
+        KillTimer(hwnd, TIMER_SUBDIALOG_FIT_CONTENT);
+        s_instance->fitWindowToContent();
+        return 0;
+    }
+    if (s_instance && msg == WM_DPICHANGED && s_instance->config_.fitContentHeight) {
+        s_instance->requestFitToContent();
     }
 
     if (msg == WM_CLOSE) {

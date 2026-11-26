@@ -19,6 +19,8 @@ namespace NextKey {
 
 namespace {
 
+// First-frame sizes only; the window then follows its content
+// (fitContentHeight), including when the custom-colour row is toggled.
 constexpr int kBaseHeight = 349;
 constexpr int kCustomColorsHeight = 409;
 
@@ -29,7 +31,8 @@ SubDialogConfig MakeIconSettingsConfig(HWND parent) {
         L"this://app/iconsettings/iconsettings.html",
         L"VKey - Tùy chỉnh icon",
         430, custom ? kCustomColorsHeight : kBaseHeight,
-        parent, false, 36, 40, true
+        parent, false, 36, 40, true,
+        /*fitContentHeight=*/true
     };
 }
 
@@ -87,18 +90,8 @@ void IconSettingsDialog::setCustomColorsVisible(bool visible) {
         colorRow.set_style_attribute("display", visible ? L"block" : L"none");
     }
     if (visible == customColorsVisible_) return;
-
-    RECT windowRect{};
-    if (GetWindowRect(get_hwnd(), &windowRect)) {
-        const int delta = ScaleHelper::scaleForWindow(get_hwnd(), kCustomColorsHeight - kBaseHeight);
-        const int signedDelta = visible ? delta : -delta;
-        const int width = windowRect.right - windowRect.left;
-        const int height = windowRect.bottom - windowRect.top + signedDelta;
-        SetWindowPos(get_hwnd(), nullptr,
-                     windowRect.left, windowRect.top - signedDelta / 2,
-                     width, height, SWP_NOZORDER | SWP_NOACTIVATE);
-    }
     customColorsVisible_ = visible;
+    requestFitToContent();
 }
 
 void IconSettingsDialog::saveAndNotify(WPARAM iconChangeFlags) {

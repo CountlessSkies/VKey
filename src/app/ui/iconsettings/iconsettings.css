@@ -1,5 +1,5 @@
 .content-section {
-    padding: 4px 16px 16px;
+    padding: 4px 16px 14px;
     gap: 0;  /* this dialog spaces its blocks with margins */
 }
 
@@ -22,6 +22,12 @@
 .icon-card {
     margin-bottom: 12px;
     padding: 4px 12px;
+}
+
+/* The window height follows the content, so the last card must not add
+   its spacing margin under itself. */
+.icon-card:last-child {
+    margin-bottom: 0;
 }
 
 .setting-row {

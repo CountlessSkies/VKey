@@ -52,46 +52,7 @@ LRESULT ConvertToolDialog::onCustomMessage(HWND hwnd, UINT msg, WPARAM wParam, L
 }
 
 void ConvertToolDialog::fitContent() {
-    HWND hwnd = get_hwnd();
-    if (!hwnd || IsIconic(hwnd)) return;
-
-    element rootEl = get_root();
-    element container = rootEl.find_first("#main-container");
-    element content = rootEl.find_first(".content-section");
-    if (!container.is_valid() || !content.is_valid()) return;
-
-    // Re-measure natural height each time: delta-based resizing drifts on mode
-    // changes and cannot account for translated text or a different monitor DPI.
-    content.set_style_attribute("height", L"auto");
-    container.set_style_attribute("height", L"auto");
-    rootEl.update(true);
-    const RECT bounds = container.get_location_ppx(MARGIN_BOX);
-    const int width = bounds.right - bounds.left;
-    const int naturalHeight = bounds.bottom - bounds.top;
-    if (width <= 0 || naturalHeight <= 0) return;
-
-    MONITORINFO monitor{sizeof(monitor)};
-    if (!GetMonitorInfoW(MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST), &monitor)) return;
-    const RECT& work = monitor.rcWork;
-    const int height = (std::min)(naturalHeight, static_cast<int>(work.bottom - work.top));
-    if (height < naturalHeight) {
-        // Keep the title visible and scroll the content on short work areas.
-        const RECT border = container.get_location_ppx(BORDER_BOX);
-        const int borderHeight = border.bottom - border.top - (naturalHeight - height);
-        wchar_t cssHeight[32];
-        swprintf_s(cssHeight, L"%.2fpx", borderHeight / ScaleHelper::getDpiScaleForWindow(hwnd));
-        container.set_style_attribute("height", cssHeight);
-        content.set_style_attribute("height", L"*");
-    }
-
-    RECT windowRect{};
-    if (!GetWindowRect(hwnd, &windowRect)) return;
-    const int x = (std::max)(static_cast<int>(work.left),
-        (std::min)(static_cast<int>(windowRect.left), static_cast<int>(work.right) - width));
-    const int y = (std::max)(static_cast<int>(work.top),
-        (std::min)(static_cast<int>(windowRect.top), static_cast<int>(work.bottom) - height));
-    SetWindowPos(hwnd, nullptr, x, y, width, height, SWP_NOZORDER | SWP_NOACTIVATE);
-    rootEl.update(true);
+    fitWindowToContent();
 }
 
 bool ConvertToolDialog::handle_event(HELEMENT he, BEHAVIOR_EVENT_PARAMS& params) {

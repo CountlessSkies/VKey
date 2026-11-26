@@ -49,6 +49,15 @@ protected:
     /// Set this dialog's own pin independently of the inherited Settings pin.
     void setPinned(bool pinned);
 
+    /// Resize the window to the natural height of #main-container (clamped to
+    /// the monitor work area; content scrolls if it does not fit). Measures
+    /// from scratch each time, so it is safe after text/mode/DPI changes.
+    void fitWindowToContent();
+
+    /// Coalesced, deferred fitWindowToContent(): waits ~30 ms so Sciter has
+    /// committed layout. Call after showing/hiding blocks.
+    void requestFitToContent();
+
 private:
     void syncParentPin();
 

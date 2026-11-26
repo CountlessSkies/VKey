@@ -18,6 +18,10 @@ struct SubDialogConfig {
     int titleBarHeight = 36;          // Drag zone height
     int buttonsWidth = 40;            // Exclude from drag zone
     bool applyBackgroundOpacity = true; // Load UIConfig + call JS setBackgroundOpacity
+    // Form-style dialogs (no flexible list): after load, resize the window to
+    // the natural height of #main-container instead of keeping baseHeight.
+    // baseHeight is then only the first-frame size. See fitWindowToContent().
+    bool fitContentHeight = false;
 };
 
 }  // namespace NextKey

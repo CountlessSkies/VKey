@@ -12,7 +12,8 @@ AboutDialog::AboutDialog(HWND parent)
     : SciterSubDialog({
         L"this://app/about/about.html",
         L"VKey - About",
-        330, 385, parent, false, 36, 40, true
+        330, 385, parent, false, 36, 40, true,
+        /*fitContentHeight=*/true
     }) {
     sciter::dom::element root = get_root();
     if (root.is_valid()) {
