@@ -171,7 +171,11 @@ body[data-dlg="ao"] .setting-select {
     max-height: 30px;
     margin: 0;
     align-self: center;
-    padding: 4px 28px 4px 10px;
+    /* Sciter draws the caret as its own child inside the padding box, so no
+       extra right padding for it (that pushed it ~30 px from the edge). */
+    padding: 0 10px;
+    line-height: 30px;
+    border: none;
     font-size: 13px;
     font-weight: 500;
     border-radius: 8px;
