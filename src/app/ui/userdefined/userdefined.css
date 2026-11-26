@@ -22,10 +22,7 @@
     flex-shrink: 0;
 }
 
-.footer-row .btn-action {
-    font-size: 11px;
-    padding: 6px 4px;
-}
+/* Footer button size comes from shared/subdialog.css */
 
 /* List Header */
 .list-header {

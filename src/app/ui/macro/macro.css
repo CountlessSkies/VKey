@@ -128,8 +128,6 @@
 
 .footer-row .btn-action {
     width: *;
-    font-size: 11px;
-    padding: 6px 4px;
 }
 
 /* List Header */
@@ -271,8 +269,14 @@
     height: *;
 }
 
-.content-row .setting-label {
-    margin-bottom: 0;
+.content-row > .setting-label {
+    align-self: flex-start;
+    horizontal-align: left;
+    margin-bottom: 4px;
+    max-width: none;
+    text-align: left;
+    height: auto;
+    line-height: 20px;
 }
 
 /* Textarea for multi-line macro content - stretches to fill available height */

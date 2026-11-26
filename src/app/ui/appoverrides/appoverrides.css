@@ -3,63 +3,7 @@
    scoped to body[data-dlg="ao"] so the other sub-dialogs sharing subdialog.css keep their
    current look. */
 
-/* ===== Window + title bar ===== */
-body[data-dlg="ao"] .container {
-    border-radius: 0;
-}
-
-body[data-dlg="ao"] .title-bar {
-    height: 40px;
-    line-height: 40px;
-    padding: 0 14px;
-    background: transparent;
-    border-bottom: none;
-    display: flex;
-    align-items: center;
-}
-
-body[data-dlg="ao"] .app-logo {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    margin-right: 8px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 800;
-    color: #FFFFFF;
-    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 55%, #B4235A 100%);
-}
-
-body[data-dlg="ao"] .title-text {
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 40px;
-}
-
-body[data-dlg="ao"] .btn-close {
-    top: 7px;
-    right: 8px;
-    width: 30px;
-    height: 26px;
-    border-radius: 7px;
-}
-
-body[data-dlg="ao"] .btn-close svg {
-    width: 14px;
-    height: 14px;
-    fill: var(--text-muted);
-}
-
-body[data-dlg="ao"] .btn-close:hover {
-    background: #E5484D;
-}
-
-body[data-dlg="ao"] .btn-close:hover svg {
-    fill: #FFFFFF;
-}
+/* Title bar comes from shared/subdialog.css */
 
 /* ===== Layout ===== */
 body[data-dlg="ao"] .content-section {

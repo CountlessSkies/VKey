@@ -12,26 +12,7 @@
     overflow: hidden;
 }
 
-/* Title Bar */
-.title-bar {
-    display: block;
-    position: relative;
-    width: 100%;
-    height: 36px;
-    flex-shrink: 0;
-    line-height: 36px;
-    padding: 0 12px;
-    text-align: left;
-    background: var(--bg-title-bar);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.title-text {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: 0.5px;
-}
+/* Title bar comes from shared/subdialog.css */
 
 /* Pin Button in Title Bar - absolute positioned before close button */
 .btn-pin {
@@ -39,10 +20,10 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: 36px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
+    right: 42px;
+    top: 7px;
+    width: 30px;
+    height: 26px;
     border: none;
     background: none;
     cursor: pointer;
@@ -55,7 +36,7 @@
 }
 
 .btn-pin:hover {
-    background: rgba(62, 197, 75, 0.15);
+    background: var(--bg-hover);
     transform: scale(1.1);
 }
 
@@ -67,12 +48,12 @@
 /* Pin button icons - unpinned state (default) */
 .btn-pin .icon-unpin {
     display: block;
-    fill: #3ec54b;
+    fill: var(--text-muted);
 }
 
 .btn-pin .icon-pin {
     display: none;
-    fill: #fcb745;
+    fill: var(--color-primary);
 }
 
 /* Pin button icons - pinned state */
@@ -85,41 +66,10 @@
 }
 
 .btn-pin.pinned:hover {
-    background: rgba(252, 183, 69, 0.15);
+    background: var(--bg-hover);
 }
 
-/* Close Button in Title Bar */
-.btn-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 8px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 0;
-    outline: none;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-}
-
-.btn-close:hover {
-    background: var(--color-danger-light);
-}
-
-.btn-close svg {
-    width: 24px;
-    height: 24px;
-    pointer-events: none;
-}
-
-.btn-close svg path {
-    pointer-events: none;
-}
+/* Close button comes from shared/subdialog.css */
 
 /* Content Section */
 .content-section {

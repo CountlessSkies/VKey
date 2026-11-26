@@ -1,6 +1,8 @@
-/* Shared Sub-Dialog Styles */
-/* Used by: macro, excludedapps, appoverrides */
-/* Provides: container, title-bar, close button, content-section, buttons */
+/* Shared Sub-Dialog Styles — "Nổi bật" look, matching the Settings window */
+/* Used by: macro, excludedapps, tsfapps, appoverrides, spellexclusions,
+   userdefined, hotkeys, iconsettings, convert-tool */
+/* Provides: container, title bar, close button, content section, cards, rows,
+   inputs, selects, buttons, footer row. Dialog CSS files only add layout. */
 
 html {
     overflow: hidden;
@@ -21,68 +23,79 @@ body {
     padding: 0;
     margin: 0;
     background: var(--bg-glass);
-    border-radius: 8px;
+    border-radius: 0;
     box-shadow: var(--shadow-card);
     overflow: hidden;
-    font-size: 14px;
+    font-size: 13px;
     display: flex;
     flex-direction: column;
 }
 
-/* Title Bar */
+/* ===== Title bar: V logo + title, quiet close button ===== */
 .title-bar {
     display: block;
     position: relative;
     width: 100%;
-    height: 36px;
-    line-height: 36px;
-    padding: 0 12px;
+    height: 40px;
+    min-height: 40px;
+    line-height: 40px;
+    padding: 0 14px;
     box-sizing: border-box;
-    font-size: 14px;
-    background: var(--bg-title-bar);
-    border-bottom: 1px solid var(--border-light);
+    font-size: 13px;
+    background: transparent;
+    border-bottom: none;
     cursor: default;
 }
 
-.title-text {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: 0.5px;
-    line-height: 36px;
+.app-logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    line-height: 20px;
+    margin-right: 8px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 55%, #B4235A 100%);
 }
 
-/* Close Button */
+.title-text {
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0;
+    line-height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .btn-close {
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     right: 8px;
-    top: 6px;
-    width: 24px;
-    height: 24px;
+    top: 7px;
+    width: 30px;
+    height: 26px;
     border: none;
     background: none;
     cursor: pointer;
     padding: 0;
     outline: none;
-    border-radius: 50%;
-    transition: background 0.2s ease;
-}
-
-.btn-close:hover {
-    background: var(--color-danger-light);
-}
-
-.btn-close:focus {
-    outline: none;
-    border: none;
+    border-radius: 7px;
 }
 
 .btn-close svg {
-    width: 24px;
-    height: 24px;
+    width: 14px;
+    height: 14px;
+    fill: var(--text-muted);
     pointer-events: none;
 }
 
@@ -90,25 +103,38 @@ body {
     pointer-events: none;
 }
 
-/* Content Section */
+.btn-close:hover {
+    background: #E5484D;
+}
+
+.btn-close:hover svg {
+    fill: #FFFFFF;
+}
+
+.btn-close:focus {
+    outline: none;
+    border: none;
+}
+
+/* ===== Content + cards ===== */
 .content-section {
     flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 10px;
     width: 100%;
-    padding: 12px;
+    padding: 4px 12px 14px 12px;
     box-sizing: border-box;
-    font-size: 14px;
+    font-size: 13px;
     overflow: visible;
 }
 
-/* Settings Card */
 .settings-card {
     background: var(--bg-card);
-    border-radius: 8px;
+    border-radius: 14px;
     box-shadow: inset 0 0 0 1px var(--border-card);
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: 4px 12px;
+    margin-bottom: 0;
     overflow: visible;
     flex-shrink: 0;
 }
@@ -123,40 +149,61 @@ body {
     z-index: 1;
 }
 
-/* Setting Row */
+/* Small uppercase heading inside / above a card */
+.card-title,
+.section-title {
+    padding: 8px 0 6px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--group-title);
+}
+
+/* ===== Rows ===== */
 .setting-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    padding: 4px 0;
-    gap: 8px;
-    min-height: 32px;
+    padding: 6px 0;
+    gap: 10px;
+    min-height: 40px;
 }
 
 .setting-label {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--text-primary);
-    flex-shrink: 1;
-    min-width: 70px;
-    max-width: 90px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
-/* Input Field */
+/* A label sitting directly in a row next to an input lines up with the
+   30 px controls. Stacked labels (title + description) keep their flow. */
+.setting-row > .setting-label {
+    height: 30px;
+    line-height: 30px;
+    align-self: center;
+    flex-shrink: 0;
+    min-width: 70px;
+    max-width: 110px;
+    white-space: nowrap;
+}
+
+/* ===== Inputs ===== */
 .setting-input {
     flex: 1;
     display: inline-block;
     box-sizing: border-box !important;
-    height: 28px !important;
-    min-height: 28px !important;
-    max-height: 28px !important;
-    padding: 0 8px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 0 10px !important;
     font-size: 13px;
-    line-height: 26px !important;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 4px;
+    line-height: 28px !important;
+    box-shadow: none;
+    border: none;
+    border-radius: 8px;
     outline: none !important;
-    background: var(--bg-card-solid);
+    background: var(--bg-hover);
     color: var(--text-primary);
     margin: 0;
     vertical-align: middle;
@@ -164,8 +211,50 @@ body {
 }
 
 .setting-input:focus {
-    box-shadow: inset 0 0 0 1px var(--color-primary);
+    box-shadow: inset 0 0 0 1px var(--color-primary), 0 0 0 2px var(--color-primary-light);
     outline: none !important;
+}
+
+textarea,
+.setting-textarea {
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    box-shadow: none;
+    padding: 8px 10px;
+    outline: none;
+}
+
+textarea:focus,
+.setting-textarea:focus {
+    box-shadow: inset 0 0 0 1px var(--color-primary), 0 0 0 2px var(--color-primary-light);
+}
+
+/* Selects: soft fill, no native border. Sciter draws the caret as a child
+   inside the padding box, so the padding stays symmetric. */
+select {
+    box-sizing: border-box;
+    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 30px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    box-shadow: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    align-self: center;
+}
+
+select:focus {
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+    outline: none;
 }
 
 /* Input Container - for dropdown positioning */
@@ -184,22 +273,22 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
     padding: 0;
-    margin-left: 6px;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 4px;
-    background: var(--bg-card-solid);
+    margin-left: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 8px;
+    background: var(--bg-hover);
     cursor: pointer;
-    transition: all 0.2s ease;
     flex-shrink: 0;
     color: var(--text-muted);
 }
 
 .btn-refresh:hover {
-    background: var(--bg-primary-hover);
-    border-color: var(--color-primary);
+    background: var(--color-primary-light);
     color: var(--color-primary);
 }
 
@@ -208,60 +297,95 @@ body {
     height: 14px;
 }
 
-/* Button Row */
+/* ===== Buttons ===== */
 .button-row {
     display: flex;
-    gap: 6px;
-    padding-top: 6px;
+    gap: 8px;
+    padding: 4px 0 10px 0;
 }
 
 .footer-row {
-    margin-top: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0;
     flex-shrink: 0;
 }
 
-/* Buttons - flexible width */
 .btn-action {
-    flex: 1;
-    padding: 8px 8px;
-    font-size: 12px;
-    font-weight: 400;
-    border-radius: 6px;
+    flex: none;
+    height: 32px;
+    line-height: 18px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
     border: none;
     outline: none;
+    box-shadow: none;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.btn-action:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
 }
 
 .btn-primary {
     background: var(--color-primary);
-    color: white;
+    color: #FFFFFF;
 }
 
 .btn-primary:hover {
     background: var(--color-primary-hover);
+    color: #FFFFFF;
 }
 
 .btn-danger {
-    background: var(--color-danger);
-    color: white;
+    background: rgba(229, 72, 77, 0.14);
+    color: #E5484D;
 }
 
 .btn-danger:hover {
-    background: var(--color-danger-hover);
+    background: #E5484D;
+    color: #FFFFFF;
 }
 
 .btn-secondary {
-    background: transparent;
-    color: var(--color-primary);
-    box-shadow: inset 0 0 0 1px var(--color-primary);
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    box-shadow: none;
 }
 
 .btn-secondary:hover {
-    background: var(--color-primary);
-    color: white;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
 }
+
+/* Footer buttons (Nạp từ file / Xuất ra file / Duyệt .exe) are smaller */
+.footer-row .btn-action {
+    height: 28px;
+    padding: 5px 12px;
+    font-size: 12px;
+}
+
+/* ===== Lists ===== */
+.list-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0 6px 0;
+    border-bottom: 1px solid var(--border-row-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--group-title);
+}
+

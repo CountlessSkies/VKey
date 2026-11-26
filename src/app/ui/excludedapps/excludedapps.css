@@ -47,18 +47,23 @@
 
 /* Per-app mode selector for the entry being added (E / V). */
 .mode-select {
-    width: 186px;
-    height: 28px;
-    line-height: 26px;
-    padding: 0 20px 0 8px;
+    flex: 1;
+    width: *;
+    min-width: 0;
+    height: 32px;
+    min-height: 32px;
+    max-height: 32px;
+    line-height: 32px;
+    padding: 0 10px;
     font-size: 13px;
-    font-weight: 400;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 4px;
-    background: var(--bg-card-solid);
+    font-weight: 500;
+    box-shadow: none;
+    border: none;
+    border-radius: 8px;
+    background: var(--bg-hover);
     color: var(--text-primary);
     cursor: pointer;
-    margin-right: 8px;
+    margin-right: 0;
     vertical-align: middle;
     appearance: none;
     -webkit-appearance: none;
@@ -75,10 +80,8 @@
 }
 
 .settings-card .button-row .btn-action {
-    height: 28px;
-    line-height: 28px;
-    padding: 0 12px;
     vertical-align: middle;
+    padding: 7px 11px;
 }
 
 /* Dropdown color coding */
@@ -148,6 +151,4 @@ body.dark .app-item-mode.mode-v {
 }
 
 .footer-row .btn-action {
-    font-size: 11px;
-    padding: 6px 4px;
 }
