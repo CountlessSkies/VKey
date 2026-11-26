@@ -1544,7 +1544,8 @@ void SettingsDialog::loadSettings() {
 
     // Load UI config
     auto uiConfig = ConfigManager::LoadUIConfigOrDefault();
-    isExpanded_ = uiConfig.showAdvanced;
+    // The advanced panel is always shown (no collapse toggle in the UI any more).
+    isExpanded_ = true;
     backgroundOpacity_ = uiConfig.backgroundOpacity;
     isPinned_ = uiConfig.pinned;
 
