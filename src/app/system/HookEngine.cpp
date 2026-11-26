@@ -1634,6 +1634,17 @@ HookEngine::KeyOutcome HookEngine::RunTopGuards(DWORD vkCode) {
         return KeyOutcome::Pass;
     }
 
+    // 1b''. Remote-control client (RustDesk) — it forwards physical keys but
+    // drops our injected Unicode, so composing here deletes characters on the
+    // remote ("là" → "l"). Pass everything through; the remote machine's IME
+    // composes. The logical V/E mode is untouched.
+    if (isRemoteClientApp_.load(std::memory_order_acquire)) {
+        if (engine_ && engine_->Count() > 0) ResetComposition();
+        otherKeyPressed_ = true;
+        for (int i = 0; i < kModCount; ++i) modTapCount_[i] = 0;
+        return KeyOutcome::Pass;
+    }
+
     // 1c. Excluded app — full passthrough (IME is transparent to this app)
     // Fast PID check: same process → passthrough immediately (no syscall overhead).
     // Different PID → verify with full exe name lookup (only on actual app switch).

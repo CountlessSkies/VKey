@@ -1040,6 +1040,7 @@ set(NEXTKEY_TEST_SOURCES
     tests/PhysicalInputQueueTest.cpp
     tests/PerAppModeDecisionTest.cpp
     tests/GameChatGateDecisionTest.cpp
+    tests/RemoteControlClientDecisionTest.cpp
     tests/WebView2CacheDecisionTest.cpp
     tests/CommitUndoExemptionTest.cpp
     tests/CommitUndoArmDecisionTest.cpp

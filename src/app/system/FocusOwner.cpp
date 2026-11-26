@@ -9,6 +9,7 @@
 #include "core/Debug.h"
 #include "core/FocusTargetDecision.h"
 #include "core/Logger.h"
+#include "core/RemoteControlClientDecision.h"
 #include "core/PerAppModeDecision.h"
 #include "core/WebView2CacheDecision.h"
 
@@ -754,6 +755,12 @@ FocusClassification FocusOwner::Classify(HWND triggerHwnd,
         if (!cls.isExcluded && !cls.isTsf && !ctx.snap->chatGatedAppSet.empty()) {
             cls.isChatGated = ctx.snap->chatGatedAppSet.count(cls.exeName) > 0;
         }
+    }
+    // Built-in, not a user setting: independent of excludeApps / snapshots.
+    if (!cls.exeName.empty()) {
+        cls.isRemoteClient = IsRemoteControlClientExe(cls.exeName);
+    }
+    if (!cls.exeName.empty() && ctx.snap && ctx.cfg) {
         if (!cls.isExcluded && !cls.isTsf && !cls.skipAppTracking) {
             auto itEnc = ctx.snap->appEncodingOverrides.find(cls.exeName);
             if (itEnc != ctx.snap->appEncodingOverrides.end()) {

@@ -86,6 +86,9 @@ struct FocusClassification {
     // Per-app "Vietnamese only inside the app's text boxes" (AppOverrideEntry
     // ::chatOnly). Never set together with isExcluded / isTsf.
     bool isChatGated{false};
+    // Remote-control client window (RustDesk): every key goes to the remote
+    // machine untouched. See core/RemoteControlClientDecision.h.
+    bool isRemoteClient{false};
     bool isElectron{false};
     bool isConsole{false};
     bool isBrowser{false};

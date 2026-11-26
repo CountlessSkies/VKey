@@ -404,6 +404,7 @@ void HookEngine::ApplyFocusOnHookThread(std::shared_ptr<const FocusClassificatio
     isExcludedApp_.store(cls->isExcluded, std::memory_order_release);
     isTsfApp_.store(cls->isTsf, std::memory_order_release);
     isChatGatedApp_.store(cls->isChatGated, std::memory_order_release);
+    isRemoteClientApp_.store(cls->isRemoteClient, std::memory_order_release);
     // Store forced-V cache flag at the SAME site as the others, BEFORE the
     // browser restore and excluded/tsf early-returns below. This also ensures
     // an app hard-V lock wins immediately over a remembered domain mode.
