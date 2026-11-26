@@ -438,6 +438,7 @@ bool HookEngine::Start(HINSTANCE hInstance, const TypingConfig& config,
     // until a chat-gated app takes focus.
     if (!gameTextFocusPoller_) {
         gameTextFocusPoller_ = std::make_unique<GameTextFocusPoller>(isChatGatedApp_, gameTextFocus_);
+        gameTextFocusPoller_->SetPassThroughCallback(gamePassThroughCallback_);
     }
     gameTextFocusPoller_->Start();
 

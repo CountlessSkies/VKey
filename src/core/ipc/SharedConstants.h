@@ -37,6 +37,7 @@ constexpr UINT WM_VKEY_ICON_SETTINGS_CHANGED = WM_USER + 120; // Icon dialog →
 constexpr UINT WM_VKEY_TRAY_APP_SYNC = WM_USER + 121;     // Deferred: consume latest tray app-context snapshot
 constexpr UINT WM_VKEY_LEXICON_COMMITTED = WM_USER + 122; // Lexicon dialog → Main: publish wire, then signal generation
 constexpr UINT WM_VKEY_PARENT_PIN_CHANGED = WM_USER + 123; // Settings → subdialog: re-read parent pin (lParam: Settings HWND)
+constexpr UINT WM_VKEY_TRAY_GAME_SYNC = WM_USER + 124;    // Deferred: tray game indicator (wParam: 1=keys pass straight to a chat-gated game, 0=not)
 
 // Identifies subdialogs without Win32 ownership across process input queues.
 inline constexpr wchar_t VKEY_SUBDIALOG_PARENT_PROP[] = L"VKey.Subdialog.SettingsParent";

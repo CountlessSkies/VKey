@@ -12,3 +12,7 @@
 #define IDI_VIET_OFF_BLACK   107
 // TSF indicator — bold "T", grayscale base recolored to V/E color at runtime
 #define IDI_VIET_TSF         108
+// Game indicator — V + gamepad badge: a chat-gated game is focused and no text box is open
+#define IDI_VIET_GAME        109
+#define IDI_VIET_GAME_WHITE  110
+#define IDI_VIET_GAME_BLACK  111

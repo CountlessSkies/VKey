@@ -184,6 +184,15 @@ public:
         tsfModeCallback_ = std::move(callback);
     }
 
+    /// Game chat gate indicator. Fired from the GameTextFocusPoller thread when
+    /// "a chat-gated app is focused and none of its text boxes is open" (keys
+    /// pass straight to the game) turns on or off. Must only post/marshal.
+    /// Set before Start().
+    using GamePassThroughCallback = std::function<void(bool)>;
+    void SetGamePassThroughCallback(GamePassThroughCallback callback) {
+        gamePassThroughCallback_ = std::move(callback);
+    }
+
     /// Worker-thread callback fired after a current real-app classification.
     /// Args: (exeName, ruleText, isTsf, isRustEngine). Implementations may
     /// allocate because this never runs in the keyboard-hook callback.
@@ -670,6 +679,7 @@ private:
     std::atomic<bool> isChatGatedApp_{false};
     std::atomic<bool> gameTextFocus_{false};
     std::unique_ptr<GameTextFocusPoller> gameTextFocusPoller_;
+    GamePassThroughCallback gamePassThroughCallback_;
     // (tsfAppSet_ removed — see Phase 3d note above)
     // Sprint 1 D5.1: migrated to std::atomic. Writers: ReloadFromToml (main) +
     // OnFocusChanged (main, via WinEventProc). Readers: ProcessKeyDown +

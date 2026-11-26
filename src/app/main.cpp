@@ -594,6 +594,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR lpCmdLine, int) {
         }
     });
 
+    // Game chat gate: show the V + gamepad tray icon while a chat-gated game
+    // owns the keys. Fired on the poller thread, so only post.
+    g_hookEngine.SetGamePassThroughCallback([](bool passThrough) {
+        if (HWND gameTrayWnd = g_trayIcon.GetMessageWindow()) {
+            PostMessageW(gameTrayWnd, WM_VKEY_TRAY_GAME_SYNC, passThrough ? 1 : 0, 0);
+        }
+    });
+
     g_hookEngine.SetFocusAppContextCallback([](
             std::wstring_view exe, std::wstring_view rule,
             bool isTsf, bool isRust) {

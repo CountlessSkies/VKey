@@ -83,6 +83,7 @@ void GameTextFocusPoller::Run() {
     bool last = false;
     bool lastActive = false;
     bool lastFailing = false;
+    bool lastPassThrough = false;
     GameTextFocusFilter filter;
     textFocus_.store(false, std::memory_order_release);
     for (;;) {
@@ -116,10 +117,18 @@ void GameTextFocusPoller::Run() {
             last = focused;
         }
 
+        // Tray indicator: same decision the hook makes, published on change.
+        const bool passThrough = ShouldPassThroughForGameChat(active, focused);
+        if (passThrough != lastPassThrough) {
+            lastPassThrough = passThrough;
+            if (onPassThroughChanged_) onPassThroughChanged_(passThrough);
+        }
+
         std::unique_lock<std::mutex> lock(mutex_);
         const auto wait = std::chrono::milliseconds(active ? kActiveIntervalMs : kIdleIntervalMs);
         if (cv_.wait_for(lock, wait, [this] { return stopRequested_; })) break;
     }
+    if (lastPassThrough && onPassThroughChanged_) onPassThroughChanged_(false);
 }
 
 }  // namespace NextKey

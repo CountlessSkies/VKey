@@ -16,6 +16,7 @@
 
 #include <atomic>
 #include <condition_variable>
+#include <functional>
 #include <mutex>
 #include <thread>
 
@@ -33,6 +34,12 @@ public:
     GameTextFocusPoller(const GameTextFocusPoller&) = delete;
     GameTextFocusPoller& operator=(const GameTextFocusPoller&) = delete;
 
+    /// Called on the poller thread when "chat-gated app focused and no text
+    /// box open" flips. Set before Start(). The callback must only post.
+    void SetPassThroughCallback(std::function<void(bool)> callback) {
+        onPassThroughChanged_ = std::move(callback);
+    }
+
     void Start();
     void Stop();
 
@@ -41,6 +48,7 @@ private:
 
     const std::atomic<bool>& enabled_;
     std::atomic<bool>& textFocus_;
+    std::function<void(bool)> onPassThroughChanged_;
     std::thread thread_;
     std::mutex mutex_;
     std::condition_variable cv_;
