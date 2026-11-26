@@ -84,6 +84,11 @@ struct ConfigSnapshot {
     /// Same lookup as excludedAppSet.
     std::unordered_set<std::wstring> tsfAppSet;
 
+    /// Apps where Vietnamese is active only while one of the app's own text
+    /// boxes has focus (AppOverrideEntry::chatOnly — game chat). Lookup is
+    /// exe-name lowercase. Filled by ConfigSnapshotBuilder after Build().
+    std::unordered_set<std::wstring> chatGatedAppSet;
+
     /// Macro expansions — key is the typed sequence (lowercased), value
     /// is the expanded text. Hook reads on commit-trigger via
     /// `TryExpandMacro`.

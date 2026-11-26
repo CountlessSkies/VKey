@@ -113,6 +113,35 @@ TEST_F(ConfigDurabilityTest, MergeKeepsOtherSections) {
     EXPECT_FALSE(std::filesystem::exists(path_ + L".corrupt"));
 }
 
+TEST_F(ConfigDurabilityTest, AppOverrideChatOnlyRoundTrips) {
+    std::unordered_map<std::wstring, AppOverrideEntry> entries;
+    AppOverrideEntry game;
+    game.chatOnly = true;
+    entries[L"league of legends.exe"] = game;
+    AppOverrideEntry plain;
+    plain.sendMethod = 1;
+    entries[L"notepad.exe"] = plain;
+    ASSERT_TRUE(ConfigManager::SaveAppOverrides(path_, entries));
+
+    auto loaded = ConfigManager::LoadAppOverrides(path_);
+    ASSERT_EQ(loaded.size(), 2u);
+    EXPECT_TRUE(loaded[L"league of legends.exe"].chatOnly);
+    EXPECT_FALSE(loaded[L"notepad.exe"].chatOnly);
+    EXPECT_EQ(loaded[L"notepad.exe"].sendMethod, 1);
+    // Only entries that use the option carry the key.
+    const std::string text = Read(path_);
+    ASSERT_NE(text.find("chat_only"), std::string::npos);
+    EXPECT_EQ(text.find("chat_only"), text.rfind("chat_only"));
+}
+
+TEST_F(ConfigDurabilityTest, AppOverrideWithoutChatOnlyKeyDefaultsOff) {
+    Write(path_, "[app_overrides.'game.exe']\ninput_method = -1\nencoding = -1\nsend_method = 5\n");
+    auto loaded = ConfigManager::LoadAppOverrides(path_);
+    ASSERT_EQ(loaded.count(L"game.exe"), 1u);
+    EXPECT_FALSE(loaded[L"game.exe"].chatOnly);
+    EXPECT_EQ(loaded[L"game.exe"].sendMethod, 5);
+}
+
 TEST_F(ConfigDurabilityTest, CacheNoticesRewriteWithUnchangedTimestamp) {
     ASSERT_TRUE(ConfigManager::SaveToFile(path_, TypingConfig{}));
     ASSERT_TRUE(ConfigManager::LoadFromFile(path_)); // Prime cache.

@@ -1196,6 +1196,7 @@ std::unordered_map<std::wstring, AppOverrideEntry> ConfigManager::LoadAppOverrid
                     e.inputMethod = static_cast<int8_t>((*entry)["input_method"].value_or(-1));
                     e.encodingOverride = static_cast<int8_t>((*entry)["encoding"].value_or(-1));
                     e.sendMethod = static_cast<int8_t>((*entry)["send_method"].value_or(-1));
+                    e.chatOnly = (*entry)["chat_only"].value_or(false);
                     data[Utf8ToWide(std::string(key.str()))] = e;
                 }
             }
@@ -1217,6 +1218,8 @@ bool ConfigManager::SaveAppOverrides(const std::wstring& path,
             entry.insert_or_assign("input_method", static_cast<int64_t>(e.inputMethod));
             entry.insert_or_assign("encoding", static_cast<int64_t>(e.encodingOverride));
             entry.insert_or_assign("send_method", static_cast<int64_t>(e.sendMethod));
+            // Written only when set, so configs without the feature stay unchanged.
+            if (e.chatOnly) entry.insert_or_assign("chat_only", true);
             section.insert_or_assign(WideToUtf8(exe), std::move(entry));
         }
         tbl.insert_or_assign("app_overrides", std::move(section));

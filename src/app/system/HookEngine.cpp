@@ -14,6 +14,7 @@
 #include "core/engine/RustInputEngine.h"
 #endif
 #include "core/config/ConfigManager.h"
+#include "core/GameChatGateDecision.h"
 #include "core/config/ConfigSnapshotBuilder.h"
 #include "core/AutoCapDecision.h"
 #include "core/CjkSwitchDecision.h"
@@ -433,6 +434,13 @@ bool HookEngine::Start(HINSTANCE hInstance, const TypingConfig& config,
     // here makes "idle" measure from launch, not boot. See AdaptiveTick.h.
     lastActivityTickMs_.store(GetTickCount64(), std::memory_order_relaxed);
 
+    // Game chat gate probe. Idles at kIdleIntervalMs and does no syscalls
+    // until a chat-gated app takes focus.
+    if (!gameTextFocusPoller_) {
+        gameTextFocusPoller_ = std::make_unique<GameTextFocusPoller>(isChatGatedApp_, gameTextFocus_);
+    }
+    gameTextFocusPoller_->Start();
+
     NEXTKEY_LOG(L"HookEngine started (method=%d, vietnamese=%d)",
                 static_cast<int>(currentMethod_.load(std::memory_order_acquire)),
                 vietnameseMode_.load(std::memory_order_acquire));
@@ -447,6 +455,7 @@ void HookEngine::Stop() {
     // Phase 1 perf histogram: final flush before we tear down so the
     // last 60s window of samples reaches disk. Idempotent.
     Perf::Histogram::Stop();
+    if (gameTextFocusPoller_) gameTextFocusPoller_->Stop();
     // Wave 3 PR 3.1: HookLifecycle handles thread shutdown + LL hook teardown
     // (unhook MUST happen on the installer thread per MSDN — lifecycle owns
     // that thread). Wave 3 PR 3.2: WinEvent hooks moved to FocusOwner.
@@ -863,6 +872,11 @@ void HookEngine::ReloadFromToml() {
         newTsfApp = false;
     }
     isTsfApp_.store(newTsfApp, std::memory_order_release);
+    // Re-evaluate the game chat gate for the current app (same precedence as
+    // FocusOwner::Classify: excluded / TSF apps are never gated).
+    isChatGatedApp_.store(!newExcluded && !newTsfApp && rcuSnap && !curExe.empty() &&
+                              rcuSnap->chatGatedAppSet.count(curExe) > 0,
+                          std::memory_order_release);
     const bool newEffectiveTsf = ResolveEffectiveTsf(
         newTsfApp, newExcluded, config.tsfApps, browserRoute);
     HOOK_LOG(L"  Engine (config reload): %s for '%s' (tsf_feature=%d, in_tsf_list=%d, excluded=%d)",
@@ -1601,6 +1615,19 @@ HookEngine::KeyOutcome HookEngine::RunTopGuards(DWORD vkCode) {
         // ProcessKeyDown's post-switch bookkeeping must invalidate the
         // modifier-alone window itself, or Ctrl+C here reads as a clean Ctrl
         // release and fires the V/E toggle on key-up.
+        otherKeyPressed_ = true;
+        for (int i = 0; i < kModCount; ++i) modTapCount_[i] = 0;
+        return KeyOutcome::Pass;
+    }
+
+    // 1b'. Game chat gate — the app is chat-gated and none of its text boxes
+    // has focus (the player is fighting): full passthrough, like an excluded
+    // app, so ability keys are never swallowed by Telex. Two atomic loads; the
+    // IME probe runs on gameTextFocusPoller_'s thread. A word left half-typed
+    // when the chat box closed is dropped so it cannot leak into the next one.
+    if (ShouldPassThroughForGameChat(isChatGatedApp_.load(std::memory_order_acquire),
+                                     gameTextFocus_.load(std::memory_order_acquire))) {
+        if (engine_ && engine_->Count() > 0) ResetComposition();
         otherKeyPressed_ = true;
         for (int i = 0; i < kModCount; ++i) modTapCount_[i] = 0;
         return KeyOutcome::Pass;

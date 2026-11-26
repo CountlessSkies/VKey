@@ -19,6 +19,10 @@ struct AppOverrideEntry {
     int8_t inputMethod = -1;       // -1=inherit global, 0=Telex, 1=VNI, 2=SimpleTelex, 3=Combined, 4=UserDefined
     int8_t encodingOverride = -1;  // -1=inherit global, 0-4=CodeTable value
     int8_t sendMethod = -1;        // -1=inherit, 0=SendInput, 1=Clipboard
+    // Vietnamese only while a text box inside the app (game chat, shop search)
+    // has keyboard focus; the rest of the time the hook passes every key
+    // through. See core/GameChatGateDecision.h. TOML key: chat_only.
+    bool chatOnly = false;
 };
 
 /// Manages loading and saving of configuration from TOML file

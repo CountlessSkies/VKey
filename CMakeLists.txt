@@ -596,6 +596,8 @@ add_executable(VKeyApp WIN32
     src/app/system/HookEngine.cpp
     src/app/system/HookEngineCommitUndo.cpp
     src/app/system/HookEngineFocus.cpp
+    src/app/system/GameTextFocusPoller.h
+    src/app/system/GameTextFocusPoller.cpp
     src/app/system/HookLifecycle.h
     src/app/system/HookLifecycle.cpp
     src/app/system/FocusOwner.h
@@ -723,6 +725,8 @@ if(VKEY_LITE_MODE AND WIN32)
         src/app/system/HookEngine.cpp
         src/app/system/HookEngineCommitUndo.cpp
         src/app/system/HookEngineFocus.cpp
+        src/app/system/GameTextFocusPoller.h
+        src/app/system/GameTextFocusPoller.cpp
         src/app/system/HookLifecycle.h
         src/app/system/HookLifecycle.cpp
         src/app/system/FocusOwner.h
@@ -1035,6 +1039,7 @@ set(NEXTKEY_TEST_SOURCES
     tests/InputQueueDecisionTest.cpp
     tests/PhysicalInputQueueTest.cpp
     tests/PerAppModeDecisionTest.cpp
+    tests/GameChatGateDecisionTest.cpp
     tests/WebView2CacheDecisionTest.cpp
     tests/CommitUndoExemptionTest.cpp
     tests/CommitUndoArmDecisionTest.cpp

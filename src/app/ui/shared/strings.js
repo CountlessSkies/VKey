@@ -261,6 +261,13 @@ var STRINGS = {
         "ao.sm_em_replace": "Direct replace (EM_REPLACESEL)",
         "ao.sm_game": "Game mode (hold keys for games)",
         "ao.sm_webview": "WebView App compatible",
+        "ao.preset_title": "Quick add",
+        "ao.preset_lol_desc": "Vietnamese only while typing in chat",
+        "ao.vi_scope": "Vietnamese",
+        "ao.scope_always": "Always on",
+        "ao.scope_chat": "Only in the game's text boxes",
+        "ao.scope_chat_hint": "While playing, VKey stays in E and never eats a key. Opening chat or the shop search switches to V; closing it goes back to E.",
+        "ao.list_scope": "Vietnamese",
 
         // ── User Defined Input dialog ──
         "ud.title": "User-defined Input Method",

@@ -83,6 +83,9 @@ struct FocusClassification {
     bool isExcluded{false};
     bool isForcedVietnamese{false};  // per-app hard-V lock (mutually exclusive with isExcluded)
     bool isTsf{false};
+    // Per-app "Vietnamese only inside the app's text boxes" (AppOverrideEntry
+    // ::chatOnly). Never set together with isExcluded / isTsf.
+    bool isChatGated{false};
     bool isElectron{false};
     bool isConsole{false};
     bool isBrowser{false};

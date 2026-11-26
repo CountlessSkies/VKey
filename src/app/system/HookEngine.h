@@ -19,6 +19,7 @@
 #include "app/system/HookCommandMailbox.h"
 #include "app/system/HookLifecycle.h"
 #include "app/system/FocusOwner.h"
+#include "app/system/GameTextFocusPoller.h"
 #include "app/system/OutputDispatcher.h"
 #include "app/system/CommitState.h"
 #include "app/system/AdaptiveTick.h"
@@ -661,6 +662,14 @@ private:
     // Init false: a toggle before the first focus classify is a benign no-op.
     std::atomic<bool> isForcedVnApp_{false};      // cached: current app is locked to Vietnamese
     std::atomic<DWORD> forcedVnPid_{0};           // PID of forced-V app (toggle-lock stale check)
+    // Per-app "Vietnamese only inside the app's text boxes" (game chat).
+    // isChatGatedApp_: single writer = hook thread (ApplyFocusOnHookThread) and
+    // ReloadFromToml re-evaluation; read by RunTopGuards + the poller.
+    // gameTextFocus_: single writer = gameTextFocusPoller_ thread; read by
+    // RunTopGuards. Both acquire/release, hot path cost = one load each.
+    std::atomic<bool> isChatGatedApp_{false};
+    std::atomic<bool> gameTextFocus_{false};
+    std::unique_ptr<GameTextFocusPoller> gameTextFocusPoller_;
     // (tsfAppSet_ removed — see Phase 3d note above)
     // Sprint 1 D5.1: migrated to std::atomic. Writers: ReloadFromToml (main) +
     // OnFocusChanged (main, via WinEventProc). Readers: ProcessKeyDown +

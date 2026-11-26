@@ -39,7 +39,10 @@ std::shared_ptr<const ConfigSnapshot> BuildFromToml(
     std::unordered_map<std::wstring, CodeTable>    encOv;
     std::unordered_map<std::wstring, InputMethod>  imOv;
     std::unordered_map<std::wstring, std::int8_t>  sendOv;
+    std::unordered_set<std::wstring>               chatGated;
     for (auto& [exe, entry] : overrides) {
+        if (entry.chatOnly)
+            chatGated.insert(exe);
         if (entry.encodingOverride >= 0)
             encOv.emplace(exe, static_cast<CodeTable>(entry.encodingOverride));
         if (entry.inputMethod >= 0)
@@ -74,7 +77,7 @@ std::shared_ptr<const ConfigSnapshot> BuildFromToml(
         macros = ConfigManager::LoadMacros(wPath);
     }
 
-    return std::make_shared<const ConfigSnapshot>(ConfigSnapshot::Build(
+    ConfigSnapshot snap = ConfigSnapshot::Build(
         std::move(macros),
         std::move(excluded),
         std::move(forcedVn),
@@ -82,7 +85,9 @@ std::shared_ptr<const ConfigSnapshot> BuildFromToml(
         std::move(encOv),
         std::move(imOv),
         std::move(sendOv),
-        generation));
+        generation);
+    snap.chatGatedAppSet = std::move(chatGated);
+    return std::make_shared<const ConfigSnapshot>(std::move(snap));
 }
 
 }  // namespace NextKey::ConfigSnapshotBuilder

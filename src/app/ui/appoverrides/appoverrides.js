@@ -7,10 +7,12 @@ document.ready = function () {
     initSubDialog(".app-list");  // blur + dark + scrollbar + i18n
     initRunningAppsDropdown();
     initButtons();
+    initScopeSwitch();
     initEventDelegation();
     requestAnimationFrame(function() {
         requestAnimationFrame(function() {
             isFullyLoaded = true;
+            updatePresetButton();  // after i18n ran, so the label follows the UI language
         });
     });
 };
@@ -157,6 +159,65 @@ function initButtons() {
             triggerAction("pick-window");
         };
     }
+
+    var presetBtn = document.getElementById("btn-preset-lol");
+    if (presetBtn) {
+        presetBtn.onclick = function () {
+            if (presetBtn.classList.contains("done")) return;
+            triggerAction("add-preset-lol");
+        };
+    }
+}
+
+// ===== "Tiếng Việt" scope: always / only inside the game's text boxes =====
+var LOL_EXE = "league of legends.exe";
+var chatOnlyScope = false;
+
+function initScopeSwitch() {
+    document.on("click", "#vi-scope .scope-opt", function (evt, opt) {
+        setScope(opt.getAttribute("data-scope") === "1");
+        return true;
+    });
+    setScope(false);
+}
+
+function setScope(chatOnly) {
+    chatOnlyScope = chatOnly;
+    document.querySelectorAll("#vi-scope .scope-opt").forEach(function (opt) {
+        if ((opt.getAttribute("data-scope") === "1") === chatOnly) opt.classList.add("active");
+        else opt.classList.remove("active");
+    });
+    var hint = document.getElementById("vi-scope-hint");
+    if (hint) hint.style.display = chatOnly ? "block" : "none";
+    // Outside the text boxes VKey already passes every key, so the old
+    // "game mode" send method has nothing left to do: lock it to default.
+    var send = document.getElementById("send-method");
+    var row = document.getElementById("row-send-method");
+    if (send) {
+        if (chatOnly) send.value = "-1";
+        send.state.disabled = chatOnly;
+    }
+    if (row) {
+        if (chatOnly) row.classList.add("disabled");
+        else row.classList.remove("disabled");
+    }
+}
+
+function updatePresetButton() {
+    var btn = document.getElementById("btn-preset-lol");
+    if (!btn) return;
+    var exists = false;
+    document.querySelectorAll("#app-list .app-item").forEach(function (item) {
+        if (item.getAttribute("data-app") === LOL_EXE) exists = true;
+    });
+    var isEn = (typeof getLang === "function" && getLang() === "en");
+    if (exists) {
+        btn.classList.add("done");
+        btn.textContent = isEn ? "✓ Added" : "✓ Đã thêm";
+    } else {
+        btn.classList.remove("done");
+        btn.textContent = isEn ? "+ Add" : "+ Thêm";
+    }
 }
 
 function onAddApp() {
@@ -173,7 +234,8 @@ function onAddApp() {
     document.getElementById("val-app-name").value = appName;
     document.getElementById("val-input-method").value = inputMethod;
     document.getElementById("val-encoding-override").value = encodingOverride;
-    document.getElementById("val-send-method").value = sendMethod;
+    document.getElementById("val-send-method").value = chatOnlyScope ? "-1" : sendMethod;
+    document.getElementById("val-chat-only").value = chatOnlyScope ? "1" : "0";
     triggerAction("add-app");
 }
 
@@ -206,9 +268,10 @@ function triggerAction(action) {
 function clearAppList() {
     var list = document.getElementById("app-list");
     if (list) list.innerHTML = "";
+    updatePresetButton();
 }
 
-function addAppToList(appName, inputMethod, encodingOverride, sendMethod) {
+function addAppToList(appName, inputMethod, encodingOverride, sendMethod, chatOnly) {
     var list = document.getElementById("app-list");
     if (!list) return;
 
@@ -241,8 +304,20 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod) {
     var sendSpan = document.createElement("span");
     sendSpan.className = "app-item-sendmethod";
     var sndKey = (sendMethod === undefined || sendMethod === null) ? "-1" : String(sendMethod);
-    sendSpan.textContent = getSendMethodLabel(sndKey);
+    sendSpan.textContent = chatOnly ? "—" : getSendMethodLabel(sndKey);
     item.appendChild(sendSpan);
+
+    // Vietnamese scope column
+    var isEn = (typeof getLang === "function" && getLang() === "en");
+    var scopeSpan = document.createElement("span");
+    if (chatOnly) {
+        scopeSpan.className = "app-item-scope chat";
+        scopeSpan.textContent = isEn ? "Chat only" : "Chỉ ô chữ";
+    } else {
+        scopeSpan.className = "app-item-scope";
+        scopeSpan.textContent = isEn ? "Always" : "Luôn bật";
+    }
+    item.appendChild(scopeSpan);
 
     // Delete button (uses event delegation, no inline handler)
     var deleteBtn = document.createElement("button");
@@ -251,10 +326,27 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod) {
     item.appendChild(deleteBtn);
 
     list.appendChild(item);
+    updatePresetButton();
 
     if (isFullyLoaded && typeof showToastI18n === "function") {
         showToastI18n("Đã thêm cấu hình cho: " + appName, "Added override for: " + appName);
     }
+}
+
+// Called from C++ right after addAppToList for entries with chat_only = true
+// (Sciter's call_function takes at most four arguments).
+function setAppChatOnly(appName) {
+    var isEn = (typeof getLang === "function" && getLang() === "en");
+    document.querySelectorAll("#app-list .app-item").forEach(function (item) {
+        if (item.getAttribute("data-app") !== appName) return;
+        var send = item.querySelector(".app-item-sendmethod");
+        if (send) send.textContent = "—";
+        var scope = item.querySelector(".app-item-scope");
+        if (scope) {
+            scope.className = "app-item-scope chat";
+            scope.textContent = isEn ? "Chat only" : "Chỉ ô chữ";
+        }
+    });
 }
 
 function removeAppFromList(appName) {
@@ -267,6 +359,7 @@ function removeAppFromList(appName) {
             item.remove();
         }
     });
+    updatePresetButton();
 
     if (isFullyLoaded && typeof showToastI18n === "function") {
         showToastI18n("Đã xóa cấu hình của: " + appName, "Removed override for: " + appName);
@@ -285,6 +378,8 @@ function clearInput() {
 
     var sendSelect = document.getElementById("send-method");
     if (sendSelect) sendSelect.value = "-1";
+
+    setScope(false);
 }
 
 function forceRefresh(scrollToBottom) {

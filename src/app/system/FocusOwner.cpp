@@ -749,6 +749,11 @@ FocusClassification FocusOwner::Classify(HWND triggerHwnd,
         if (!cls.isExcluded && ctx.cfg->tsfApps && !ctx.snap->tsfAppSet.empty()) {
             cls.isTsf = ctx.snap->tsfAppSet.count(cls.exeName) > 0;
         }
+        // Like excluded/TSF this decides whether the hook touches the app at
+        // all, so it is not gated by skipAppTracking either.
+        if (!cls.isExcluded && !cls.isTsf && !ctx.snap->chatGatedAppSet.empty()) {
+            cls.isChatGated = ctx.snap->chatGatedAppSet.count(cls.exeName) > 0;
+        }
         if (!cls.isExcluded && !cls.isTsf && !cls.skipAppTracking) {
             auto itEnc = ctx.snap->appEncodingOverrides.find(cls.exeName);
             if (itEnc != ctx.snap->appEncodingOverrides.end()) {

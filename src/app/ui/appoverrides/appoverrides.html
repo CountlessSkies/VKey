@@ -33,6 +33,20 @@
 
         <!-- Main Content Section -->
         <div class="content-section">
+            <!-- Quick add presets -->
+            <div class="settings-card preset-card">
+                <div class="preset-title" data-i18n="ao.preset_title">Thêm nhanh</div>
+                <div class="preset-row">
+                    <span class="preset-icon">LoL</span>
+                    <div class="preset-text">
+                        <div class="preset-name">League of Legends</div>
+                        <div class="preset-desc" data-i18n="ao.preset_lol_desc">Tiếng Việt chỉ khi đang gõ chat</div>
+                    </div>
+                    <div class="spacer" style="width: *"></div>
+                    <button class="btn-action btn-primary btn-preset" id="btn-preset-lol">+ Thêm</button>
+                </div>
+            </div>
+
             <!-- Input Card -->
             <div class="settings-card input-card">
                 <div class="setting-row">
@@ -55,6 +69,14 @@
                     </button>
                 </div>
                 <div class="setting-row">
+                    <span class="setting-label" data-i18n="ao.vi_scope">Tiếng Việt</span>
+                    <div class="scope-seg" id="vi-scope">
+                        <div class="scope-opt active" data-scope="0" data-i18n="ao.scope_always">Luôn bật</div>
+                        <div class="scope-opt" data-scope="1" data-i18n="ao.scope_chat">Chỉ trong ô chữ của game</div>
+                    </div>
+                </div>
+                <div class="scope-hint" id="vi-scope-hint" data-i18n="ao.scope_chat_hint">Lúc đang chơi VKey ở E, không nuốt phím nào. Mở chat hoặc ô tìm đồ thì tự sang V, đóng lại thì về E.</div>
+                <div class="setting-row">
                     <span class="setting-label" data-i18n="ao.input_method">Kiểu gõ</span>
                     <select class="setting-select" id="input-method">
                         <option value="-1">Mặc định</option>
@@ -75,7 +97,7 @@
                         <option value="4" data-i18n="ct.cp1258">Việt (CP 1258)</option>
                     </select>
                 </div>
-                <div class="setting-row">
+                <div class="setting-row" id="row-send-method">
                     <span class="setting-label" data-i18n="ao.send_method">Kiểu gửi</span>
                     <select class="setting-select" id="send-method">
                         <option value="-1" data-i18n="ao.sm_default">Mặc định</option>
@@ -101,6 +123,7 @@
                     <span class="list-col-inputmethod" data-i18n="ao.list_method">Kiểu gõ</span>
                     <span class="list-col-encoding" data-i18n="ao.list_encoding">Bảng mã</span>
                     <span class="list-col-sendmethod" data-i18n="ao.list_sendmethod">Kiểu gửi</span>
+                    <span class="list-col-scope" data-i18n="ao.list_scope">Tiếng Việt</span>
                     <span class="list-col-action"></span>
                 </div>
                 <div class="app-list" id="app-list">
@@ -115,6 +138,7 @@
         <input type="hidden" id="val-input-method" value="0">
         <input type="hidden" id="val-encoding-override" value="0">
         <input type="hidden" id="val-send-method" value="-1">
+        <input type="hidden" id="val-chat-only" value="0">
     </div>
 </body>
 
