@@ -626,26 +626,6 @@
                                     <input type="hidden" id="val-enable-toast" value="1">
                                 </div>
                             </div>
-
-                            <div class="group-title" data-i18n="g.diagnostics">Chẩn đoán</div>
-                            <div class="group-card">
-                                <div class="setting-row tooltip-up" id="row-debug-log">
-                                    <span class="row-icon ic-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="7" width="8" height="12" rx="4"/><path d="M12 7V4M5 10h3M16 10h3M5 16h3M16 16h3"/></svg></span>
-                                    <span class="setting-label" data-i18n="s.debug_log">Bật debug log</span>
-                                    <span class="info-icon"
-                                        title="Ghi log chi tiết vào file để gửi kèm khi báo lỗi. File log nằm cạnh VKey.exe (VKey_*.log)."
-                                        data-i18n-title="s.debug_log_tooltip"></span>
-                                    <div class="spacer" style="width: *"></div>
-                                    <button class="btn-action" id="btn-open-log-folder"
-                                        data-i18n="s.open_log_folder">Mở thư mục log</button>
-                                    <div class="toggle-switch-small" id="debug-log">
-                                        <span class="toggle-label-i">I</span>
-                                        <span class="toggle-label-o">O</span>
-                                        <div class="toggle-thumb-small"></div>
-                                    </div>
-                                    <input type="hidden" id="val-debug-log" value="0">
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -690,6 +670,21 @@
                                         <div class="update-thumb-white" id="update-toggle-thumb"></div>
                                     </div>
                                     <input type="hidden" id="val-check-update" value="0">
+                                </div>
+                                <div class="setting-row tooltip-up" id="row-debug-log">
+                                    <span class="setting-label" data-i18n="s.debug_log">Bật debug log</span>
+                                    <span class="info-icon"
+                                        title="Ghi log chi tiết vào file để gửi kèm khi báo lỗi. File log nằm cạnh VKey.exe (VKey_*.log)."
+                                        data-i18n-title="s.debug_log_tooltip"></span>
+                                    <div class="spacer" style="width: *"></div>
+                                    <button class="btn-action" id="btn-open-log-folder"
+                                        data-i18n="s.open_log_folder">Mở thư mục log</button>
+                                    <div class="toggle-switch-small" id="debug-log">
+                                        <span class="toggle-label-i">I</span>
+                                        <span class="toggle-label-o">O</span>
+                                        <div class="toggle-thumb-small"></div>
+                                    </div>
+                                    <input type="hidden" id="val-debug-log" value="0">
                                 </div>
                                 <div class="setting-row">
                                     <span class="setting-label" data-i18n="s.report_issue_label">Bạn gặp vấn đề?</span>

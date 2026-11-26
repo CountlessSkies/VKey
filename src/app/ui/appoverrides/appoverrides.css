@@ -1,249 +1,295 @@
-/* App Overrides Dialog Styles - Unified per-app config */
-/* base.css + subdialog.css + dropdown.css loaded via <link> in HTML */
+/* App Overrides Dialog — "Nổi bật" look, matching the Settings window.
+   base.css + subdialog.css + dropdown.css are loaded first; everything here is
+   scoped to body[data-dlg="ao"] so the other sub-dialogs sharing subdialog.css keep their
+   current look. */
 
-/* Content Section override - min-height for dropdown space */
-.content-section {
+/* ===== Window + title bar ===== */
+body[data-dlg="ao"] .container {
+    border-radius: 0;
+}
+
+body[data-dlg="ao"] .title-bar {
+    height: 40px;
+    line-height: 40px;
+    padding: 0 14px;
+    background: transparent;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+}
+
+body[data-dlg="ao"] .app-logo {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 8px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF7A6B 0%, #E5484D 55%, #B4235A 100%);
+}
+
+body[data-dlg="ao"] .title-text {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 40px;
+}
+
+body[data-dlg="ao"] .btn-close {
+    top: 7px;
+    right: 8px;
+    width: 30px;
+    height: 26px;
+    border-radius: 7px;
+}
+
+body[data-dlg="ao"] .btn-close svg {
+    width: 14px;
+    height: 14px;
+    fill: var(--text-muted);
+}
+
+body[data-dlg="ao"] .btn-close:hover {
+    background: #E5484D;
+}
+
+body[data-dlg="ao"] .btn-close:hover svg {
+    fill: #FFFFFF;
+}
+
+/* ===== Layout ===== */
+body[data-dlg="ao"] .content-section {
+    padding: 4px 12px 14px 12px;
+    gap: 10px;
     min-height: 300px;
 }
 
-/* Settings Card override - z-index for dropdown layering */
-.settings-card {
+body[data-dlg="ao"] .settings-card {
     position: relative;
+    margin-bottom: 0;
+    padding: 2px 12px;
+    border-radius: 14px;
+    background: var(--bg-card);
+    box-shadow: inset 0 0 0 1px var(--border-card);
 }
 
-.settings-card.input-card {
+body[data-dlg="ao"] .settings-card.input-card {
     z-index: 200;
 }
 
-/* Setting Row override - z-index for dropdown */
-.setting-row {
-    position: relative;
-    z-index: 10;
+body[data-dlg="ao"] .card-title {
+    padding: 10px 0 6px 0;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--group-title);
 }
 
-.setting-row:first-child {
+/* ===== Rows ===== */
+body[data-dlg="ao"] .setting-row {
+    position: relative;
+    z-index: 10;
+    min-height: 42px;
+    padding: 7px 0;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+body[data-dlg="ao"] .setting-row:first-child {
     z-index: 100;
 }
 
-/* Setting Label override - wider for appoverrides */
-.setting-label {
-    min-width: 90px;
-    max-width: 100px;
+body[data-dlg="ao"] .input-card > .setting-row + .setting-row,
+body[data-dlg="ao"] .input-card > .scope-hint + .setting-row {
+    border-top: 1px solid var(--border-row-light);
 }
 
-/* Input Field override - shorter height for compact layout */
-.setting-input {
-    height: 24px !important;
-    min-height: 24px !important;
-    max-height: 24px !important;
-    line-height: 22px !important;
-}
-
-/* Select Dropdown */
-.setting-select {
-    min-width: 140px;
-    height: 26px;
-    padding: 2px 24px 2px 8px;
+body[data-dlg="ao"] .setting-label {
+    height: 30px;
+    line-height: 30px;
+    align-self: center;
+    width: 92px;
+    min-width: 92px;
+    max-width: 92px;
     font-size: 13px;
-    font-weight: 400;
-    box-shadow: inset 0 0 0 1px var(--border-input);
-    border-radius: 4px;
-    background: var(--bg-card-solid);
-    color: var(--text-primary);
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
-.setting-select:focus {
-    box-shadow: inset 0 0 0 1px var(--color-primary);
-    outline: none;
+body[data-dlg="ao"] .setting-row.disabled {
+    opacity: 0.45;
 }
 
-/* Checkbox Group for clipboard options */
-.checkbox-group {
-    display: flex;
-    gap: 16px;
+/* Text input + refresh */
+body[data-dlg="ao"] .input-container {
     flex: 1;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--text-primary);
-}
-
-.checkbox-item input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    accent-color: var(--color-primary);
-}
-
-.checkbox-item span {
-    user-select: none;
-}
-
-/* Refresh Button override - smaller size */
-.btn-refresh {
-    width: 24px;
-    height: 24px;
-}
-
-/* Input Container override - higher z-index for dropdown */
-.input-container {
     z-index: 1000;
 }
 
-/* List Header - 3 columns */
-.list-header {
-    display: flex;
-    padding: 8px 4px;
-    border-bottom: 1px solid var(--border-medium);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    gap: 8px;
+body[data-dlg="ao"] .setting-input {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    line-height: 28px !important;
+    padding: 0 10px !important;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    box-shadow: none;
 }
 
-.list-col-name {
-    flex: 1;
-    min-width: 0;
-    max-width: 120px;
+body[data-dlg="ao"] .setting-input:focus {
+    box-shadow: inset 0 0 0 1px var(--color-primary), 0 0 0 2px var(--color-primary-light);
 }
 
-.list-col-inputmethod {
-    width: 60px;
-    text-align: center;
+body[data-dlg="ao"] .btn-refresh {
+    width: 30px;
+    height: 30px;
+    margin-left: 0;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    box-shadow: none;
 }
 
-.list-col-encoding {
-    width: 60px;
-    text-align: center;
-}
-
-.list-col-sendmethod {
-    width: 65px;
-    text-align: center;
-}
-
-.list-col-action {
-    width: 32px;
-}
-
-/* App List */
-.app-list {
-    display: block;
-    flex: 1;
-    min-height: 40px;
-    max-height: 200px;
-    overflow: scroll-indicator;
-    vertical-scrollbar: pink-scroll-indicator;
-    padding-right: 10px;
-}
-
-.app-item {
-    display: flex;
-    align-items: center;
-    padding: 6px 4px;
-    min-height: 36px;
-    gap: 8px;
-    border-bottom: 1px solid var(--border-row-light);
-}
-
-.app-item:hover {
-    background: var(--bg-primary-hover);
-}
-
-.app-item-name {
-    flex: 1;
-    min-width: 0;
-    max-width: 120px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: default;
-}
-
-.app-item-inputmethod {
-    width: 60px;
-    font-size: 11px;
-    text-align: center;
-    color: var(--text-secondary);
-}
-
-.app-item-encoding {
-    width: 60px;
-    font-size: 11px;
-    text-align: center;
-    color: var(--text-secondary);
-}
-
-.app-item-sendmethod {
-    width: 65px;
-    font-size: 11px;
-    text-align: center;
-    color: var(--text-secondary);
-}
-
-.list-col-scope,
-.app-item-scope {
-    width: 70px;
-    text-align: center;
-}
-
-.app-item-scope {
-    font-size: 11px;
-    color: var(--text-secondary);
-    white-space: nowrap;
-}
-
-.app-item-scope.chat {
-    color: var(--color-primary);
-    font-weight: 700;
+body[data-dlg="ao"] .btn-refresh:hover {
     background: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+/* Selects: full width, soft fill */
+body[data-dlg="ao"] .setting-select {
+    flex: 1;
+    width: *;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
+    margin: 0;
+    align-self: center;
+    padding: 4px 28px 4px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    background: var(--bg-hover);
+    box-shadow: none;
+    color: var(--text-primary);
+}
+
+body[data-dlg="ao"] .setting-select:focus {
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+/* ===== "Tiếng Việt" scope switch ===== */
+body[data-dlg="ao"] .scope-seg {
+    display: flex;
+    flex: 1;
+    gap: 2px;
+    padding: 3px;
     border-radius: 9px;
-    padding: 2px 6px;
+    background: var(--bg-hover);
+}
+
+body[data-dlg="ao"] .scope-opt {
+    flex: 1;
+    padding: 6px 8px;
+    border-radius: 7px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+body[data-dlg="ao"] .scope-opt:hover {
+    color: var(--text-primary);
+}
+
+body[data-dlg="ao"] .scope-opt.active {
+    color: var(--text-primary);
+    background: var(--bg-card-solid);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18), inset 0 0 0 1px var(--border-card);
+}
+
+body[data-dlg="ao"] .scope-opt.active[data-scope="1"] {
+    color: var(--color-primary);
+}
+
+body[data-dlg="ao"] .scope-hint {
+    display: none;
+    margin: -2px 0 0 0;
+    padding: 0 0 10px 102px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+/* ===== Buttons ===== */
+body[data-dlg="ao"] .button-row {
+    display: flex;
+    gap: 8px;
+    padding: 4px 0 12px 0;
+}
+
+body[data-dlg="ao"] .btn-action {
+    flex: none;
+    height: 32px;
+    line-height: 18px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    box-shadow: none;
+}
+
+body[data-dlg="ao"] .btn-primary {
+    background: var(--color-primary);
+    color: #FFFFFF;
+}
+
+body[data-dlg="ao"] .btn-primary:hover {
+    background: var(--color-primary-hover);
+}
+
+body[data-dlg="ao"] .btn-secondary {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    box-shadow: none;
+}
+
+body[data-dlg="ao"] .btn-secondary:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
 }
 
 /* ===== Quick add presets ===== */
-.preset-card {
-    padding: 8px 10px;
+body[data-dlg="ao"] .preset-card {
+    padding: 0 12px 10px 12px;
 }
 
-.preset-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-}
-
-.preset-row {
+body[data-dlg="ao"] .preset-row {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
-.preset-row .spacer {
+body[data-dlg="ao"] .preset-row .spacer {
     flex: 1;
 }
 
-.preset-icon {
+body[data-dlg="ao"] .preset-icon {
     display: block;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    margin-right: 10px;
-    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 9px;
     text-align: center;
-    vertical-align: middle;
     font-size: 11px;
     font-weight: 800;
     color: #F2D48A;
@@ -251,100 +297,160 @@
     box-shadow: inset 0 0 0 1.5px #C8AA6E;
 }
 
-.preset-text {
+body[data-dlg="ao"] .preset-text {
     display: flex;
     flex-direction: column;
 }
 
-.preset-name {
+body[data-dlg="ao"] .preset-name {
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-primary);
 }
 
-.preset-desc {
-    font-size: 11.5px;
-    color: var(--text-secondary);
+body[data-dlg="ao"] .preset-desc {
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
-.btn-preset {
-    vertical-align: middle;
-    white-space: nowrap;
+body[data-dlg="ao"] .btn-preset {
+    height: 28px;
+    padding: 5px 12px;
 }
 
-.btn-preset.done,
-.btn-preset.done:hover {
-    background: transparent;
-    color: var(--text-secondary);
-    border-color: var(--border-medium);
+body[data-dlg="ao"] .btn-preset.done,
+body[data-dlg="ao"] .btn-preset.done:hover {
+    background: var(--bg-hover);
+    color: #12A150;
     cursor: default;
 }
 
-/* ===== "Tiếng Việt" scope switch ===== */
-.scope-seg {
-    display: flex;
-    flex: 1;
-    gap: 2px;
-    padding: 2px;
-    border-radius: 7px;
-    background: var(--bg-hover);
+/* ===== List ===== */
+body[data-dlg="ao"] .list-card {
+    padding: 0 12px 4px 12px;
 }
 
-.scope-opt {
+body[data-dlg="ao"] .list-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0 6px 0;
+    border-bottom: 1px solid var(--border-row-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--group-title);
+}
+
+body[data-dlg="ao"] .app-list {
+    display: block;
     flex: 1;
-    padding: 4px 6px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 12px;
+    min-height: 40px;
+    max-height: 200px;
+    overflow: scroll-indicator;
+    vertical-scrollbar: pink-scroll-indicator;
+    padding-right: 4px;
+}
+
+body[data-dlg="ao"] .app-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-row-light);
+}
+
+body[data-dlg="ao"] .app-item:last-child {
+    border-bottom: none;
+}
+
+body[data-dlg="ao"] .app-item:hover {
+    background: transparent;
+}
+
+/* Columns (header and rows share widths) */
+body[data-dlg="ao"] .list-col-name,
+body[data-dlg="ao"] .app-item-name {
+    flex: 1;
+    min-width: 0;
+}
+
+body[data-dlg="ao"] .list-col-inputmethod,
+body[data-dlg="ao"] .app-item-inputmethod,
+body[data-dlg="ao"] .list-col-encoding,
+body[data-dlg="ao"] .app-item-encoding {
+    width: 66px;
+}
+
+body[data-dlg="ao"] .list-col-sendmethod,
+body[data-dlg="ao"] .app-item-sendmethod {
+    width: 70px;
+}
+
+body[data-dlg="ao"] .list-col-scope,
+body[data-dlg="ao"] .app-item-scope {
+    width: 78px;
+}
+
+body[data-dlg="ao"] .list-col-action,
+body[data-dlg="ao"] .app-item-delete {
+    width: 22px;
+}
+
+body[data-dlg="ao"] .app-item-name {
+    font-size: 12.5px;
     font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+}
+
+body[data-dlg="ao"] .app-item-inputmethod,
+body[data-dlg="ao"] .app-item-encoding,
+body[data-dlg="ao"] .app-item-sendmethod {
+    font-size: 12px;
     color: var(--text-secondary);
-    cursor: pointer;
     white-space: nowrap;
 }
 
-.scope-opt:hover {
-    color: var(--text-primary);
+body[data-dlg="ao"] .app-item > span {
+    line-height: 20px;
+    align-self: center;
 }
 
-.scope-opt.active {
-    color: var(--text-primary);
-    background: var(--bg-card-solid);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 0 0 1px var(--border-card);
+body[data-dlg="ao"] .app-item-scope {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
 }
 
-.scope-opt.active[data-scope="1"] {
+body[data-dlg="ao"] .app-item-scope.chat {
+    padding: 2px 0;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
     color: var(--color-primary);
+    background: var(--color-primary-light);
 }
 
-.scope-hint {
-    display: none;
-    margin: 0 0 6px 98px;
-    font-size: 11.5px;
-    line-height: 1.45;
-    color: var(--text-secondary);
-}
-
-.setting-row.disabled {
-    opacity: 0.45;
-}
-
-.app-item-delete {
-    width: 24px;
-    height: 24px;
+body[data-dlg="ao"] .app-item-delete {
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: 4px;
-    color: var(--color-danger);
-    font-size: 14px;
-    opacity: 0.7;
-    transition: all 0.15s ease;
+    border-radius: 6px;
+    color: var(--text-muted);
+    font-size: 15px;
 }
 
-.app-item-delete:hover {
-    background: var(--color-danger-light);
-    opacity: 1;
+body[data-dlg="ao"] .app-item-delete:hover {
+    color: #E5484D;
+    background: rgba(229, 72, 77, 0.12);
 }

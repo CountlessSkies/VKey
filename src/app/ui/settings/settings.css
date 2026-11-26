@@ -433,6 +433,14 @@
     margin-left: 8px;
 }
 
+/* Every child of a horizontal row must opt into middle alignment in Sciter's
+   flow:horizontal, otherwise it sits on the top edge of the line box. */
+.setting-row > .btn-action,
+.setting-row > select,
+.setting-row > .slider-container {
+    vertical-align: middle;
+}
+
 /* ============================================
    SWITCH KEY: keycaps
    ============================================ */
