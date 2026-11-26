@@ -19,8 +19,8 @@ namespace NextKey {
 
 namespace {
 
-constexpr int kBaseHeight = 356;
-constexpr int kCustomColorsHeight = 416;
+constexpr int kBaseHeight = 349;
+constexpr int kCustomColorsHeight = 409;
 
 SubDialogConfig MakeIconSettingsConfig(HWND parent) {
     const SystemConfig config = ConfigManager::LoadSystemConfigOrDefault();

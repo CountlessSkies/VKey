@@ -1,5 +1,6 @@
 .content-section {
-    padding: 14px 16px 16px;
+    padding: 4px 16px 16px;
+    gap: 0;  /* this dialog spaces its blocks with margins */
 }
 
 .dialog-description {
@@ -34,6 +35,7 @@
 
 .setting-copy {
     display: block;
+    align-self: center;
     width: *;
     padding-right: 12px;
 }
@@ -66,10 +68,13 @@
     font-size: 12px;
 }
 
-.setting-dropdown:focus,
+.setting-dropdown:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
 .toggle-switch-small:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--color-primary);
 }
 
 .custom-color-row {

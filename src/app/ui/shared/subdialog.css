@@ -304,11 +304,15 @@ select:focus {
     padding: 4px 0 10px 0;
 }
 
-.footer-row {
+/* Footer row sits on the window's bottom padding; it often also carries
+   .button-row, whose bottom padding would double the gap. */
+.footer-row,
+.button-row.footer-row {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin-top: 0;
+    padding: 0;
     flex-shrink: 0;
 }
 
@@ -389,3 +393,34 @@ select:focus {
     color: var(--group-title);
 }
 
+
+/* ===== Checkbox: drawn by us so it follows the theme instead of the
+   Windows accent colour (Sciter's stock checkbox uses the system accent) ===== */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border-radius: 4px;
+    background-color: var(--bg-hover);
+    background-image: none;
+    box-shadow: inset 0 0 0 1.5px var(--toggle-off-bg);
+    foreground-image: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:hover {
+    box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--color-primary);
+    box-shadow: none;
+    foreground-image: icon(0 0 24 24; M9.55 18.2 3.8 12.45 5.4 10.85 9.55 15 18.6 5.95 20.2 7.55Z);
+    foreground-repeat: no-repeat;
+    foreground-position: 50% 50%;
+    foreground-size: 12px 12px;
+    fill: #FFFFFF;
+}

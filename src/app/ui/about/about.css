@@ -153,9 +153,11 @@ body {
     transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
+/* Sciter focuses the first button on open; a heavy ring there looked like
+   a stuck state. Keyboard focus stays visible through the subtle inset. */
 .btn-about:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 .btn-primary {

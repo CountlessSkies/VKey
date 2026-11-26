@@ -4,7 +4,7 @@
 /* Content Section override - Sciter flow: vertical, fills remaining height */
 .content-section {
     flow: vertical;
-    padding: 10px;
+    padding: 4px 12px 14px 12px;
     height: *;
     overflow: hidden;
 }
@@ -47,6 +47,7 @@
 .settings-card.search-card {
     padding: 6px 10px;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .search-input-wrapper {
@@ -118,7 +119,13 @@
     overflow: hidden;
 }
 
-/* Footer row override */
+/* Footer row override: this column is a Sciter flow (no gap), so the
+   footer carries its own top spacing; .button-row.footer-row beats the
+   shared padding/margin reset. */
+.button-row.footer-row {
+    margin-top: 10px;
+}
+
 .footer-row {
     flow: horizontal;
     border-spacing: 6px;

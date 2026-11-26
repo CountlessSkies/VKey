@@ -33,9 +33,7 @@
     font-weight: 600;
     color: var(--text-primary);
     font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
     width: *;
     vertical-align: middle;
     line-height: 20px;
@@ -73,4 +71,4 @@
 .btn-add-trigger { font-size: 12px; padding: 4px 10px; }
 
 /* Capture overlay styles moved to shared/hotkey-capture.css (Step 5). */
-.footer-row { margin-top: 10px; }
+.footer-row { margin-top: 0; }
