@@ -268,30 +268,11 @@ void TrayIcon::RefreshIcon() noexcept {
 
     HICON newIcon = nullptr;
 
-    // Game indicator: V + gamepad badge while a chat-gated game owns the keys
-    // (no text box open). Only in V mode — in E mode the plain E is already
-    // the truth everywhere. Follows the chosen icon style.
+    // Game indicator while a chat-gated game owns the keys (no text box open):
+    // a solid purple V in every icon style, so it never reads as the normal
+    // V/E. Only in V mode — in E mode the plain E is already the truth.
     if (gamePassThrough_ && vietnameseMode_) {
-        int gameIcon = IDI_VIET_GAME;
-        switch (static_cast<IconStyle>(iconStyle_)) {
-            case IconStyle::Dark:  gameIcon = IDI_VIET_GAME_WHITE; break;
-            case IconStyle::Light: gameIcon = IDI_VIET_GAME_BLACK; break;
-            case IconStyle::Auto:
-                gameIcon = DarkModeHelper::IsTaskbarDark() ? IDI_VIET_GAME_WHITE : IDI_VIET_GAME_BLACK;
-                break;
-            case IconStyle::Custom: {
-                const COLORREF color = static_cast<COLORREF>(
-                    customColorV_ != 0 ? customColorV_ : DEFAULT_ICON_COLOR_V);
-                if (HICON tinted = CreateColorizedIcon(IDI_VIET_GAME, color)) {
-                    customIcon_ = tinted;
-                    nid_.hIcon = tinted;
-                    return;
-                }
-                break;
-            }
-            default: break;
-        }
-        if (HICON icon = LoadIconW(hInstance, MAKEINTRESOURCEW(gameIcon))) {
+        if (HICON icon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_VIET_GAME))) {
             nid_.hIcon = icon;
             return;
         }

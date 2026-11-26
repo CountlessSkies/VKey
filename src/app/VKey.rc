@@ -14,8 +14,6 @@
 #define IDI_VIET_OFF_BLACK   107
 #define IDI_VIET_TSF         108
 #define IDI_VIET_GAME        109
-#define IDI_VIET_GAME_WHITE  110
-#define IDI_VIET_GAME_BLACK  111
 
 // Icons — Color (default)
 IDI_APP              ICON    "resources/icon.ico"
@@ -29,10 +27,8 @@ IDI_VIET_ON_BLACK    ICON    "resources/status/StatusVietBlack.ico"
 IDI_VIET_OFF_BLACK   ICON    "resources/status/StatusEngBlack.ico"
 // Icon — TSF indicator (grayscale "T", recolored to V/E color at runtime)
 IDI_VIET_TSF         ICON    "resources/status/StatusTsf.ico"
-// Icons — game indicator (V + gamepad badge), color / white / black
+// Icons — game indicator: solid purple V (all icon styles)
 IDI_VIET_GAME        ICON    "resources/status/StatusVietGame.ico"
-IDI_VIET_GAME_WHITE  ICON    "resources/status/StatusVietGame10.ico"
-IDI_VIET_GAME_BLACK  ICON    "resources/status/StatusVietGameBlack.ico"
 
 // Version Information
 VS_VERSION_INFO VERSIONINFO

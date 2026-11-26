@@ -594,7 +594,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR lpCmdLine, int) {
         }
     });
 
-    // Game chat gate: show the V + gamepad tray icon while a chat-gated game
+    // Game chat gate: show the game tray icon while a chat-gated game
     // owns the keys. Fired on the poller thread, so only post.
     g_hookEngine.SetGamePassThroughCallback([](bool passThrough) {
         if (HWND gameTrayWnd = g_trayIcon.GetMessageWindow()) {

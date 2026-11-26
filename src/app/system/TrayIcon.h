@@ -102,7 +102,7 @@ public:
     /// (red=Vietnamese, blue=English) regardless of the chosen icon style.
     void SetTsfActive(bool active) noexcept;
     /// A chat-gated game is focused and none of its text boxes is open: keys go
-    /// straight to the game. Shows the V + gamepad icon while in V mode.
+    /// straight to the game. Shows the purple V icon in V mode.
     void SetGamePassThrough(bool active) noexcept;
 
     /// Publish app context from the focus worker. The latest immutable
@@ -170,7 +170,7 @@ private:
     NOTIFYICONDATAW nid_ = {};
     bool vietnameseMode_ = true;
     bool tsfActive_ = false;             // Focused app is a TSF app → show colored "T"
-    bool gamePassThrough_ = false;       // Chat-gated game, no text box open → V + gamepad
+    bool gamePassThrough_ = false;       // Chat-gated game, no text box open → purple V
     bool pendingClickToggle_ = false;    // Waiting for double-click before executing single-click toggle
     bool ignoreNextLButtonUp_ = false;   // Suppress WM_LBUTTONUP after WM_LBUTTONDBLCLK
     MenuCallback menuCallback_;
