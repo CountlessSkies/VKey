@@ -594,11 +594,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR lpCmdLine, int) {
         }
     });
 
-    // Game chat gate: show the game tray icon while a chat-gated game
-    // owns the keys. Fired on the poller thread, so only post.
-    g_hookEngine.SetGamePassThroughCallback([](bool passThrough) {
+    // Game chat gate: game tray icon while a chat-gated game owns the keys,
+    // V while its text box is forced to Vietnamese. Fired on the poller
+    // thread, so only post.
+    g_hookEngine.SetGameTrayCallback([](NextKey::GameTrayState state) {
         if (HWND gameTrayWnd = g_trayIcon.GetMessageWindow()) {
-            PostMessageW(gameTrayWnd, WM_VKEY_TRAY_GAME_SYNC, passThrough ? 1 : 0, 0);
+            PostMessageW(gameTrayWnd, WM_VKEY_TRAY_GAME_SYNC, static_cast<WPARAM>(state), 0);
         }
     });
 

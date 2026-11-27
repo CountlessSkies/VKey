@@ -14,6 +14,7 @@
 #include "core/AutoCapStateTransition.h"
 #include "core/DorionHookReclaimPolicy.h"
 #include "core/FocusApplyDecision.h"
+#include "core/GameChatGateDecision.h"
 #include "core/SmartSwitchManager.h"
 #include "core/ipc/BrowserContextManager.h"
 #include "app/system/HookCommandMailbox.h"
@@ -185,12 +186,12 @@ public:
     }
 
     /// Game chat gate indicator. Fired from the GameTextFocusPoller thread when
-    /// "a chat-gated app is focused and none of its text boxes is open" (keys
-    /// pass straight to the game) turns on or off. Must only post/marshal.
+    /// the tray state of a chat-gated app changes (keys pass straight to the
+    /// game / text box forced to Vietnamese / normal). Must only post/marshal.
     /// Set before Start().
-    using GamePassThroughCallback = std::function<void(bool)>;
-    void SetGamePassThroughCallback(GamePassThroughCallback callback) {
-        gamePassThroughCallback_ = std::move(callback);
+    using GameTrayCallback = std::function<void(GameTrayState)>;
+    void SetGameTrayCallback(GameTrayCallback callback) {
+        gameTrayCallback_ = std::move(callback);
     }
 
     /// Worker-thread callback fired after a current real-app classification.
@@ -678,8 +679,11 @@ private:
     // RunTopGuards. Both acquire/release, hot path cost = one load each.
     std::atomic<bool> isChatGatedApp_{false};
     std::atomic<bool> gameTextFocus_{false};
+    // isChatGatedApp_ and its text boxes always type Vietnamese. Same writers
+    // as isChatGatedApp_; read by KeyPathVietnameseMode() and the poller.
+    std::atomic<bool> chatAlwaysVietnamese_{false};
     std::unique_ptr<GameTextFocusPoller> gameTextFocusPoller_;
-    GamePassThroughCallback gamePassThroughCallback_;
+    GameTrayCallback gameTrayCallback_;
     // (tsfAppSet_ removed — see Phase 3d note above)
     // Sprint 1 D5.1: migrated to std::atomic. Writers: ReloadFromToml (main) +
     // OnFocusChanged (main, via WinEventProc). Readers: ProcessKeyDown +
@@ -886,6 +890,14 @@ private:
     void ApplyFocusOnHookThread(std::shared_ptr<const FocusClassification> cls);
     void RefreshBrowserRouteOnHookThread(bool forceRead, bool notifyCallback);
     [[nodiscard]] bool IsEffectiveTsf() const noexcept;
+    // V/E the typing path runs with: the user's mode, or V inside a game text
+    // box set to always type Vietnamese (core/GameChatGateDecision.h).
+    [[nodiscard]] bool KeyPathVietnameseMode() const noexcept {
+        return EffectiveVietnameseMode(vietnameseMode_.load(std::memory_order_acquire),
+                                       isChatGatedApp_.load(std::memory_order_acquire),
+                                       gameTextFocus_.load(std::memory_order_acquire),
+                                       chatAlwaysVietnamese_.load(std::memory_order_acquire));
+    }
     void ApplyConfigOnHookThread();
     void ApplyTickPollOnHookThread();
     void ApplyToggleVNOnHookThread();

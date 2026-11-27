@@ -266,7 +266,9 @@ var STRINGS = {
         "ao.vi_scope": "Vietnamese",
         "ao.scope_always": "Always on",
         "ao.scope_chat": "Only in the game's text boxes",
-        "ao.scope_chat_hint": "While playing, VKey stays in E and never eats a key. Opening chat or the shop search switches to V; closing it goes back to E.",
+        "ao.scope_chat_hint": "While playing, VKey stays out of the way and never eats a key. Chat and the shop search type in the current V/E mode.",
+        "ao.chat_always_vi": "Text boxes always type Vietnamese",
+        "ao.chat_always_vi_desc": "Even in E mode. Closing chat goes back to normal.",
         "ao.list_scope": "Vietnamese",
 
         // ── User Defined Input dialog ──

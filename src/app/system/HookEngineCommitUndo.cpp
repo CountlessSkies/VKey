@@ -541,7 +541,7 @@ bool HookEngine::ReplayCommittedChars(bool preferVisibleText) {
 NextKey::Pipeline::CommitUndoOutcome HookEngine::HandleCommitUndo(
     std::uint16_t vkCode,
     bool shift, bool capsLock, bool ctrl, bool alt, bool win) {
-    const bool vnMode = vietnameseMode_.load(std::memory_order_acquire);
+    const bool vnMode = KeyPathVietnameseMode();
     const KeyOutcome out =
         HandleCommitUndoFsm(static_cast<DWORD>(vkCode), vnMode,
                             shift, capsLock, ctrl, alt, win);

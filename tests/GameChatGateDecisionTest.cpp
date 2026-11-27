@@ -7,6 +7,10 @@
 
 using NextKey::DecodeGameTextFocus;
 using NextKey::ShouldPassThroughForGameChat;
+using NextKey::IsVietnameseForcedByGameChat;
+using NextKey::EffectiveVietnameseMode;
+using NextKey::DecideGameTrayState;
+using NextKey::GameTrayState;
 
 // --- DecodeGameTextFocus -----------------------------------------------------
 
@@ -123,4 +127,33 @@ TEST(GameChatGateDecision, RecordedLeagueSequence) {
         EXPECT_EQ(ShouldPassThroughForGameChat(true, focused), s.expectPass)
             << "conv=" << s.conv;
     }
+}
+
+// --- chat_always_vi overlay -------------------------------------------------
+
+TEST(GameChatGateDecision, AlwaysVietnameseOnlyInsideTextBox) {
+    EXPECT_TRUE(IsVietnameseForcedByGameChat(true, true, true));
+    EXPECT_FALSE(IsVietnameseForcedByGameChat(true, false, true));   // fighting
+    EXPECT_FALSE(IsVietnameseForcedByGameChat(true, true, false));   // option off
+    EXPECT_FALSE(IsVietnameseForcedByGameChat(false, true, true));   // not a gated app
+}
+
+TEST(GameChatGateDecision, EffectiveModeFollowsUserOutsideChat) {
+    // E mode, option on: V only while the chat box has focus.
+    EXPECT_TRUE(EffectiveVietnameseMode(false, true, true, true));
+    EXPECT_FALSE(EffectiveVietnameseMode(false, true, false, true));
+    // E mode, option off: chat types English.
+    EXPECT_FALSE(EffectiveVietnameseMode(false, true, true, false));
+    // V mode is never turned off by the overlay.
+    EXPECT_TRUE(EffectiveVietnameseMode(true, true, true, false));
+    EXPECT_TRUE(EffectiveVietnameseMode(true, false, false, false));
+    // Other apps: user's mode.
+    EXPECT_FALSE(EffectiveVietnameseMode(false, false, true, true));
+}
+
+TEST(GameChatGateDecision, TrayState) {
+    EXPECT_EQ(DecideGameTrayState(false, false, true), GameTrayState::Normal);
+    EXPECT_EQ(DecideGameTrayState(true, false, true), GameTrayState::PassThrough);
+    EXPECT_EQ(DecideGameTrayState(true, true, true), GameTrayState::ChatVietnamese);
+    EXPECT_EQ(DecideGameTrayState(true, true, false), GameTrayState::Normal);
 }

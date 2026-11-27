@@ -13,7 +13,7 @@ AppOverridesDialog::AppOverridesDialog(HWND parent)
     : WindowPickerDialog({
         L"this://app/appoverrides/appoverrides.html",
         L"VKey - App Overrides",
-        480, 600, parent, false, 36, 40, true
+        480, 650, parent, false, 36, 40, true
     }) {
     entries_ = ConfigManager::LoadAppOverrides(ConfigManager::GetConfigPath());
     populateList();
@@ -64,11 +64,12 @@ bool AppOverridesDialog::handle_event(HELEMENT he, BEHAVIOR_EVENT_PARAMS& params
                         int8_t mth = static_cast<int8_t>(readInt("#val-input-method", -1));
                         int8_t snd = static_cast<int8_t>(readInt("#val-send-method", -1));
                         const bool chatOnly = readInt("#val-chat-only", 0) == 1;
-                        addEntry(appName, enc, mth, chatOnly ? int8_t{-1} : snd, chatOnly);
+                        const bool alwaysVi = chatOnly && readInt("#val-chat-always-vi", 0) == 1;
+                        addEntry(appName, enc, mth, chatOnly ? int8_t{-1} : snd, chatOnly, alwaysVi);
                     }
                 } else if (action == L"add-preset-lol") {
                     // League of Legends: Vietnamese only while chat / shop search has focus.
-                    addEntry(L"League of Legends.exe", -1, -1, -1, true);
+                    addEntry(L"League of Legends.exe", -1, -1, -1, true, false);
                 } else if (action == L"delete-app") {
                     if (!appName.empty()) {
                         removeEntry(appName);
@@ -111,20 +112,22 @@ void AppOverridesDialog::populateList() {
             sciter::value(static_cast<int>(entry.encodingOverride)),
             sciter::value(static_cast<int>(entry.sendMethod)));
         if (entry.chatOnly) {
-            call_function("setAppChatOnly", sciter::value(name.c_str()));
+            call_function("setAppChatOnly", sciter::value(name.c_str()),
+                          sciter::value(entry.chatAlwaysVietnamese));
         }
     }
     call_function("forceRefresh");
 }
 
 void AppOverridesDialog::addEntry(const std::wstring& name, int8_t encoding, int8_t inputMethod,
-                                  int8_t sendMethod, bool chatOnly) {
+                                  int8_t sendMethod, bool chatOnly, bool chatAlwaysVietnamese) {
     std::wstring lower = ToLowerAscii(name);
     AppOverrideEntry entry;
     entry.encodingOverride = encoding;
     entry.inputMethod = inputMethod;
     entry.sendMethod = sendMethod;
     entry.chatOnly = chatOnly;
+    entry.chatAlwaysVietnamese = chatOnly && chatAlwaysVietnamese;
 
     bool isUpdate = (entries_.find(lower) != entries_.end());
     entries_[lower] = entry;
@@ -138,7 +141,8 @@ void AppOverridesDialog::addEntry(const std::wstring& name, int8_t encoding, int
         sciter::value(static_cast<int>(encoding)),
         sciter::value(static_cast<int>(sendMethod)));
     if (chatOnly) {
-        call_function("setAppChatOnly", sciter::value(lower.c_str()));
+        call_function("setAppChatOnly", sciter::value(lower.c_str()),
+                      sciter::value(entry.chatAlwaysVietnamese));
     }
     call_function("clearInput");
     call_function("forceRefresh", sciter::value(true));

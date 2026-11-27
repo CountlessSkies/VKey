@@ -172,13 +172,35 @@ function initButtons() {
 // ===== "Tiếng Việt" scope: always / only inside the game's text boxes =====
 var LOL_EXE = "league of legends.exe";
 var chatOnlyScope = false;
+var chatAlwaysVi = false;
 
 function initScopeSwitch() {
     document.on("click", "#vi-scope .scope-opt", function (evt, opt) {
         setScope(opt.getAttribute("data-scope") === "1");
         return true;
     });
+    document.on("click", "#toggle-chat-always-vi", function () {
+        if (!chatOnlyScope) return true;
+        setChatAlwaysVi(!chatAlwaysVi);
+        return true;
+    });
     setScope(false);
+}
+
+function setChatAlwaysVi(on) {
+    chatAlwaysVi = on;
+    var t = document.getElementById("toggle-chat-always-vi");
+    if (t) {
+        if (on) t.classList.add("checked");
+        else t.classList.remove("checked");
+    }
+}
+
+function scopeLabel(chatOnly, alwaysVi) {
+    var isEn = (typeof getLang === "function" && getLang() === "en");
+    if (!chatOnly) return isEn ? "Always" : "Luôn bật";
+    if (alwaysVi) return isEn ? "Chat · always V" : "Ô chữ · luôn V";
+    return isEn ? "Chat only" : "Chỉ ô chữ";
 }
 
 function setScope(chatOnly) {
@@ -189,6 +211,12 @@ function setScope(chatOnly) {
     });
     var hint = document.getElementById("vi-scope-hint");
     if (hint) hint.style.display = chatOnly ? "block" : "none";
+    // The sub-option only means something inside the game's text boxes.
+    var viRow = document.getElementById("row-chat-always-vi");
+    if (viRow) {
+        if (chatOnly) viRow.classList.remove("disabled");
+        else viRow.classList.add("disabled");
+    }
     // Outside the text boxes VKey already passes every key, so the old
     // "game mode" send method has nothing left to do: lock it to default.
     var send = document.getElementById("send-method");
@@ -236,6 +264,7 @@ function onAddApp() {
     document.getElementById("val-encoding-override").value = encodingOverride;
     document.getElementById("val-send-method").value = chatOnlyScope ? "-1" : sendMethod;
     document.getElementById("val-chat-only").value = chatOnlyScope ? "1" : "0";
+    document.getElementById("val-chat-always-vi").value = (chatOnlyScope && chatAlwaysVi) ? "1" : "0";
     triggerAction("add-app");
 }
 
@@ -308,15 +337,9 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod, chatOn
     item.appendChild(sendSpan);
 
     // Vietnamese scope column
-    var isEn = (typeof getLang === "function" && getLang() === "en");
     var scopeSpan = document.createElement("span");
-    if (chatOnly) {
-        scopeSpan.className = "app-item-scope chat";
-        scopeSpan.textContent = isEn ? "Chat only" : "Chỉ ô chữ";
-    } else {
-        scopeSpan.className = "app-item-scope";
-        scopeSpan.textContent = isEn ? "Always" : "Luôn bật";
-    }
+    scopeSpan.className = chatOnly ? "app-item-scope chat" : "app-item-scope";
+    scopeSpan.textContent = scopeLabel(!!chatOnly, false);
     item.appendChild(scopeSpan);
 
     // Delete button (uses event delegation, no inline handler)
@@ -335,8 +358,7 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod, chatOn
 
 // Called from C++ right after addAppToList for entries with chat_only = true
 // (Sciter's call_function takes at most four arguments).
-function setAppChatOnly(appName) {
-    var isEn = (typeof getLang === "function" && getLang() === "en");
+function setAppChatOnly(appName, alwaysVi) {
     document.querySelectorAll("#app-list .app-item").forEach(function (item) {
         if (item.getAttribute("data-app") !== appName) return;
         var send = item.querySelector(".app-item-sendmethod");
@@ -344,7 +366,7 @@ function setAppChatOnly(appName) {
         var scope = item.querySelector(".app-item-scope");
         if (scope) {
             scope.className = "app-item-scope chat";
-            scope.textContent = isEn ? "Chat only" : "Chỉ ô chữ";
+            scope.textContent = scopeLabel(true, !!alwaysVi);
         }
     });
 }
@@ -380,6 +402,7 @@ function clearInput() {
     if (sendSelect) sendSelect.value = "-1";
 
     setScope(false);
+    setChatAlwaysVi(false);
 }
 
 function forceRefresh(scrollToBottom) {

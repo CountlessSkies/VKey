@@ -40,9 +40,12 @@ std::shared_ptr<const ConfigSnapshot> BuildFromToml(
     std::unordered_map<std::wstring, InputMethod>  imOv;
     std::unordered_map<std::wstring, std::int8_t>  sendOv;
     std::unordered_set<std::wstring>               chatGated;
+    std::unordered_set<std::wstring>               chatAlwaysVi;
     for (auto& [exe, entry] : overrides) {
         if (entry.chatOnly)
             chatGated.insert(exe);
+        if (entry.chatOnly && entry.chatAlwaysVietnamese)
+            chatAlwaysVi.insert(exe);
         if (entry.encodingOverride >= 0)
             encOv.emplace(exe, static_cast<CodeTable>(entry.encodingOverride));
         if (entry.inputMethod >= 0)
@@ -87,6 +90,7 @@ std::shared_ptr<const ConfigSnapshot> BuildFromToml(
         std::move(sendOv),
         generation);
     snap.chatGatedAppSet = std::move(chatGated);
+    snap.chatAlwaysVietnameseAppSet = std::move(chatAlwaysVi);
     return std::make_shared<const ConfigSnapshot>(std::move(snap));
 }
 

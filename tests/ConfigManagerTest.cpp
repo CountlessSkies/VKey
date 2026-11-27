@@ -134,11 +134,31 @@ TEST_F(ConfigDurabilityTest, AppOverrideChatOnlyRoundTrips) {
     EXPECT_EQ(text.find("chat_only"), text.rfind("chat_only"));
 }
 
+TEST_F(ConfigDurabilityTest, AppOverrideChatAlwaysVietnameseRoundTrips) {
+    std::unordered_map<std::wstring, AppOverrideEntry> entries;
+    AppOverrideEntry game;
+    game.chatOnly = true;
+    game.chatAlwaysVietnamese = true;
+    entries[L"league of legends.exe"] = game;
+    AppOverrideEntry other;
+    other.chatOnly = true;
+    entries[L"other.exe"] = other;
+    ASSERT_TRUE(ConfigManager::SaveAppOverrides(path_, entries));
+
+    auto loaded = ConfigManager::LoadAppOverrides(path_);
+    EXPECT_TRUE(loaded[L"league of legends.exe"].chatAlwaysVietnamese);
+    EXPECT_FALSE(loaded[L"other.exe"].chatAlwaysVietnamese);
+    const std::string text = Read(path_);
+    ASSERT_NE(text.find("chat_always_vi"), std::string::npos);
+    EXPECT_EQ(text.find("chat_always_vi"), text.rfind("chat_always_vi"));
+}
+
 TEST_F(ConfigDurabilityTest, AppOverrideWithoutChatOnlyKeyDefaultsOff) {
     Write(path_, "[app_overrides.'game.exe']\ninput_method = -1\nencoding = -1\nsend_method = 5\n");
     auto loaded = ConfigManager::LoadAppOverrides(path_);
     ASSERT_EQ(loaded.count(L"game.exe"), 1u);
     EXPECT_FALSE(loaded[L"game.exe"].chatOnly);
+    EXPECT_FALSE(loaded[L"game.exe"].chatAlwaysVietnamese);
     EXPECT_EQ(loaded[L"game.exe"].sendMethod, 5);
 }
 

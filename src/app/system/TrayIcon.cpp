@@ -152,9 +152,12 @@ void TrayIcon::SetTsfActive(bool active) noexcept {
     NotifyIconChanged();
 }
 
-void TrayIcon::SetGamePassThrough(bool active) noexcept {
-    if (gamePassThrough_ == active) return;
-    gamePassThrough_ = active;
+void TrayIcon::SetGameState(GameTrayState state) noexcept {
+    const bool passThrough = state == GameTrayState::PassThrough;
+    const bool chatVietnamese = state == GameTrayState::ChatVietnamese;
+    if (gamePassThrough_ == passThrough && gameChatVietnamese_ == chatVietnamese) return;
+    gamePassThrough_ = passThrough;
+    gameChatVietnamese_ = chatVietnamese;
 
     RefreshIcon();
     UpdateTooltip();
@@ -206,7 +209,8 @@ void TrayIcon::UpdateTooltip() noexcept try {
     // Not a StringId: "V"/"E" reads the same in both UI languages, and the
     // localized TIP_* strings still have to spell the mode out for the TSF
     // language-bar button, which has no app/engine line to give a letter meaning.
-    const wchar_t* mode = !vietnameseMode_ ? L"VKey - E"
+    const wchar_t* mode = gameChatVietnamese_ && !vietnameseMode_ ? L"VKey - V (chat)"
+                        : !vietnameseMode_ ? L"VKey - E"
                         : gamePassThrough_ ? L"VKey - V (game)"
                                            : L"VKey - V";
     const std::wstring text = FormatTrayStatusText(mode, appContext_);
@@ -235,6 +239,8 @@ void TrayIcon::ReAddIcon() noexcept {
 
 void TrayIcon::RefreshIcon() noexcept {
     HINSTANCE hInstance = GetModuleHandleW(nullptr);
+    // A game text box forced to Vietnamese shows V even while the mode is E.
+    const bool showVietnamese = vietnameseMode_ || gameChatVietnamese_;
 
     // Free previous custom icon if any
     if (customIcon_) {
@@ -254,7 +260,7 @@ void TrayIcon::RefreshIcon() noexcept {
     // the normal V/E icon below.
     if (tsfActive_ && showTsfIndicator_) {
         const COLORREF color = static_cast<COLORREF>(
-            vietnameseMode_
+            showVietnamese
                 ? (customColorV_ != 0 ? customColorV_ : DEFAULT_ICON_COLOR_V)
                 : (customColorE_ != 0 ? customColorE_ : DEFAULT_ICON_COLOR_E));
         HICON tsfIcon = CreateColorizedIcon(IDI_VIET_TSF, color);
@@ -271,7 +277,7 @@ void TrayIcon::RefreshIcon() noexcept {
     // Game indicator while a chat-gated game owns the keys (no text box open):
     // a solid purple V in every icon style, so it never reads as the normal
     // V/E. Only in V mode — in E mode the plain E is already the truth.
-    if (gamePassThrough_ && vietnameseMode_) {
+    if (gamePassThrough_ && showVietnamese) {
         if (HICON icon = LoadIconW(hInstance, MAKEINTRESOURCEW(IDI_VIET_GAME))) {
             nid_.hIcon = icon;
             return;
@@ -281,18 +287,18 @@ void TrayIcon::RefreshIcon() noexcept {
     switch (static_cast<IconStyle>(iconStyle_)) {
         case IconStyle::Dark:
             newIcon = LoadIconW(hInstance,
-                MAKEINTRESOURCEW(vietnameseMode_ ? IDI_VIET_ON_WHITE : IDI_VIET_OFF_WHITE));
+                MAKEINTRESOURCEW(showVietnamese ? IDI_VIET_ON_WHITE : IDI_VIET_OFF_WHITE));
             break;
 
         case IconStyle::Light:
             newIcon = LoadIconW(hInstance,
-                MAKEINTRESOURCEW(vietnameseMode_ ? IDI_VIET_ON_BLACK : IDI_VIET_OFF_BLACK));
+                MAKEINTRESOURCEW(showVietnamese ? IDI_VIET_ON_BLACK : IDI_VIET_OFF_BLACK));
             break;
 
         case IconStyle::Custom: {
-            const int baseIcon = vietnameseMode_ ? IDI_VIET_ON : IDI_VIET_OFF;
+            const int baseIcon = showVietnamese ? IDI_VIET_ON : IDI_VIET_OFF;
             const COLORREF color = static_cast<COLORREF>(
-                vietnameseMode_
+                showVietnamese
                     ? (customColorV_ != 0 ? customColorV_ : DEFAULT_ICON_COLOR_V)
                     : (customColorE_ != 0 ? customColorE_ : DEFAULT_ICON_COLOR_E));
             newIcon = CreateColorizedIcon(baseIcon, color);
@@ -305,8 +311,8 @@ void TrayIcon::RefreshIcon() noexcept {
         case IconStyle::Auto: {
             const bool taskbarDark = DarkModeHelper::IsTaskbarDark();
             const int iconId = taskbarDark
-                ? (vietnameseMode_ ? IDI_VIET_ON_WHITE : IDI_VIET_OFF_WHITE)
-                : (vietnameseMode_ ? IDI_VIET_ON_BLACK : IDI_VIET_OFF_BLACK);
+                ? (showVietnamese ? IDI_VIET_ON_WHITE : IDI_VIET_OFF_WHITE)
+                : (showVietnamese ? IDI_VIET_ON_BLACK : IDI_VIET_OFF_BLACK);
             newIcon = LoadIconW(hInstance, MAKEINTRESOURCEW(iconId));
             break;
         }
@@ -314,7 +320,7 @@ void TrayIcon::RefreshIcon() noexcept {
         case IconStyle::Color:
         default:
             newIcon = LoadIconW(hInstance,
-                MAKEINTRESOURCEW(vietnameseMode_ ? IDI_VIET_ON : IDI_VIET_OFF));
+                MAKEINTRESOURCEW(showVietnamese ? IDI_VIET_ON : IDI_VIET_OFF));
             break;
     }
 
@@ -587,7 +593,7 @@ bool TrayIcon::ProcessMessage(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     // Deferred game-indicator sync from the GameTextFocusPoller thread.
     if (msg == WM_VKEY_TRAY_GAME_SYNC && hwnd == hwndMessage_) {
-        SetGamePassThrough(wParam != 0);
+        SetGameState(static_cast<GameTrayState>(wParam));
         return true;
     }
 

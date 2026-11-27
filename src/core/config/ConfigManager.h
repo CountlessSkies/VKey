@@ -23,6 +23,9 @@ struct AppOverrideEntry {
     // has keyboard focus; the rest of the time the hook passes every key
     // through. See core/GameChatGateDecision.h. TOML key: chat_only.
     bool chatOnly = false;
+    // With chatOnly: those text boxes type Vietnamese even while the IME is in
+    // E (overlay, the V/E mode itself is not changed). TOML key: chat_always_vi.
+    bool chatAlwaysVietnamese = false;
 };
 
 /// Manages loading and saving of configuration from TOML file

@@ -753,6 +753,8 @@ FocusClassification FocusOwner::Classify(HWND triggerHwnd,
         // all, so it is not gated by skipAppTracking either.
         if (!cls.isExcluded && !cls.isTsf && !ctx.snap->chatGatedAppSet.empty()) {
             cls.isChatGated = ctx.snap->chatGatedAppSet.count(cls.exeName) > 0;
+            cls.isChatAlwaysVietnamese =
+                cls.isChatGated && ctx.snap->chatAlwaysVietnameseAppSet.count(cls.exeName) > 0;
         }
         if (!cls.isExcluded && !cls.isTsf && !cls.skipAppTracking) {
             auto itEnc = ctx.snap->appEncodingOverrides.find(cls.exeName);

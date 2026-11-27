@@ -8,6 +8,7 @@
 #include "core/ipc/SharedStateManager.h"
 #include "core/config/TypingConfig.h"
 #include "core/SystemConfig.h"
+#include "core/GameChatGateDecision.h"
 #include <Windows.h>
 #include <shellapi.h>
 #include <atomic>
@@ -101,9 +102,10 @@ public:
     /// When active, the tray shows a bold "T" tinted by the current V/E color
     /// (red=Vietnamese, blue=English) regardless of the chosen icon style.
     void SetTsfActive(bool active) noexcept;
-    /// A chat-gated game is focused and none of its text boxes is open: keys go
-    /// straight to the game. Shows the purple V icon in V mode.
-    void SetGamePassThrough(bool active) noexcept;
+    /// Chat-gated game state. PassThrough: no text box open, keys go straight
+    /// to the game (purple V icon in V mode). ChatVietnamese: a text box set to
+    /// always type Vietnamese has focus (V icon even while the mode is E).
+    void SetGameState(GameTrayState state) noexcept;
 
     /// Publish app context from the focus worker. The latest immutable
     /// snapshot is consumed by the tray window, so the producer never passes
@@ -171,6 +173,7 @@ private:
     bool vietnameseMode_ = true;
     bool tsfActive_ = false;             // Focused app is a TSF app → show colored "T"
     bool gamePassThrough_ = false;       // Chat-gated game, no text box open → purple V
+    bool gameChatVietnamese_ = false;    // Game text box forced to Vietnamese → V icon
     bool pendingClickToggle_ = false;    // Waiting for double-click before executing single-click toggle
     bool ignoreNextLButtonUp_ = false;   // Suppress WM_LBUTTONUP after WM_LBUTTONDBLCLK
     MenuCallback menuCallback_;

@@ -84,4 +84,41 @@ private:
     return isChatGatedApp && !textBoxFocused;
 }
 
+/// AppOverrideEntry::chatAlwaysVietnamese: inside the game's text boxes the
+/// hook types Vietnamese even while the IME is in E. It is an overlay on the
+/// key path only; the user's V/E mode is never changed, so closing the box
+/// gives back exactly the mode the user had.
+[[nodiscard]] constexpr bool IsVietnameseForcedByGameChat(bool isChatGatedApp,
+                                                          bool textBoxFocused,
+                                                          bool chatAlwaysVietnamese) noexcept {
+    return isChatGatedApp && textBoxFocused && chatAlwaysVietnamese;
+}
+
+/// V/E the key path runs with: the user's mode, or V while a game text box
+/// that is set to always type Vietnamese has focus.
+[[nodiscard]] constexpr bool EffectiveVietnameseMode(bool vietnameseMode,
+                                                     bool isChatGatedApp,
+                                                     bool textBoxFocused,
+                                                     bool chatAlwaysVietnamese) noexcept {
+    return vietnameseMode ||
+           IsVietnameseForcedByGameChat(isChatGatedApp, textBoxFocused, chatAlwaysVietnamese);
+}
+
+/// What the tray shows for a chat-gated game. Sent as WPARAM, keep the values.
+enum class GameTrayState : std::uint8_t {
+    Normal = 0,          // not a gated game, or V/E applies as usual
+    PassThrough = 1,     // gated game, no text box: keys go straight to the game
+    ChatVietnamese = 2,  // text box focused and forced to Vietnamese
+};
+
+[[nodiscard]] constexpr GameTrayState DecideGameTrayState(bool isChatGatedApp,
+                                                          bool textBoxFocused,
+                                                          bool chatAlwaysVietnamese) noexcept {
+    if (ShouldPassThroughForGameChat(isChatGatedApp, textBoxFocused))
+        return GameTrayState::PassThrough;
+    if (IsVietnameseForcedByGameChat(isChatGatedApp, textBoxFocused, chatAlwaysVietnamese))
+        return GameTrayState::ChatVietnamese;
+    return GameTrayState::Normal;
+}
+
 }  // namespace NextKey

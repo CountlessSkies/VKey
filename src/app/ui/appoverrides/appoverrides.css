@@ -49,7 +49,8 @@ body[data-dlg="ao"] .setting-row:first-child {
 }
 
 body[data-dlg="ao"] .input-card > .setting-row + .setting-row,
-body[data-dlg="ao"] .input-card > .scope-hint + .setting-row {
+body[data-dlg="ao"] .input-card > .scope-hint + .setting-row,
+body[data-dlg="ao"] .input-card > .chat-vi-row + .setting-row {
     border-top: 1px solid var(--border-row-light);
 }
 
@@ -175,6 +176,48 @@ body[data-dlg="ao"] .scope-hint {
     font-size: 12px;
     line-height: 1.5;
     color: var(--text-muted);
+}
+
+/* "Ô chữ luôn gõ tiếng Việt" sub-option under the scope switch. Indented
+   to the control column; dimmed while the scope is "Luôn bật". */
+body[data-dlg="ao"] .chat-vi-row {
+    flow: horizontal;
+    vertical-align: middle;
+    padding: 0 0 10px 102px;
+}
+
+body[data-dlg="ao"] .chat-vi-row.disabled {
+    opacity: 0.45;
+}
+
+body[data-dlg="ao"] .chat-vi-text {
+    flow: vertical;
+    width: *;
+    vertical-align: middle;
+}
+
+body[data-dlg="ao"] .chat-vi-title {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text-primary);
+}
+
+body[data-dlg="ao"] .chat-vi-desc {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--text-muted);
+}
+
+body[data-dlg="ao"] .chat-vi-row > .toggle-switch-small {
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+body[data-dlg="ao"] .chat-vi-row.disabled > .toggle-switch-small {
+    cursor: default;
 }
 
 /* ===== Buttons ===== */
@@ -339,7 +382,7 @@ body[data-dlg="ao"] .app-item-sendmethod {
 
 body[data-dlg="ao"] .list-col-scope,
 body[data-dlg="ao"] .app-item-scope {
-    width: 78px;
+    width: 96px;
 }
 
 body[data-dlg="ao"] .list-col-action,

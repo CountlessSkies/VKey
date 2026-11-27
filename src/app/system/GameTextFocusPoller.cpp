@@ -52,8 +52,9 @@ ProbeResult ProbeForeground() {
 }  // namespace
 
 GameTextFocusPoller::GameTextFocusPoller(const std::atomic<bool>& enabled,
+                                         const std::atomic<bool>& alwaysVietnamese,
                                          std::atomic<bool>& textFocus)
-    : enabled_(enabled), textFocus_(textFocus) {}
+    : enabled_(enabled), alwaysVietnamese_(alwaysVietnamese), textFocus_(textFocus) {}
 
 GameTextFocusPoller::~GameTextFocusPoller() {
     Stop();
@@ -83,7 +84,7 @@ void GameTextFocusPoller::Run() {
     bool last = false;
     bool lastActive = false;
     bool lastFailing = false;
-    bool lastPassThrough = false;
+    GameTrayState lastTray = GameTrayState::Normal;
     GameTextFocusFilter filter;
     textFocus_.store(false, std::memory_order_release);
     for (;;) {
@@ -113,22 +114,24 @@ void GameTextFocusPoller::Run() {
         if (focused != last) {
             textFocus_.store(focused, std::memory_order_release);
             Logger::Log(L"[VKey] Game chat gate: text box %ls",
-                        focused ? L"focused (V)" : L"left (pass-through)");
+                        focused ? L"focused" : L"left (pass-through)");
             last = focused;
         }
 
-        // Tray indicator: same decision the hook makes, published on change.
-        const bool passThrough = ShouldPassThroughForGameChat(active, focused);
-        if (passThrough != lastPassThrough) {
-            lastPassThrough = passThrough;
-            if (onPassThroughChanged_) onPassThroughChanged_(passThrough);
+        // Tray indicator: same decisions the hook makes, published on change.
+        const GameTrayState tray = DecideGameTrayState(
+            active, focused, alwaysVietnamese_.load(std::memory_order_acquire));
+        if (tray != lastTray) {
+            lastTray = tray;
+            if (onTrayStateChanged_) onTrayStateChanged_(tray);
         }
 
         std::unique_lock<std::mutex> lock(mutex_);
         const auto wait = std::chrono::milliseconds(active ? kActiveIntervalMs : kIdleIntervalMs);
         if (cv_.wait_for(lock, wait, [this] { return stopRequested_; })) break;
     }
-    if (lastPassThrough && onPassThroughChanged_) onPassThroughChanged_(false);
+    if (lastTray != GameTrayState::Normal && onTrayStateChanged_)
+        onTrayStateChanged_(GameTrayState::Normal);
 }
 
 }  // namespace NextKey

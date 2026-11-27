@@ -89,6 +89,10 @@ struct ConfigSnapshot {
     /// exe-name lowercase. Filled by ConfigSnapshotBuilder after Build().
     std::unordered_set<std::wstring> chatGatedAppSet;
 
+    /// Subset of chatGatedAppSet whose text boxes type Vietnamese even while
+    /// the IME is in E (AppOverrideEntry::chatAlwaysVietnamese).
+    std::unordered_set<std::wstring> chatAlwaysVietnameseAppSet;
+
     /// Macro expansions — key is the typed sequence (lowercased), value
     /// is the expanded text. Hook reads on commit-trigger via
     /// `TryExpandMacro`.

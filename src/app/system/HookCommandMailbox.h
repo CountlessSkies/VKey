@@ -86,6 +86,9 @@ struct FocusClassification {
     // Per-app "Vietnamese only inside the app's text boxes" (AppOverrideEntry
     // ::chatOnly). Never set together with isExcluded / isTsf.
     bool isChatGated{false};
+    // isChatGated and the app's text boxes always type Vietnamese
+    // (AppOverrideEntry::chatAlwaysVietnamese).
+    bool isChatAlwaysVietnamese{false};
     bool isElectron{false};
     bool isConsole{false};
     bool isBrowser{false};

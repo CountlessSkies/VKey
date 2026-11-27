@@ -7,6 +7,7 @@
     <title data-i18n="ao.title">Cấu hình ứng dụng</title>
     <link rel="stylesheet" href="../shared/theme.css">
     <link rel="stylesheet" href="../shared/base.css">
+    <link rel="stylesheet" href="../shared/toggle.css">
     <link rel="stylesheet" href="../shared/subdialog.css">
     <link rel="stylesheet" href="../shared/dropdown.css">
     <link rel="stylesheet" href="appoverrides.css">
@@ -75,7 +76,18 @@
                         <div class="scope-opt" data-scope="1" data-i18n="ao.scope_chat">Chỉ trong ô chữ của game</div>
                     </div>
                 </div>
-                <div class="scope-hint" id="vi-scope-hint" data-i18n="ao.scope_chat_hint">Lúc đang chơi VKey ở E, không nuốt phím nào. Mở chat hoặc ô tìm đồ thì tự sang V, đóng lại thì về E.</div>
+                <div class="scope-hint" id="vi-scope-hint" data-i18n="ao.scope_chat_hint">Lúc đang chơi VKey đứng ngoài, không nuốt phím nào. Trong chat hoặc ô tìm đồ gõ theo chế độ V/E hiện tại.</div>
+                <div class="chat-vi-row disabled" id="row-chat-always-vi">
+                    <div class="chat-vi-text">
+                        <span class="chat-vi-title" data-i18n="ao.chat_always_vi">Ô chữ luôn gõ tiếng Việt</span>
+                        <span class="chat-vi-desc" data-i18n="ao.chat_always_vi_desc">Kể cả khi bộ gõ ở E. Đóng chat thì về như cũ.</span>
+                    </div>
+                    <div class="toggle-switch-small" id="toggle-chat-always-vi">
+                        <span class="toggle-label-i">I</span>
+                        <span class="toggle-label-o">O</span>
+                        <div class="toggle-thumb-small"></div>
+                    </div>
+                </div>
                 <div class="setting-row">
                     <span class="setting-label" data-i18n="ao.input_method">Kiểu gõ</span>
                     <select class="setting-select" id="input-method">
@@ -138,6 +150,7 @@
         <input type="hidden" id="val-encoding-override" value="0">
         <input type="hidden" id="val-send-method" value="-1">
         <input type="hidden" id="val-chat-only" value="0">
+        <input type="hidden" id="val-chat-always-vi" value="0">
     </div>
 </body>
 

@@ -437,8 +437,9 @@ bool HookEngine::Start(HINSTANCE hInstance, const TypingConfig& config,
     // Game chat gate probe. Idles at kIdleIntervalMs and does no syscalls
     // until a chat-gated app takes focus.
     if (!gameTextFocusPoller_) {
-        gameTextFocusPoller_ = std::make_unique<GameTextFocusPoller>(isChatGatedApp_, gameTextFocus_);
-        gameTextFocusPoller_->SetPassThroughCallback(gamePassThroughCallback_);
+        gameTextFocusPoller_ = std::make_unique<GameTextFocusPoller>(
+            isChatGatedApp_, chatAlwaysVietnamese_, gameTextFocus_);
+        gameTextFocusPoller_->SetTrayStateCallback(gameTrayCallback_);
     }
     gameTextFocusPoller_->Start();
 
@@ -875,9 +876,12 @@ void HookEngine::ReloadFromToml() {
     isTsfApp_.store(newTsfApp, std::memory_order_release);
     // Re-evaluate the game chat gate for the current app (same precedence as
     // FocusOwner::Classify: excluded / TSF apps are never gated).
-    isChatGatedApp_.store(!newExcluded && !newTsfApp && rcuSnap && !curExe.empty() &&
-                              rcuSnap->chatGatedAppSet.count(curExe) > 0,
-                          std::memory_order_release);
+    const bool newChatGated = !newExcluded && !newTsfApp && rcuSnap && !curExe.empty() &&
+                              rcuSnap->chatGatedAppSet.count(curExe) > 0;
+    isChatGatedApp_.store(newChatGated, std::memory_order_release);
+    chatAlwaysVietnamese_.store(newChatGated &&
+                                    rcuSnap->chatAlwaysVietnameseAppSet.count(curExe) > 0,
+                                std::memory_order_release);
     const bool newEffectiveTsf = ResolveEffectiveTsf(
         newTsfApp, newExcluded, config.tsfApps, browserRoute);
     HOOK_LOG(L"  Engine (config reload): %s for '%s' (tsf_feature=%d, in_tsf_list=%d, excluded=%d)",
@@ -1461,7 +1465,7 @@ bool HookEngine::ProcessKeyDown(DWORD vkCode, DWORD /*scanCode*/, DWORD /*flags*
     // Sprint 1 D5.2: hoist atomic config-flag loads to a single snapshot at the
     // top of the hot path. Same-thread within ProcessKeyDown — no need to re-load
     // (config writers run on main and cannot interleave a sub-ms hook callback).
-    const bool vnMode = vietnameseMode_.load(std::memory_order_acquire);
+    const bool vnMode = KeyPathVietnameseMode();
     const bool macroOn = macroEnabled_.load(std::memory_order_acquire);
     const bool macroEng = macroInEnglish_.load(std::memory_order_acquire);
     if (!vnMode &&
@@ -3403,7 +3407,7 @@ NextKey::Pipeline::MacroOutcome HookEngine::HandleMacro(
     std::uint16_t vkCode,
     bool shift, bool capsLock, bool ctrl, bool alt, bool win) {
     const DWORD vk = static_cast<DWORD>(vkCode);
-    const bool vnMode = vietnameseMode_.load(std::memory_order_acquire);
+    const bool vnMode = KeyPathVietnameseMode();
     const bool macroOn = macroEnabled_.load(std::memory_order_acquire);
     const auto cfgSnap = configSnapshot_.load(std::memory_order_acquire);
     const bool hasMacros = cfgSnap && !cfgSnap->macroTable.empty();

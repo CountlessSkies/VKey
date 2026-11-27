@@ -20,6 +20,8 @@
 #include <mutex>
 #include <thread>
 
+#include "core/GameChatGateDecision.h"
+
 namespace NextKey {
 
 class GameTextFocusPoller {
@@ -28,16 +30,18 @@ public:
     static constexpr unsigned kIdleIntervalMs = 100;
     static constexpr unsigned kProbeTimeoutMs = 30;
 
-    GameTextFocusPoller(const std::atomic<bool>& enabled, std::atomic<bool>& textFocus);
+    GameTextFocusPoller(const std::atomic<bool>& enabled,
+                        const std::atomic<bool>& alwaysVietnamese,
+                        std::atomic<bool>& textFocus);
     ~GameTextFocusPoller();
 
     GameTextFocusPoller(const GameTextFocusPoller&) = delete;
     GameTextFocusPoller& operator=(const GameTextFocusPoller&) = delete;
 
-    /// Called on the poller thread when "chat-gated app focused and no text
-    /// box open" flips. Set before Start(). The callback must only post.
-    void SetPassThroughCallback(std::function<void(bool)> callback) {
-        onPassThroughChanged_ = std::move(callback);
+    /// Called on the poller thread when DecideGameTrayState() changes.
+    /// Set before Start(). The callback must only post.
+    void SetTrayStateCallback(std::function<void(GameTrayState)> callback) {
+        onTrayStateChanged_ = std::move(callback);
     }
 
     void Start();
@@ -47,8 +51,9 @@ private:
     void Run();
 
     const std::atomic<bool>& enabled_;
+    const std::atomic<bool>& alwaysVietnamese_;
     std::atomic<bool>& textFocus_;
-    std::function<void(bool)> onPassThroughChanged_;
+    std::function<void(GameTrayState)> onTrayStateChanged_;
     std::thread thread_;
     std::mutex mutex_;
     std::condition_variable cv_;
