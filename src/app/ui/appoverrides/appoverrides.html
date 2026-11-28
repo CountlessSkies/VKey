@@ -121,9 +121,14 @@
                         <option value="6" data-i18n="ao.sm_webview">Tương thích WebView App</option>
                     </select>
                 </div>
-                <div class="button-row">
+                <div class="button-row" id="row-add">
                     <button class="btn-action btn-primary" id="btn-add" data-i18n="add">+ Thêm</button>
                     <button class="btn-action btn-secondary" id="btn-pick-window" data-i18n="pick_window">🎯 Chọn cửa sổ</button>
+                </div>
+                <!-- Shown instead of #row-add while a list row is being edited -->
+                <div class="button-row edit-row" id="row-edit">
+                    <button class="btn-action btn-secondary" id="btn-edit-done" data-i18n="ao.edit_done">Xong</button>
+                    <span class="edit-status" data-i18n="ao.edit_status">Đang sửa · đổi gì cũng lưu ngay</span>
                 </div>
             </div>
 

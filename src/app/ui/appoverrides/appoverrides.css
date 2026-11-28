@@ -259,6 +259,59 @@ body[data-dlg="ao"] .btn-secondary:hover {
     color: var(--color-primary);
 }
 
+/* ===== Editing a saved row (click a list row) ===== */
+body[data-dlg="ao"] .edit-row {
+    display: none;
+}
+
+body[data-dlg="ao"] .input-card.editing > .edit-row {
+    display: flex;
+    align-items: center;
+}
+
+body[data-dlg="ao"] .input-card.editing > #row-add {
+    display: none;
+}
+
+body[data-dlg="ao"] .settings-card.input-card.editing {
+    box-shadow: inset 0 0 0 1.5px var(--color-primary);
+}
+
+body[data-dlg="ao"] .edit-status {
+    font-size: 12px;
+    color: var(--text-muted);
+    vertical-align: middle;
+}
+
+body[data-dlg="ao"] .input-card.editing .setting-input {
+    background: transparent;
+    box-shadow: inset 0 0 0 1px var(--border-card);
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+body[data-dlg="ao"] .input-card.editing .btn-refresh {
+    visibility: hidden;
+}
+
+body[data-dlg="ao"] .app-item {
+    cursor: pointer;
+}
+
+body[data-dlg="ao"] .app-item:hover {
+    background: var(--bg-hover);
+}
+
+/* No side padding/accent bar: the name column is already tight. */
+body[data-dlg="ao"] .app-item.selected,
+body[data-dlg="ao"] .app-item.selected:hover {
+    background: var(--color-primary-light);
+}
+
+body[data-dlg="ao"] .app-item.selected > .app-item-name {
+    color: var(--color-primary);
+}
+
 /* ===== Quick add presets ===== */
 body[data-dlg="ao"] .preset-card {
     padding: 0 12px 10px 12px;
@@ -355,10 +408,6 @@ body[data-dlg="ao"] .app-item {
 
 body[data-dlg="ao"] .app-item:last-child {
     border-bottom: none;
-}
-
-body[data-dlg="ao"] .app-item:hover {
-    background: transparent;
 }
 
 /* Columns (header and rows share widths) */

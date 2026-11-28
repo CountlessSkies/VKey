@@ -270,6 +270,8 @@ var STRINGS = {
         "ao.chat_always_vi": "Text boxes always type Vietnamese",
         "ao.chat_always_vi_desc": "Even in E mode. Closing chat goes back to normal.",
         "ao.list_scope": "Vietnamese",
+        "ao.edit_done": "Done",
+        "ao.edit_status": "Editing · changes save right away",
 
         // ── User Defined Input dialog ──
         "ud.title": "User-defined Input Method",

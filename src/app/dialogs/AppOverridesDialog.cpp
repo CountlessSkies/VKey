@@ -58,14 +58,18 @@ bool AppOverridesDialog::handle_event(HELEMENT he, BEHAVIOR_EVENT_PARAMS& params
 
                 std::wstring appName = readInput("#val-app-name");
 
-                if (action == L"add-app") {
+                if (action == L"add-app" || action == L"update-app") {
                     if (!appName.empty()) {
                         int8_t enc = static_cast<int8_t>(readInt("#val-encoding-override", -1));
                         int8_t mth = static_cast<int8_t>(readInt("#val-input-method", -1));
                         int8_t snd = static_cast<int8_t>(readInt("#val-send-method", -1));
                         const bool chatOnly = readInt("#val-chat-only", 0) == 1;
                         const bool alwaysVi = chatOnly && readInt("#val-chat-always-vi", 0) == 1;
-                        addEntry(appName, enc, mth, chatOnly ? int8_t{-1} : snd, chatOnly, alwaysVi);
+                        if (chatOnly) snd = -1;
+                        if (action == L"add-app")
+                            addEntry(appName, enc, mth, snd, chatOnly, alwaysVi);
+                        else
+                            updateEntry(appName, enc, mth, snd, chatOnly, alwaysVi);
                     }
                 } else if (action == L"add-preset-lol") {
                     // League of Legends: Vietnamese only while chat / shop search has focus.
@@ -146,6 +150,32 @@ void AppOverridesDialog::addEntry(const std::wstring& name, int8_t encoding, int
     }
     call_function("clearInput");
     call_function("forceRefresh", sciter::value(true));
+    persistAndSignal();
+}
+
+// A row clicked in the list and edited in place: save every change at once,
+// keep the row where it is and leave the form in edit mode (no clearInput,
+// no "added" toast). An unknown name (deleted meanwhile) is ignored.
+void AppOverridesDialog::updateEntry(const std::wstring& name, int8_t encoding, int8_t inputMethod,
+                                     int8_t sendMethod, bool chatOnly, bool chatAlwaysVietnamese) {
+    std::wstring lower = ToLowerAscii(name);
+    auto it = entries_.find(lower);
+    if (it == entries_.end()) return;
+
+    AppOverrideEntry& entry = it->second;
+    entry.encodingOverride = encoding;
+    entry.inputMethod = inputMethod;
+    entry.sendMethod = sendMethod;
+    entry.chatOnly = chatOnly;
+    entry.chatAlwaysVietnamese = chatOnly && chatAlwaysVietnamese;
+
+    call_function("updateAppInList",
+        sciter::value(lower.c_str()),
+        sciter::value(static_cast<int>(inputMethod)),
+        sciter::value(static_cast<int>(encoding)),
+        sciter::value(static_cast<int>(sendMethod)));
+    call_function("setAppScope", sciter::value(lower.c_str()), sciter::value(chatOnly),
+                  sciter::value(entry.chatAlwaysVietnamese));
     persistAndSignal();
 }
 

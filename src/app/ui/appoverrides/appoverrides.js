@@ -70,8 +70,9 @@ function initRunningAppsDropdown() {
 
     if (!input || !dropdown) return;
 
-    // Show dropdown on focus
+    // Show dropdown on focus (not while a saved row is being edited: the name is locked)
     input.addEventListener("focus", function () {
+        if (editingApp) return;
         triggerAction("get-running-apps");
         setTimeout(function () {
             dropdown.classList.add("visible");
@@ -163,10 +164,78 @@ function initButtons() {
     var presetBtn = document.getElementById("btn-preset-lol");
     if (presetBtn) {
         presetBtn.onclick = function () {
-            if (presetBtn.classList.contains("done")) return;
+            // Already in the list: open that row for editing instead.
+            var row = findAppItem(LOL_EXE);
+            if (row) { startEdit(row); return; }
             triggerAction("add-preset-lol");
         };
     }
+
+    var doneBtn = document.getElementById("btn-edit-done");
+    if (doneBtn) {
+        doneBtn.onclick = function () { stopEdit(); };
+    }
+}
+
+// ===== Editing a saved row (variant B: every change saves at once) =====
+var editingApp = null;  // lower-case exe name of the row being edited, or null
+
+function findAppItem(appName) {
+    var found = null;
+    document.querySelectorAll("#app-list .app-item").forEach(function (item) {
+        if (item.getAttribute("data-app") === appName) found = item;
+    });
+    return found;
+}
+
+function startEdit(item) {
+    var appName = item.getAttribute("data-app");
+    if (editingApp === appName) { stopEdit(); return; }
+    editingApp = appName;
+
+    document.querySelectorAll("#app-list .app-item").forEach(function (it) {
+        if (it === item) it.classList.add("selected");
+        else it.classList.remove("selected");
+    });
+
+    var input = document.getElementById("app-name");
+    if (input) {
+        input.value = appName;
+        input.setAttribute("readonly", "");
+    }
+    var dropdown = document.getElementById("running-apps-dropdown");
+    if (dropdown) dropdown.classList.remove("visible");
+
+    document.getElementById("input-method").value = item.getAttribute("data-method") || "-1";
+    document.getElementById("encoding-override").value = item.getAttribute("data-enc") || "-1";
+    var chat = item.getAttribute("data-chat") === "1";
+    setScope(chat);
+    if (!chat) document.getElementById("send-method").value = item.getAttribute("data-send") || "-1";
+    setChatAlwaysVi(chat && item.getAttribute("data-alwaysvi") === "1");
+
+    var card = document.querySelector(".input-card");
+    if (card) card.classList.add("editing");
+}
+
+function stopEdit() {
+    if (!editingApp) return;
+    editingApp = null;
+    document.querySelectorAll("#app-list .app-item").forEach(function (it) {
+        it.classList.remove("selected");
+    });
+    var input = document.getElementById("app-name");
+    if (input) input.removeAttribute("readonly");
+    var card = document.querySelector(".input-card");
+    if (card) card.classList.remove("editing");
+    clearInput();
+}
+
+// Called after any form control changes. Outside edit mode nothing is saved
+// until "+ Thêm"; while editing, the row is written straight away.
+function onFormChanged() {
+    if (!editingApp) return;
+    fillHiddenInputs(editingApp);
+    triggerAction("update-app");
 }
 
 // ===== "Tiếng Việt" scope: always / only inside the game's text boxes =====
@@ -176,12 +245,21 @@ var chatAlwaysVi = false;
 
 function initScopeSwitch() {
     document.on("click", "#vi-scope .scope-opt", function (evt, opt) {
-        setScope(opt.getAttribute("data-scope") === "1");
+        var chat = opt.getAttribute("data-scope") === "1";
+        if (chat === chatOnlyScope) return true;
+        setScope(chat);
+        if (!chat) setChatAlwaysVi(false);
+        onFormChanged();
         return true;
     });
     document.on("click", "#toggle-chat-always-vi", function () {
         if (!chatOnlyScope) return true;
         setChatAlwaysVi(!chatAlwaysVi);
+        onFormChanged();
+        return true;
+    });
+    document.on("change", "#input-method, #encoding-override, #send-method", function () {
+        onFormChanged();
         return true;
     });
     setScope(false);
@@ -239,13 +317,23 @@ function updatePresetButton() {
         if (item.getAttribute("data-app") === LOL_EXE) exists = true;
     });
     var isEn = (typeof getLang === "function" && getLang() === "en");
+    // Already in the list: the button opens the LoL row for editing.
+    btn.classList.remove("done");
     if (exists) {
-        btn.classList.add("done");
-        btn.textContent = isEn ? "✓ Added" : "✓ Đã thêm";
+        btn.textContent = isEn ? "Edit" : "Sửa";
     } else {
-        btn.classList.remove("done");
         btn.textContent = isEn ? "+ Add" : "+ Thêm";
     }
+}
+
+function fillHiddenInputs(appName) {
+    document.getElementById("val-app-name").value = appName;
+    document.getElementById("val-input-method").value = document.getElementById("input-method").value;
+    document.getElementById("val-encoding-override").value = document.getElementById("encoding-override").value;
+    document.getElementById("val-send-method").value =
+        chatOnlyScope ? "-1" : document.getElementById("send-method").value;
+    document.getElementById("val-chat-only").value = chatOnlyScope ? "1" : "0";
+    document.getElementById("val-chat-always-vi").value = (chatOnlyScope && chatAlwaysVi) ? "1" : "0";
 }
 
 function onAddApp() {
@@ -253,18 +341,7 @@ function onAddApp() {
     if (!appName) {
         return;
     }
-
-    var inputMethod = document.getElementById("input-method").value;
-    var encodingOverride = document.getElementById("encoding-override").value;
-    var sendMethod = document.getElementById("send-method").value;
-
-    // Set hidden inputs and trigger action
-    document.getElementById("val-app-name").value = appName;
-    document.getElementById("val-input-method").value = inputMethod;
-    document.getElementById("val-encoding-override").value = encodingOverride;
-    document.getElementById("val-send-method").value = chatOnlyScope ? "-1" : sendMethod;
-    document.getElementById("val-chat-only").value = chatOnlyScope ? "1" : "0";
-    document.getElementById("val-chat-always-vi").value = (chatOnlyScope && chatAlwaysVi) ? "1" : "0";
+    fillHiddenInputs(appName);
     triggerAction("add-app");
 }
 
@@ -276,11 +353,20 @@ function initEventDelegation() {
         if (item) {
             var appName = item.getAttribute("data-app");
             if (appName) {
+                if (appName === editingApp) stopEdit();
                 document.getElementById("val-app-name").value = appName;
                 triggerAction("delete-app");
             }
         }
         evt.stopPropagation();
+        return true;
+    });
+
+    // Click anywhere else on a row: load its saved settings into the form.
+    document.on("click", "#app-list .app-item", function (evt, item) {
+        if (evt.target && evt.target.closest(".app-item-delete")) return true;
+        startEdit(item);
+        return true;
     });
 }
 
@@ -307,6 +393,12 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod, chatOn
     var item = document.createElement("div");
     item.className = "app-item";
     item.setAttribute("data-app", appName);
+    // Saved values, read back by startEdit(). Chat scope is set by setAppScope().
+    item.setAttribute("data-method", String(inputMethod === undefined || inputMethod === null ? -1 : inputMethod));
+    item.setAttribute("data-enc", String(encodingOverride === undefined || encodingOverride === null ? -1 : encodingOverride));
+    item.setAttribute("data-send", String(sendMethod === undefined || sendMethod === null ? -1 : sendMethod));
+    item.setAttribute("data-chat", chatOnly ? "1" : "0");
+    item.setAttribute("data-alwaysvi", "0");
 
     // App name column
     var nameSpan = document.createElement("span");
@@ -359,16 +451,35 @@ function addAppToList(appName, inputMethod, encodingOverride, sendMethod, chatOn
 // Called from C++ right after addAppToList for entries with chat_only = true
 // (Sciter's call_function takes at most four arguments).
 function setAppChatOnly(appName, alwaysVi) {
-    document.querySelectorAll("#app-list .app-item").forEach(function (item) {
-        if (item.getAttribute("data-app") !== appName) return;
-        var send = item.querySelector(".app-item-sendmethod");
-        if (send) send.textContent = "—";
-        var scope = item.querySelector(".app-item-scope");
-        if (scope) {
-            scope.className = "app-item-scope chat";
-            scope.textContent = scopeLabel(true, !!alwaysVi);
-        }
-    });
+    setAppScope(appName, true, alwaysVi);
+}
+
+function setAppScope(appName, chatOnly, alwaysVi) {
+    var item = findAppItem(appName);
+    if (!item) return;
+    item.setAttribute("data-chat", chatOnly ? "1" : "0");
+    item.setAttribute("data-alwaysvi", (chatOnly && alwaysVi) ? "1" : "0");
+    var send = item.querySelector(".app-item-sendmethod");
+    if (send) send.textContent = chatOnly ? "—" : getSendMethodLabel(item.getAttribute("data-send") || "-1");
+    var scope = item.querySelector(".app-item-scope");
+    if (scope) {
+        scope.className = chatOnly ? "app-item-scope chat" : "app-item-scope";
+        scope.textContent = scopeLabel(!!chatOnly, !!alwaysVi);
+    }
+}
+
+// Called from C++ after an edited row was saved (update-app): refresh the
+// row in place, keep its position and the selection, no toast.
+function updateAppInList(appName, inputMethod, encodingOverride, sendMethod) {
+    var item = findAppItem(appName);
+    if (!item) return;
+    item.setAttribute("data-method", String(inputMethod));
+    item.setAttribute("data-enc", String(encodingOverride));
+    item.setAttribute("data-send", String(sendMethod));
+    var m = item.querySelector(".app-item-inputmethod");
+    if (m) m.textContent = inputMethodLabels[String(inputMethod)] || "-";
+    var e = item.querySelector(".app-item-encoding");
+    if (e) e.textContent = encodingLabels[String(encodingOverride)] || "-";
 }
 
 function removeAppFromList(appName) {

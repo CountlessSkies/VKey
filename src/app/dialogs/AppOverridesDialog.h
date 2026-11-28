@@ -25,6 +25,8 @@ private:
     void populateList();
     void addEntry(const std::wstring& name, int8_t encoding, int8_t inputMethod, int8_t sendMethod,
                   bool chatOnly, bool chatAlwaysVietnamese);
+    void updateEntry(const std::wstring& name, int8_t encoding, int8_t inputMethod, int8_t sendMethod,
+                     bool chatOnly, bool chatAlwaysVietnamese);
     void removeEntry(const std::wstring& name);
     void persistAndSignal();
 
